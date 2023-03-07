@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一篇转载的博客，讲述了博客框架hexo的工作流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转】hexo是怎么工作的">
+<meta property="og:url" content="https://whuls.cn/2020/05/23/%E3%80%90%E8%BD%AC%E3%80%91hexo%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="一篇转载的博客，讲述了博客框架hexo的工作流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuls.cn/images/hexo.png">
+<meta property="og:image" content="https://whuls.cn/images/hexo_projects.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200524155459277.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200524155523752.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200524155614887.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200524155700987.png">
+<meta property="article:published_time" content="2020-05-23T13:20:34.000Z">
+<meta property="article:modified_time" content="2022-05-20T14:35:59.039Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuls.cn/images/hexo.png">
+
+<link rel="canonical" href="https://whuls.cn/2020/05/23/%E3%80%90%E8%BD%AC%E3%80%91hexo%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【转】hexo是怎么工作的 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2020/05/23/%E3%80%90%E8%BD%AC%E3%80%91hexo%E6%98%AF%E6%80%8E%E4%B9%88%E5%B7%A5%E4%BD%9C%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【转】hexo是怎么工作的
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-23 21:20:34" itemprop="dateCreated datePublished" datetime="2020-05-23T21:20:34+08:00">2020-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Blog/" itemprop="url" rel="index"><span itemprop="name">Blog</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%AD%E7%9A%84hexo%E6%98%AF%E4%BB%80%E4%B9%88"><span class="post-body-toc-text">命令行中的hexo是什么?</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E4%BB%8Emarkdown%E5%88%B0html%E7%9A%84%E6%97%85%E7%A8%8B"><span class="post-body-toc-text">从markdown到html的旅程</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#hexo%E6%8F%92%E4%BB%B6%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="post-body-toc-text">hexo插件是如何工作的</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#hexo%E5%92%8Cgit-page"><span class="post-body-toc-text">hexo和git page</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-body-toc-text">总结</span></a></li></ol>
+      
+      
+        <p><strong>转载信息</strong></p>
+<p>原文链接：<a target="_blank" rel="noopener" href="http://coderunthings.com/2017/08/20/howhexoworks/">http://coderunthings.com/2017/08/20/howhexoworks/</a></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://github.com/buildAll">赵彪</a></p>
+<p><img src="/images/hexo.png" alt="image-20200524154810277"></p>
+<p>你可能用过hexo(或者jekyll)来搭建自己的博客网站。通常我们在安装、配置完成hexo之后，借助hexo，一般通过以下步骤，就可以完成一篇博客的编写及发布，真是方便极了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo init           <span class="comment"># 创建一个新的hexo项目</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo new mynewblog  <span class="comment"># 新建一篇标题为mynewblog的文章</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo server         <span class="comment"># 为hexo在本地起一个http server, 然后通过浏览器访问博客</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo generate       <span class="comment"># 生成将要发布的博客网站包含html在内的静态资源</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo deploy         <span class="comment"># 将generate的结果发布到_config.yml中指定的仓库</span></span></span><br></pre></td></tr></table></figure>
+<p>可是，从hexo init到hexo deploy中间发生了什么呢？为了搞清楚这一过程、理解hexo的工作原理，本文将试着回答以下问题:</p>
+<ul>
+<li>命令行中的hexo是什么</li>
+<li>hexo是怎么将我们写好的markdown转换成html的</li>
+<li>hexo插件是如何工作的</li>
+<li>本地的hexo项目和git page有什么关系</li>
+</ul>
+<p>本文<strong>不是</strong>:</p>
+<ul>
+<li>hexo的安装、使用教程</li>
+<li>git page的使用教程</li>
+</ul>
+<h2 id="命令行中的hexo是什么"><a href="#命令行中的hexo是什么" class="headerlink" title="命令行中的hexo是什么?"></a>命令行中的hexo是什么?</h2><p><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo">hexo</a>项目在github上已经有超过17k的star了，但是你知道吗，日常我们在命令行”操作”hexo时所输入的<strong>hexo</strong>(例如hexo init)并不是这个17k个star的项目! 是的，我们在命令行中所输入的”hexo”实际是<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/tree/master/lib"><strong>hexo-cli</strong></a>项目，该项目在github上的star还不足50个。</p>
+<blockquote>
+<p>hexo可以粗略分为三个子项目，分别是:</p>
+<ul>
+<li>hexo-cli</li>
+<li>hexo (下文中用hexo core来指代)</li>
+<li>hexo plugins</li>
+</ul>
+<p>其中hexo plugins不是指某一个单独的项目，而是泛指所有的hexo plugin项目。</p>
+<p>请看下图:<br><img src="/images/hexo_projects.png" alt="img"><br>让我们结合这张图来大致看看这三个项目的作用(下面的链接均是指向Github中相关的源码):</p>
+<ul>
+<li><strong>hexo-cli</strong>: hexo命令行项目，作用是:<ol>
+<li>启动hexo命令(进程)，及其参数<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/blob/5e0969ffa64dec427428a245ab2d65beaf23123b/lib/hexo.js#L49">解析</a>机制。每次我们输入’hexo xxx’命令后，都会通过node调用hexo-cli中的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/blob/5e0969ffa64dec427428a245ab2d65beaf23123b/lib/hexo.js#L13">entry函数</a>(比如，可以把’hexo init’视为’node hexo-cli/entry.js init’)</li>
+<li>实现hexo命令的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/tree/master/lib/console">三个初始参数(功能)</a>: init / version / help</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/blob/5e0969ffa64dec427428a245ab2d65beaf23123b/lib/hexo.js#L85">加载</a>hexo核心模块，并<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-cli/blob/5e0969ffa64dec427428a245ab2d65beaf23123b/lib/hexo.js#L47">初始化</a></li>
+</ol>
+</li>
+<li><strong>hexo core</strong>: hexo核心，他的主要作用如下:<ol>
+<li>实现了hexo功能<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/hexo/index.js#L59">扩展对象</a></li>
+<li>实现了hexo核心功能, 如new, publish, generate等（其实是一些hexo插件，下文中会详细分析）</li>
+</ol>
+</li>
+<li><strong>hexo plugins</strong>: 指一些能够扩展hexo的插件。插件可以按功能分成两类:<ol>
+<li>扩展hexo命令的参数，如<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-server">hexo-server</a>(安装这个插件以后才能使用hexo server命令)</li>
+<li>扩展hexo解析文件的”能力”，如增加jade模版解析功能的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-renderer-jade">hexo-render-jade</a>插件</li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<h2 id="从markdown到html的旅程"><a href="#从markdown到html的旅程" class="headerlink" title="从markdown到html的旅程"></a>从markdown到html的旅程</h2><p>简单来说，hexo中，从markdown到html的generate过程中做了两件事：</p>
+<ol>
+<li>模板渲染</li>
+<li>模板渲染</li>
+</ol>
+<p>是的，就是这样，就是两次模板渲染。只不过两次渲染的输入、渲染模板的引擎、输出不一样。此处应该有一个表格：</p>
+<p><img src="/images/image-20200524155459277.png" alt="image-20200524155459277"></p>
+<p>还得有一张图:</p>
+<p><img src="/images/image-20200524155523752.png" alt="image-20200524155523752"></p>
+<blockquote>
+<p>对上面表格和图的说明:</p>
+<ul>
+<li>hexo core在generate的过程中会产生一个对象，我们在这里把这个对象称为article。第一次渲染的主要目的就是给这个对象添加title,content等属性。其中:<ol>
+<li>article.title, article.date, article.tags, article.categories等属性来自yml front的部分</li>
+<li>article.content是markdown文章解析后的html片段</li>
+</ol>
+</li>
+<li>hexo项目目录下包含三个子目录，<ol>
+<li>source目录，写博客的主要工作目录。这个目录下存放的是我们的markdown文章以及js, images, css</li>
+<li>themes目录，主题目录，定义了即将生成的html的layout, 和html中需要加载的css, js, images</li>
+<li>public目录, hexo generate的最终输出目录。里面包含了整个博客网站的html, css, js, images</li>
+</ol>
+</li>
+<li>第二次渲染，需要引入对应模板文件格式的插件，如.ejs文件就需要使用hexo-render-ejs插件，.jade文件需要使用hexo-render-jade插件，而.sass文件则需要hexo-render-sass插件来转换成css文件。hexo的这一设计有点类似webpack中的loader。</li>
+</ul>
+</blockquote>
+<h2 id="hexo插件是如何工作的"><a href="#hexo插件是如何工作的" class="headerlink" title="hexo插件是如何工作的"></a>hexo插件是如何工作的</h2><p>hexo和webpack还有一点类似的地方就是插件驱动理念。即hexo(和webpack)是先实现一套(插件)扩展系统，然后再往扩展系统中添加插件来实现自身的功能。即我们日常使用的hexo init, hexo new，hexo generate等等功能都是通过一个个插件(其实就是一个个function)实现的。</p>
+<blockquote>
+<p>具体来讲就是:</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/hexo/index.js#L59">hexo.extend</a>这个对象的每个属性都是一个用来绑定(特定)插件的对象。（所谓”绑定”，其实就是对象的register方法）</li>
+<li>hexo<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/hexo/index.js#L153">初始化</a>过程中先加载内部插件，再加载外部插件</li>
+</ol>
+<p>而这些插件的功能分为两大类: 命令行插件和generate过程相关功能，例如：</p>
+<ul>
+<li>命令行插件, hexo <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/plugins/console/index.js#L47">new</a>, 是在hexo.extend.console对象上绑定的一个<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/plugins/console/new.js">插件</a></li>
+<li>generate过程相关的插件，如上文提到的往article对象添加title,content等属性的功能，是通过往hexo.extend.processer对象上<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/plugins/processor/index.js#L13">绑定</a>post插件来<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/blob/master/lib/plugins/processor/post.js#L52">实现</a>的</li>
+</ul>
+<p>所以，当我们想自己动手写插件时，就是像hexo官网给出的<a target="_blank" rel="noopener" href="https://hexo.io/api/console.html">这样</a>,调用某个对象的register方法，如hexo.extend.console.register。</p>
+</blockquote>
+<h2 id="hexo和git-page"><a href="#hexo和git-page" class="headerlink" title="hexo和git page"></a>hexo和git page</h2><p><img src="/images/image-20200524155614887.png" alt="image-20200524155614887"></p>
+<p>如上图，(用户通过浏览器访问到的)git page上的博客网站其实是hexo generate之后生成的public目录下的内容。</p>
+<blockquote>
+<p>所以，一个hexo博客项目应该有两个仓库:</p>
+<ol>
+<li>(基于hexo init结果的)<a target="_blank" rel="noopener" href="https://github.com/buildAll/blogsrc">博客编写仓库</a>。可以把这个项目看成一个代码库，用来”开发”博客网站(包含写博客，生成博客等任务)</li>
+<li>存放(hexo generate结果的)<a target="_blank" rel="noopener" href="https://github.com/buildAll/buildall.github.io">public目录仓库</a>。这个项目是”只读”的，我们不会直接修改这个仓库的内容，我们也不会对这个仓库直接进行git pull、git commit、git push等常规操作。这个仓库的内容就是public目下的内容，即是通过hexo generate产生、hexo deploy提交的。</li>
+</ol>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>hexo简洁、强大的功能来自于自身优雅的系统设计:</p>
+<ol>
+<li>hexo进程启动、hexo核心对象封装、插件系统分别独立</li>
+<li>自身采用插件驱动，生来就具备高可扩展性</li>
+</ol>
+<p>希望读完这篇文章你能对hexo本身有更深入的理解，也能通过hexo的代码设计，对自己以后写出更优雅的代码有所启发。</p>
+<p>对于本文或者hexo有任何问题或评论，请到<a target="_blank" rel="noopener" href="https://github.com/buildAll/buildall.github.io/issues/3">这个</a>git issue页面给我留言吧。</p>
+<p><em>赵彪原创，请随意转载，但务必保留作者署名和原文链接</em></p>
+<p><img src="/images/image-20200524155700987.png" alt="image-20200524155700987"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"><i class="fa fa-tag"></i> Hexo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/23/Java-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-Windows/" rel="prev" title="Java 开发环境搭建(Windows)">
+      <i class="fa fa-chevron-left"></i> Java 开发环境搭建(Windows)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/24/ArcGIS-10-4%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" rel="next" title="ArcGIS 10.4安装教程">
+      ArcGIS 10.4安装教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B8%AD%E7%9A%84hexo%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">命令行中的hexo是什么?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8Emarkdown%E5%88%B0html%E7%9A%84%E6%97%85%E7%A8%8B"><span class="nav-text">从markdown到html的旅程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo%E6%8F%92%E4%BB%B6%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="nav-text">hexo插件是如何工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo%E5%92%8Cgit-page"><span class="nav-text">hexo和git page</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

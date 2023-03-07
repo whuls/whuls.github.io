@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="首先介绍了边缘提取的方法，接着介绍了RANSAC的基本思想，最后提出了基于误差思想改进的RANSAC直线拟合的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RANSAC算法在拟合边缘直线中的应用">
+<meta property="og:url" content="https://whuls.cn/2020/07/09/RANSAC%E7%AE%97%E6%B3%95%E5%9C%A8%E6%8B%9F%E5%90%88%E8%BE%B9%E7%BC%98%E7%9B%B4%E7%BA%BF%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="首先介绍了边缘提取的方法，接着介绍了RANSAC的基本思想，最后提出了基于误差思想改进的RANSAC直线拟合的方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuls.cn/images/image-20200708235909106.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200709000924412.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200709003030030.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200709010832989.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200709010411819.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200709115957091.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200709120252902.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200709040451256.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20200714141850097.png">
+<meta property="article:published_time" content="2020-07-09T04:06:35.000Z">
+<meta property="article:modified_time" content="2022-05-20T14:35:59.041Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="直线跟踪">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuls.cn/images/image-20200708235909106.png">
+
+<link rel="canonical" href="https://whuls.cn/2020/07/09/RANSAC%E7%AE%97%E6%B3%95%E5%9C%A8%E6%8B%9F%E5%90%88%E8%BE%B9%E7%BC%98%E7%9B%B4%E7%BA%BF%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RANSAC算法在拟合边缘直线中的应用 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2020/07/09/RANSAC%E7%AE%97%E6%B3%95%E5%9C%A8%E6%8B%9F%E5%90%88%E8%BE%B9%E7%BC%98%E7%9B%B4%E7%BA%BF%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RANSAC算法在拟合边缘直线中的应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-09 12:06:35" itemprop="dateCreated datePublished" datetime="2020-07-09T12:06:35+08:00">2020-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%89%8D%E8%A8%80"><span class="post-body-toc-text">前言</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%BE%B9%E7%BC%98%E6%8F%90%E5%8F%96"><span class="post-body-toc-text">边缘提取</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#RANSAC%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88%E7%AE%97%E6%B3%95"><span class="post-body-toc-text">RANSAC直线拟合算法</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="post-body-toc-text">1. 算法流程</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-%E7%A7%8D%E5%AD%90%E7%82%B9%E7%9A%84%E9%80%89%E5%8F%96"><span class="post-body-toc-text">2. 种子点的选取</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-%E9%9A%8F%E6%9C%BA%E9%80%89%E5%8F%96%E7%9B%B4%E7%BA%BF%E7%9A%84%E6%95%B0%E9%87%8F"><span class="post-body-toc-text">3. 随机选取直线的数量</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#4-%E8%AF%AF%E5%B7%AE%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95"><span class="post-body-toc-text">4. 误差的计算方法</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#5-%E6%8F%90%E5%8F%96%E4%B8%8E%E8%B7%9F%E8%B8%AA%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="post-body-toc-text">5. 提取与跟踪的结果</span></a></li></ol>
+      
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我的目标是，在连续的两帧影像上，根据前一帧影像的已知直线，在下一张影像上找到对应的直线位置。</p>
+<p><img src="/images/image-20200708235909106.png" alt="image-20200708235909106"></p>
+<p>假设每一帧影像的标号为1,2,3,4,5…，直线L1在影像1上的位置是已知的，并且在影像2上存在一个缓冲区，影像2上的L1位于这个缓冲区内。</p>
+<p><img src="/images/image-20200709000924412.png" alt="image-20200709000924412"></p>
+<p>预测缓冲区的方法较为多样。如果已知物体的旋转角速度和运动速度，以及运动相机的运动状态，可以直接计算出目标在影像上的像素偏移量和旋转角度；也可以先对目标进行点匹配，筛选出正确率较高的匹配点，根据匹配点之间的偏移平均值、两个匹配点连成的直线的夹角、均匀分布的匹配点的中心，计算出每一条直线对应的缓冲区的仿射变换（旋转、平移、伸缩）参数，进而预测出缓冲区的位置；或者使用光流法（Optical Flow）进行跟踪和预测，目前正在研究中。</p>
+<p>获取缓冲区后，首先对缓冲区进行边缘提取，接着在一系列的边缘点中，提取出目标直线。</p>
+<p><img src="/images/image-20200709003030030.png" alt="image-20200709003030030"></p>
+<p>在这篇文章中，我将介绍边缘提取方法和基于统计与误差思想的RANSAC直线提取方法。</p>
+<h1 id="边缘提取"><a href="#边缘提取" class="headerlink" title="边缘提取"></a>边缘提取</h1><p>边缘提取的方法包括：</p>
+<ol>
+<li>使用一阶微分/二阶微分算子进行卷积运算提取，如：Sobel算子、Prewitt算子、Robert算子、Laplacian算子；</li>
+<li>使用更加精细化的、可以提取到像素/子像素的方法，如：Canny方法。</li>
+</ol>
+<p>考虑到像素/子像素级别的边缘提取方法会导致边缘强度信息丢失，难以进一步提取直线，因此我使用的是可以提取较粗边缘、保留较好强度信息的一阶微分卷积算法（Sobel算子）。</p>
+<p><img src="/images/image-20200709010832989.png" alt="image-20200709010832989"></p>
+<p>使用四个方向的Sobel算子分别对灰度图进行卷积运算，接着将卷积后的四幅影像取绝对值后相加取平均，得到具有一定宽度和亮度的边缘。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用sobel算子提取边缘（四个方向）</span></span><br><span class="line">Mat sobelTop, sobelBottom, sobelLeft, sobelRight;</span><br><span class="line">sobelLeft = (<span class="built_in">Mat_</span>&lt;<span class="type">float</span>&gt;(<span class="number">3</span>, <span class="number">3</span>) &lt;&lt;</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>,</span><br><span class="line">    <span class="number">2</span>, <span class="number">0</span>, <span class="number">-2</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>);</span><br><span class="line">sobelRight = (<span class="built_in">Mat_</span>&lt;<span class="type">float</span>&gt;(<span class="number">3</span>, <span class="number">3</span>) &lt;&lt;</span><br><span class="line">    <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>,</span><br><span class="line">    <span class="number">-2</span>, <span class="number">0</span>, <span class="number">2</span>,</span><br><span class="line">    <span class="number">-1</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">sobelTop = (<span class="built_in">Mat_</span>&lt;<span class="type">float</span>&gt;(<span class="number">3</span>, <span class="number">3</span>) &lt;&lt;</span><br><span class="line">    <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>,</span><br><span class="line">    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    <span class="number">-1</span>, <span class="number">-2</span>, <span class="number">-1</span>);</span><br><span class="line">sobelBottom = (<span class="built_in">Mat_</span>&lt;<span class="type">float</span>&gt;(<span class="number">3</span>, <span class="number">3</span>) &lt;&lt;</span><br><span class="line">    <span class="number">-1</span>, <span class="number">-2</span>, <span class="number">-1</span>,</span><br><span class="line">    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>);</span><br><span class="line">Mat gt, gb, gl, gr;</span><br><span class="line"><span class="built_in">filter2D</span>(gray, gt, CV_32FC1, sobelTop);</span><br><span class="line"><span class="built_in">filter2D</span>(gray, gb, CV_32FC1, sobelBottom);</span><br><span class="line"><span class="built_in">filter2D</span>(gray, gl, CV_32FC1, sobelLeft);</span><br><span class="line"><span class="built_in">filter2D</span>(gray, gr, CV_32FC1, sobelRight);</span><br><span class="line"></span><br><span class="line"><span class="built_in">Mat</span>((<span class="built_in">abs</span>(gt) + <span class="built_in">abs</span>(gb) + <span class="built_in">abs</span>(gl) + <span class="built_in">abs</span>(gr)) / <span class="number">4</span>).<span class="built_in">convertTo</span>(dst, CV_8UC1);</span><br></pre></td></tr></table></figure>
+<p>提取后的边缘如下图所示：</p>
+<p><img src="/images/image-20200709010411819.png" alt="image-20200709010411819"></p>
+<h1 id="RANSAC直线拟合算法"><a href="#RANSAC直线拟合算法" class="headerlink" title="RANSAC直线拟合算法"></a>RANSAC直线拟合算法</h1><p>提取具有强度信息的边缘后，需要通过这些边缘点拟合出一条直线，在这里我用到了RANSAC算法。</p>
+<p>RANSAC为Random Sample Consensus（随机采样一致）的缩写，算法的思想是：根据一组包含异样数据的样本数据集，计算出数据的数学模型参数，得到有效样本数据。它由Fischler和Bolles于1981年最先提出。</p>
+<blockquote>
+<p>RANSAC基本思想描述如下：</p>
+<ol>
+<li>考虑一个<strong>最小抽样集的势为n</strong>的模型（n为初始化模型参数所需要的最小样本数）和一个样本集P，集合P的样本数#(P)&gt;n，从P中随机抽取包含n个样本的P的子集S初始化模型M；</li>
+<li>余集SC=P\S中与模型M的误差小于某一设定阈值t的样本集以及S构成S*。S*认为是内点集，它们构成S的一致集(Consensus Set)；</li>
+<li>若#(S*)≥N，认为得到正确的模型参数，并利用集S*(内点inliers)采用最小二乘等方法重新计算新的模型M*；重新随机抽取新的S，重复以上过程；</li>
+<li>在完成一定的抽样次数后，若未找到一致集则算法失败，否则选取抽样后得到的最大一致集判断内外点，算法结束。</li>
+</ol>
+</blockquote>
+<p>基于RANSAC的基本方法，我们可以进行一定的改进，借鉴统计与误差的思想，将其用于边缘图像的直线拟合。下面，将首先介绍该方法的总体流程，接着从种子点的选取、随机选取直线的数量、误差的计算方法三个方面详细论述。</p>
+<h2 id="1-算法流程"><a href="#1-算法流程" class="headerlink" title="1. 算法流程"></a>1. 算法流程</h2><ol>
+<li>对边缘图像进行归一化处理，使其亮度处在某一范围<script type="math/tex">(a, b)</script>内；</li>
+<li>在边缘图像中选取一系列种子点<script type="math/tex">p_i,0 \leq i \lt N</script>，这些种子点与目标直线有着相似的分布，具有一定亮度信息；</li>
+<li>从所有的种子点中随机选取两点（<script type="math/tex">pt_1, pt_2</script>）拟合直线<script type="math/tex">L</script>，获得直线参数<script type="math/tex">a,b,c</script>；</li>
+<li>分别计算每个种子点与直线<script type="math/tex">L</script>的距离<script type="math/tex">d_i</script></li>
+</ol>
+<script type="math/tex; mode=display">
+d_i=\frac{|ax_i+by_i+c|}{\sqrt{a^2+b^2}}</script><ol>
+<li>考虑亮度<script type="math/tex">I_i</script>与距离<script type="math/tex">d_i</script>，计算直线<script type="math/tex">L</script>与所有种子点之间的标准差<script type="math/tex">\sigma</script>，其中，距离与误差成正比，亮度与误差成反比</li>
+</ol>
+<script type="math/tex; mode=display">
+\sigma=\sqrt{\frac{\sum{\frac{d_i}{I_i}}}{N}}</script><ol>
+<li>重复<script type="math/tex">K</script>次3-5步的运算，找到所拟合出的直线<script type="math/tex">L</script>具有最小标准差<script type="math/tex">\sigma_\min</script>的两个点，这两个点所连接的直线即为目标直线。</li>
+</ol>
+<h2 id="2-种子点的选取"><a href="#2-种子点的选取" class="headerlink" title="2. 种子点的选取"></a>2. 种子点的选取</h2><p>在对直线的大致位置进行预测后，得到一个缓冲区，缓冲区的中心线与目标直线具有相似的分布。</p>
+<p><img src="/images/image-20200709115957091.png" alt="image-20200709115957091" style="zoom:67%;"></p>
+<p>选取种子点可以在缓冲区的中心线附近沿着直线方向进行查找。</p>
+<p><img src="/images/image-20200709120252902.png" alt="image-20200709120252902" style="zoom:67%;"></p>
+<h2 id="3-随机选取直线的数量"><a href="#3-随机选取直线的数量" class="headerlink" title="3. 随机选取直线的数量"></a>3. 随机选取直线的数量</h2><p>假设有<script type="math/tex">N</script>个种子点（<script type="math/tex">N≥2</script>），其中包含两个最优的种子点，在所有点中随机选取，选中两个最优种子点的概率为<script type="math/tex">q</script></p>
+<script type="math/tex; mode=display">
+q = (\frac{1}{N})^2</script><p>在<script type="math/tex">K</script>次迭代中，每次迭代随机选取两个点进行拟合，要求拟合的所有直线中，包含最优直线的概率为<script type="math/tex">P</script>，则</p>
+<script type="math/tex; mode=display">
+P = 1-(1-q)^K = 1-(1-(\frac{1}{N})^2)^K</script><script type="math/tex; mode=display">
+K = \frac{log(1-P)}{log(1-q)} = \frac{log(1-P)}{log(1-(\frac{1}{N})^2)}</script><p>迭代次数K随种子点数N变化的曲线图如下所示（所有拟合直线中包含最优直线的概率<script type="math/tex">P=0.95</script>）：</p>
+<p><img src="/images/image-20200709040451256.png" alt="image-20200709040451256" style="zoom:75%;"></p>
+<h2 id="4-误差的计算方法"><a href="#4-误差的计算方法" class="headerlink" title="4. 误差的计算方法"></a>4. 误差的计算方法</h2><p>在所有参与直线拟合的种子点中，与直线的距离越远，说明该点是内点的可能性越小，误差越大；同时，种子点的亮度越低，说明该点是边缘点的可能性越小，误差越大。因此可以得到单个种子点<script type="math/tex">i</script>的误差计算公式：</p>
+<script type="math/tex; mode=display">
+e_i=\frac{d_i}{I_i}</script><p>其中，<script type="math/tex">d_i</script>是种子点<script type="math/tex">i</script>到直线的距离，<script type="math/tex">I_i</script>是种子点的亮度值。直线整体误差的标准差<script type="math/tex">\sigma</script>的计算公式为：</p>
+<script type="math/tex; mode=display">
+\sigma=\sqrt{\frac{\sum^N_{i=1}{\frac{d_i}{I_i}}}{N}}</script><h1 id="5-提取与跟踪的结果"><a href="#5-提取与跟踪的结果" class="headerlink" title="5. 提取与跟踪的结果"></a>5. 提取与跟踪的结果</h1><p><img src="/images/image-20200714141850097.png" alt="image-20200714141850097"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/%E7%9B%B4%E7%BA%BF%E8%B7%9F%E8%B8%AA/" rel="tag"><i class="fa fa-tag"></i> 直线跟踪</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/14/Windows%E4%B8%8B%E7%BC%96%E8%AF%91OpenCV-3-1-0-%E6%89%A9%E5%B1%95opencv-contrib/" rel="prev" title="Windows下编译OpenCV-3.1.0 + 扩展opencv_contrib">
+      <i class="fa fa-chevron-left"></i> Windows下编译OpenCV-3.1.0 + 扩展opencv_contrib
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/16/Introduction-of-Optical-Flow-Algorithm/" rel="next" title="Introduction of Optical Flow Algorithm">
+      Introduction of Optical Flow Algorithm <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E6%8F%90%E5%8F%96"><span class="nav-text">边缘提取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RANSAC%E7%9B%B4%E7%BA%BF%E6%8B%9F%E5%90%88%E7%AE%97%E6%B3%95"><span class="nav-text">RANSAC直线拟合算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="nav-text">1. 算法流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%A7%8D%E5%AD%90%E7%82%B9%E7%9A%84%E9%80%89%E5%8F%96"><span class="nav-text">2. 种子点的选取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%9A%8F%E6%9C%BA%E9%80%89%E5%8F%96%E7%9B%B4%E7%BA%BF%E7%9A%84%E6%95%B0%E9%87%8F"><span class="nav-text">3. 随机选取直线的数量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%AF%AF%E5%B7%AE%E7%9A%84%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95"><span class="nav-text">4. 误差的计算方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%8F%90%E5%8F%96%E4%B8%8E%E8%B7%9F%E8%B8%AA%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="nav-text">5. 提取与跟踪的结果</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

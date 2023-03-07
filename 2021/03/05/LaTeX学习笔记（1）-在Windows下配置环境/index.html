@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="安装和配置 &amp;&amp; 初步使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX学习笔记（1） 在Windows下配置环境">
+<meta property="og:url" content="https://whuls.cn/2021/03/05/LaTeX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89-%E5%9C%A8Windows%E4%B8%8B%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="安装和配置 &amp;&amp; 初步使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuls.cn/images/image-20201119163802311.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20201119184604076.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20201119213457680.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20201119214516636.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20201119214541882.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20201119224145853.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20220225170803721.png">
+<meta property="article:published_time" content="2021-03-05T14:56:20.000Z">
+<meta property="article:modified_time" content="2022-05-20T14:35:59.045Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="LaTeX">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuls.cn/images/image-20201119163802311.png">
+
+<link rel="canonical" href="https://whuls.cn/2021/03/05/LaTeX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89-%E5%9C%A8Windows%E4%B8%8B%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>LaTeX学习笔记（1） 在Windows下配置环境 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2021/03/05/LaTeX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89-%E5%9C%A8Windows%E4%B8%8B%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LaTeX学习笔记（1） 在Windows下配置环境
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-05 22:56:20" itemprop="dateCreated datePublished" datetime="2021-03-05T22:56:20+08:00">2021-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E9%80%89%E7%94%A8%E5%93%AA%E4%B8%AA%E6%8E%92%E7%89%88%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9FTeX-Live%E8%BF%98%E6%98%AFMiKTeX%EF%BC%9F"><span class="post-body-toc-text">选用哪个排版编译器？TeX Live还是MiKTeX？</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#MiKTeX%E4%B8%8EVSCode%E7%9A%84%E9%85%8D%E5%90%88"><span class="post-body-toc-text">MiKTeX与VSCode的配合</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%AE%89%E8%A3%85MiKTeX"><span class="post-body-toc-text">安装MiKTeX</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%9C%A8VS-Code%E4%B8%AD%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AELaTeX-Workshop%E6%8F%92%E4%BB%B6"><span class="post-body-toc-text">在VS Code中安装和配置LaTeX Workshop插件</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%86%99%E4%BD%9C%E6%B5%8B%E8%AF%95"><span class="post-body-toc-text">写作测试</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E8%87%AA%E5%8A%A8%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="post-body-toc-text">自动格式化</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E4%BD%BF%E7%94%A8bibtex%E6%B7%BB%E5%8A%A0%E6%96%87%E7%8C%AE%E5%BC%95%E7%94%A8"><span class="post-body-toc-text">使用bibtex添加文献引用</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%AE%89%E8%A3%85MiKTeX%E5%90%8E%E7%BC%96%E8%AF%91%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87%E4%B8%94%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA"><span class="post-body-toc-text">安装MiKTeX后编译无法通过且没有错误提示</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%96%87%E6%A1%A3%E6%AD%A3%E5%90%91%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%8F%8D%E5%90%91%E6%90%9C%E7%B4%A2"><span class="post-body-toc-text">文档正向搜索与反向搜索</span></a></li></ol>
+      
+      
+        <p>Latex入门：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014803202/article/details/50410748">https://blog.csdn.net/u014803202/article/details/50410748</a></p>
+<h1 id="选用哪个排版编译器？TeX-Live还是MiKTeX？"><a href="#选用哪个排版编译器？TeX-Live还是MiKTeX？" class="headerlink" title="选用哪个排版编译器？TeX Live还是MiKTeX？"></a>选用哪个排版编译器？TeX Live还是MiKTeX？</h1><ul>
+<li>MiKTeX的标准版安装程序“只安装基本的东西”，其他任何需要的东西都可以动态安装；TeX Live的标准安装就是“完全安装”（大约4.5个G）</li>
+<li>MiKTeX比TeX Live有稍微灵活一些的许可方式：有一小部分LaTeX包是MiKTeX提供的，而TeX Live没有（如<code>thesis</code>）</li>
+<li>TeX Live最初是在Unix上开发的，因此适用于Linux、Mac以及Windows（或其他系统）；MiKTeX基于Windows系统开发，因此更适用于Windows用户</li>
+<li>……</li>
+</ul>
+<blockquote>
+<p>参考资料</p>
+<ul>
+<li>（原文）<a target="_blank" rel="noopener" href="https://www.texdev.net/2016/12/18/tex-on-windows-tex-live-versus-miktex-revisited/">https://www.texdev.net/2016/12/18/tex-on-windows-tex-live-versus-miktex-revisited/</a></li>
+<li>（中译）<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuliang1999/p/12656706.html">https://www.cnblogs.com/liuliang1999/p/12656706.html</a></li>
+</ul>
+</blockquote>
+<h1 id="MiKTeX与VSCode的配合"><a href="#MiKTeX与VSCode的配合" class="headerlink" title="MiKTeX与VSCode的配合"></a>MiKTeX与VSCode的配合</h1><blockquote>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43356770/article/details/104035291">https://blog.csdn.net/weixin_43356770/article/details/104035291</a></p>
+</blockquote>
+<h2 id="安装MiKTeX"><a href="#安装MiKTeX" class="headerlink" title="安装MiKTeX"></a>安装MiKTeX</h2><p>在<a target="_blank" rel="noopener" href="https://miktex.org/">官网</a>下载安装包，下载后双击安装（<em>安装路径不要有空格或中文等其他字符</em>），安装完成后，检查环境变量<code>path</code>，是否包含了安装路径下的<code>\miktex\bin\x64</code>路径。</p>
+<h2 id="在VS-Code中安装和配置LaTeX-Workshop插件"><a href="#在VS-Code中安装和配置LaTeX-Workshop插件" class="headerlink" title="在VS Code中安装和配置LaTeX Workshop插件"></a>在VS Code中安装和配置LaTeX Workshop插件</h2><p>a. 打开VS Code，在扩展商店搜索<code>latex</code>，找到LaTeX Workshop，安装该插件。</p>
+<p><img src="/images/image-20201119163802311.png" alt="image-20201119163802311" style="zoom:50%;" /></p>
+<p>b. 安装完成后，把以下设置拷贝至<code>settings.json</code>文件中，即可完成设置。（建议写到全局的设置中）</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;latex-workshop.latex.autoBuild.run&quot;</span><span class="punctuation">:</span> <span class="string">&quot;never&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;latex-workshop.latex.recipes&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xelatex -&gt; bibtex -&gt; xelatex*2&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;xelatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;bibtex&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;xelatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;latexmk&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;latexmk&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xelatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bibtex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;bibtex&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;latex-workshop.latex.tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xelatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;miktex-xelatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;-synctex=1&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-interaction=nonstopmode&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-file-line-error&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;%DOC%&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;latexmk&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;miktex-latexmk&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;-synctex=1&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-interaction=nonstopmode&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-file-line-error&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-pdf&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;%DOC%&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pdflatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;miktex-pdflatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;-synctex=1&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-interaction=nonstopmode&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;-file-line-error&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="string">&quot;%DOC%&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bibtex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;miktex-bibtex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;%DOCFILE%&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="comment">//清除辅助文件</span></span><br><span class="line">    <span class="attr">&quot;latex-workshop.latex.autoClean.run&quot;</span><span class="punctuation">:</span> <span class="string">&quot;onBuilt&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;latex-workshop.latex.clean.fileTypes&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;*.aux&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.bbl&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.blg&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.gz&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.idx&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.ind&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.lof&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.lot&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.out&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.toc&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.acn&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.acr&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.alg&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.glg&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.glo&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.gls&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.ist&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.fls&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.log&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.fdb_latexmk&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;*.thm&quot;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;latex-workshop.view.pdf.viewer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tab&quot;</span><span class="punctuation">,</span> <span class="comment">//用内置pdf阅读器查看</span></span><br><span class="line">    <span class="attr">&quot;latex-workshop.showContextMenu&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">//右键菜单</span></span><br><span class="line">    <span class="attr">&quot;editor.wordWrap&quot;</span><span class="punctuation">:</span> <span class="string">&quot;on&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>使用中文写作用xelatex编译，在<code>latex-workshop.latex.recipes</code>中把xelatex放在首位；如果使用英文写作就把latexmk放在首位；</li>
+<li>将tools中的<code>%DOC%</code>替换成<code>%DOCFILE%</code>就可以支持中文路径下的文件了；</li>
+<li>为部分<code>.tex</code>文档指定编译器，在文档首部加入以下代码：</li>
+</ol>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">%!TEX program = pdflatex</span></span><br></pre></td></tr></table></figure>
+<h2 id="写作测试"><a href="#写作测试" class="headerlink" title="写作测试"></a>写作测试</h2><p>a. 创建一个文件夹，添加文件<code>main.tex</code>，写入如下测试内容</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;测 试&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;林 杉&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;<span class="keyword">\today</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line">    <span class="keyword">\maketitle</span></span><br><span class="line">    Hello World!</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>b. 按下快捷键<code>Ctrl</code>+<code>Alt</code>+<code>B</code>，即可执行编译。编译过程中，可能弹出类似如下的对话框，这是MiKTeX安装依赖项的确认框，点击<code>Install</code>即可为MiKTeX安装依赖。</p>
+<p><img src="/images/image-20201119184604076.png" alt="image-20201119184604076" style="zoom:50%;" /></p>
+<p>c. 按下快捷键<code>Ctrl</code>+<code>Alt</code>+<code>V</code>，可以在侧边栏查看编译后生成的PDF。</p>
+<p><img src="/images/image-20201119213457680.png" alt="image-20201119213457680" style="zoom:50%;" /></p>
+<h2 id="自动格式化"><a href="#自动格式化" class="headerlink" title="自动格式化"></a>自动格式化</h2><p>a. 如果VS Code配置了自动格式化，那么在保存<code>.tex</code>文件时会报错，提示找不到<code>perl.exe</code>，这是因为自动格式化时用到了<code>latexindent</code>，这个脚本是用perl书写的。</p>
+<p>b. 前往<a target="_blank" rel="noopener" href="https://www.perl.org/get.html">www.perl.org/get.html</a>下载perl，<code>Strawberry Perl</code>或<code>ActiveState Perl</code>都可以（因为<code>ActiveState Perl</code>在我的电脑上安装失败——或许是因为网络——因此我选择了<code>Strawberry Perl</code>）。</p>
+<p>c. 安装完成后，按下<code>Shift</code>+<code>Alt</code>+<code>F</code>执行自动格式化，出现了新的错误（如下图所示），perl提示缺少相应的模块。</p>
+<p><img src="/images/image-20201119214516636.png" alt="image-20201119214516636"></p>
+<p><img src="/images/image-20201119214541882.png" alt="image-20201119214541882"></p>
+<p>d. 在perl中安装模块需要用到模块管理工具<code>cpan</code>，该工具在安装perl时会自动安装。执行如下的命令即可完成对应模块的安装。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cpan <span class="literal">-i</span> Log::Log4perl</span><br><span class="line">cpan <span class="literal">-i</span> Log::Dispatch::File</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://tex.stackexchange.com/questions/445521/latexindent-cant-locate-log-log4perl-pm-in-inc-you-may-need-to-install-the-l">latexindent: Can’t locate Log/Log4perl.pm in @INC (you may need to install the Log::Log4perl module)</a></p>
+</blockquote>
+<p>e. 如果安装速度过慢，可以使用国内镜像，镜像地址可以在<a target="_blank" rel="noopener" href="https://www.cpan.org/SITES.html">全球镜像列表</a>找到。添加镜像的方法如下所示，例如，使用中科大的镜像：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cpan</span><br><span class="line">o conf urllist http://mirrors.ustc.edu.cn/CPAN/</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Aggressive_snail/article/details/53396432">获取以及修改cpan镜像地址_Aggressive_snail的专栏-CSDN博客</a></p>
+</blockquote>
+<h1 id="使用bibtex添加文献引用"><a href="#使用bibtex添加文献引用" class="headerlink" title="使用bibtex添加文献引用"></a>使用bibtex添加文献引用</h1><blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/caiandyong/article/details/70258670">Latex引用参考文献-BibTex的使用_蔡先生的专栏-CSDN博客</a></p>
+</blockquote>
+<p>a. 引用参考文献并实现自动标号，需要用到<code>bibtex</code>，该工具需要配合<code>pdflatex</code>或<code>xelatex</code>使用，使用顺序为：<code>xelatex -&gt; bibtex -&gt; xelatex*2</code>。</p>
+<p>b. 将settings.json中<code>latex-workshop.latex.recipes</code>的顺序改为如下所示，按下<code>Ctrl</code>+<code>Alt</code>+<code>B</code>后将按照第一个工具链执行默认的编译命令。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;latex-workshop.latex.recipes&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xelatex -&gt; bibtex -&gt; xelatex*2&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;xelatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;bibtex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;xelatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xelatex&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;xelatex&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;latexmk&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;tools&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;latexmk&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+<p>c. 在根目录下创建<code>ref.bib</code>文件，用于统一存放参考文献，将如下内容拷贝进去。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@inbook&#123;Wille1982,</span><br><span class="line">  author    = &#123;Wille, Rudolf&#125;,</span><br><span class="line">  editor    = &#123;Rival, Ivan&#125;,</span><br><span class="line">  title     = &#123;Restructuring Lattice Theory: An Approach Based on Hierarchies of Concepts&#125;,</span><br><span class="line">  booktitle = &#123;Ordered Sets: Proceedings of the NATO Advanced Study Institute held at Banff, Canada, August 28 to September 12, 1981&#125;,</span><br><span class="line">  year      = &#123;1982&#125;,</span><br><span class="line">  publisher = &#123;Springer Netherlands&#125;,</span><br><span class="line">  address   = &#123;Dordrecht&#125;,</span><br><span class="line">  pages     = &#123;445--470&#125;,</span><br><span class="line">  isbn      = &#123;978-94-009-7798-3&#125;,</span><br><span class="line">  doi       = &#123;10.1007/978-94-009-7798-3<span class="built_in">_</span>15&#125;,</span><br><span class="line">  url       = &#123;http://dx.doi.org/10.1007/978-94-009-7798-3<span class="built_in">_</span>15&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>d. 打开需要引用文献的<code>.tex</code>，在<strong>需要展示参考文献的地方</strong>写入<code>\bibliographystyle</code>和<code>\bibliography</code>，需要引用的地方使用<code>\cite</code>，代码及显示效果如下所示。</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;测 试&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;林 杉&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;<span class="keyword">\today</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line"></span><br><span class="line">Hello World!<span class="keyword">\cite</span>&#123;Wille1982&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">% 参考文献</span></span><br><span class="line"><span class="keyword">\bibliographystyle</span>&#123;plain&#125;</span><br><span class="line"><span class="keyword">\bibliography</span>&#123;ref&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/image-20201119224145853.png" alt="image-20201119224145853" style="zoom:50%;" /></p>
+<p>其中，<code>\bibliography</code>用来指定存放参考文献的文件路径（ref.bib），<code>\bibliographystyle</code>用来指定显示的样式，现成的可选样式有如下几种。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Style</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>plain</td>
+<td>按字母的顺序排列，比较次序为作者、年度和标题</td>
+</tr>
+<tr>
+<td>unsrt</td>
+<td>样式同plain，只是按照引用的先后排序</td>
+</tr>
+<tr>
+<td>alpha</td>
+<td>用作者名首字母+年份后两位作标号，以字母顺序排序</td>
+</tr>
+<tr>
+<td>abbrv</td>
+<td>类似plain，将月份全拼改为缩写，更显紧凑</td>
+</tr>
+<tr>
+<td>ieeetr</td>
+<td>国际电气电子工程师协会期刊样式</td>
+</tr>
+<tr>
+<td>acm</td>
+<td>美国计算机学会期刊样式</td>
+</tr>
+<tr>
+<td>siam</td>
+<td>美国工业和应用数学学会期刊样式</td>
+</tr>
+<tr>
+<td>apalike</td>
+<td>美国心理学学会期刊样式</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="安装MiKTeX后编译无法通过且没有错误提示"><a href="#安装MiKTeX后编译无法通过且没有错误提示" class="headerlink" title="安装MiKTeX后编译无法通过且没有错误提示"></a>安装MiKTeX后编译无法通过且没有错误提示</h1><blockquote>
+<p>2022.2.25 更新</p>
+</blockquote>
+<p>在新的笔记本上面按照如上教程安装一遍之后，发现使用xelatex编译的时候总是无法编译通过，且编译输出中没有任何警告</p>
+<p>一番折腾之后找不到任何原因，毕竟也没提示要安装什么依赖包，也没报任何错</p>
+<p>正打算开始卸载，结果弹出一个MiKTeX Console，提醒我要进行更新，于是就进行了一次更新操作：</p>
+<p><img src="/images/image-20220225170803721.png" alt="image-20220225170803721"></p>
+<p>更新完成之后重新编译，又自动弹出窗口安装了几十个包，然后就编译通过了~</p>
+<h1 id="文档正向搜索与反向搜索"><a href="#文档正向搜索与反向搜索" class="headerlink" title="文档正向搜索与反向搜索"></a>文档正向搜索与反向搜索</h1><blockquote>
+<p>更新日期：2022.4.12</p>
+<p>Latex-Workshop 版本：<code>v8.23.0</code></p>
+</blockquote>
+<p>正向搜索（tex到pdf）：<code>Ctrl + Alt + J</code></p>
+<p>反向搜索（pdf到tex）：<code>Ctrl</code>+鼠标左键</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/LaTeX/" rel="tag"><i class="fa fa-tag"></i> LaTeX</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/05/LaTeX%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89-%E6%96%87%E7%AB%A0%E4%B9%A6%E5%86%99%E6%8A%80%E5%B7%A7/" rel="prev" title="LaTeX学习笔记（2） 文章书写技巧">
+      <i class="fa fa-chevron-left"></i> LaTeX学习笔记（2） 文章书写技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/05/%E8%8E%B7%E5%8F%96%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E6%AD%8C%E5%8D%95/" rel="next" title="获取网易云音乐歌单">
+      获取网易云音乐歌单 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%89%E7%94%A8%E5%93%AA%E4%B8%AA%E6%8E%92%E7%89%88%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9FTeX-Live%E8%BF%98%E6%98%AFMiKTeX%EF%BC%9F"><span class="nav-text">选用哪个排版编译器？TeX Live还是MiKTeX？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MiKTeX%E4%B8%8EVSCode%E7%9A%84%E9%85%8D%E5%90%88"><span class="nav-text">MiKTeX与VSCode的配合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85MiKTeX"><span class="nav-text">安装MiKTeX</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8VS-Code%E4%B8%AD%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AELaTeX-Workshop%E6%8F%92%E4%BB%B6"><span class="nav-text">在VS Code中安装和配置LaTeX Workshop插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E4%BD%9C%E6%B5%8B%E8%AF%95"><span class="nav-text">写作测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-text">自动格式化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8bibtex%E6%B7%BB%E5%8A%A0%E6%96%87%E7%8C%AE%E5%BC%95%E7%94%A8"><span class="nav-text">使用bibtex添加文献引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85MiKTeX%E5%90%8E%E7%BC%96%E8%AF%91%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87%E4%B8%94%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA"><span class="nav-text">安装MiKTeX后编译无法通过且没有错误提示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E6%AD%A3%E5%90%91%E6%90%9C%E7%B4%A2%E4%B8%8E%E5%8F%8D%E5%90%91%E6%90%9C%E7%B4%A2"><span class="nav-text">文档正向搜索与反向搜索</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

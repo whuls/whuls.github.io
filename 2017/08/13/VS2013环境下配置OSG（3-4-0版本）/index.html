@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="描述了OSG配置的详细过程，可能不会比这更适合初学者了，描述了配置和编译一个C++库的完整过程，并配有大量的插图说明CMake这个工具如何使用……">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS2013环境下配置OSG（3.4.0版本）">
+<meta property="og:url" content="https://whuls.cn/2017/08/13/VS2013%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEOSG%EF%BC%883-4-0%E7%89%88%E6%9C%AC%EF%BC%89/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="描述了OSG配置的详细过程，可能不会比这更适合初学者了，描述了配置和编译一个C++库的完整过程，并配有大量的插图说明CMake这个工具如何使用……">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuls.cn/images/image-20220916124812175.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20220916125042406.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20220916130427652.png">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTQ1ODI4NTk0.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTUwMTM1NjMz.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTUxNTEyMDYx.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTU0MTE4NTM3.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTU0MzU0Nzg2.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTU1NjMxMzU3.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTYwMTUwMDQy.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTYwMTU5NjQ1.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTYwNDIwNTk2.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTYxNzE5NjE5.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTk0MDUwMDUx.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAwNzQwMzc5.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAxMjM2OTMx.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAxMjQ2NDA4.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAyMTA4MDIw.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAyMzE3ODE5.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAzOTUxNzc4.jfif">
+<meta property="og:image" content="https://whuls.cn/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjA1ODIzOTc0.jfif">
+<meta property="article:published_time" content="2017-08-13T07:44:06.000Z">
+<meta property="article:modified_time" content="2022-09-16T05:15:09.873Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="OSG">
+<meta property="article:tag" content="VS2013">
+<meta property="article:tag" content="Cmake">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuls.cn/images/image-20220916124812175.png">
+
+<link rel="canonical" href="https://whuls.cn/2017/08/13/VS2013%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEOSG%EF%BC%883-4-0%E7%89%88%E6%9C%AC%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>VS2013环境下配置OSG（3.4.0版本） | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2017/08/13/VS2013%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEOSG%EF%BC%883-4-0%E7%89%88%E6%9C%AC%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VS2013环境下配置OSG（3.4.0版本）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-08-13 15:44:06" itemprop="dateCreated datePublished" datetime="2017-08-13T15:44:06+08:00">2017-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-16 13:15:09" itemprop="dateModified" datetime="2022-09-16T13:15:09+08:00">2022-09-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="post-body-toc-text">参考资料</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#2022-9-VS2022%E7%BC%96%E8%AF%913-6-5%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="post-body-toc-text">2022.9 VS2022编译3.6.5的注意事项</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#ALL-BUILD%E6%97%B6%E5%87%BA%E7%8E%B0%E9%83%A8%E5%88%86%E5%A4%B1%E8%B4%A5"><span class="post-body-toc-text">ALL_BUILD时出现部分失败</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E7%BC%BA%E5%B0%91GLine%E7%AD%89%E7%AC%A6%E5%8F%B7%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="post-body-toc-text">缺少GLine等符号的定义</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#osgDB-readNodeFile%E8%AF%BB%E5%8F%96%E5%A4%B1%E8%B4%A5%EF%BC%8C%E5%BC%82%E5%B8%B8%EF%BC%9Abad-allocation"><span class="post-body-toc-text">osgDB::readNodeFile读取失败，异常：bad allocation</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#Could-not-find-plugin-to-read-objects-from-file"><span class="post-body-toc-text">Could not find plugin to read objects from file</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="post-body-toc-text">前期准备</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6"><span class="post-body-toc-text">解压文件</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%A4%84%E7%90%86%E6%BA%90%E7%A0%81"><span class="post-body-toc-text">处理源码</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5"><span class="post-body-toc-text">编译阶段</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%95%B0%E6%8D%AE%E6%95%B4%E7%90%86"><span class="post-body-toc-text">数据整理</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE%E4%B8%8E%E9%93%BE%E6%8E%A5%E5%BA%93"><span class="post-body-toc-text">环境变量设置与链接库</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%B0%83%E8%AF%95%E9%98%B6%E6%AE%B5"><span class="post-body-toc-text">调试阶段</span></a></li></ol>
+      
+      
+        <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p>参考了CSDN和OSG中国的文章：</p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/lonsegdi/article/details/50579439">VS2013的OSG开发环境配置_php_Yinglin的博客-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="http://bbs.osgchina.org/forum.php?mod=viewthread&amp;tid=9223&amp;extra=page=1&amp;_dsign=253e9edb">OSG+VS2010+win7环境搭建 - OSG教程学习 - OSG中国官方论坛-有您OSG在中国才更好 - Powered by Discuz!</a></p>
+<h1 id="2022-9-VS2022编译3-6-5的注意事项"><a href="#2022-9-VS2022编译3-6-5的注意事项" class="headerlink" title="2022.9 VS2022编译3.6.5的注意事项"></a>2022.9 VS2022编译3.6.5的注意事项</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cdjaodj/article/details/126593370">OSG-OpenSceneGraph在WIN10与VS2022下的部署（OSG3.6.5+VS2022+Win10<em>x64）个人笔记详细</em>食月的博客-CSDN博客</a></p>
+</blockquote>
+<ul>
+<li>osg源码：<a target="_blank" rel="noopener" href="https://github.com/openscenegraph/OpenSceneGraph/tree/OpenSceneGraph-3.6.5">openscenegraph/OpenSceneGraph at OpenSceneGraph-3.6.5 (github.com)</a></li>
+<li>编译好的第三方库：<a target="_blank" rel="noopener" href="https://download.osgvisual.org/">Index of / (osgvisual.org)</a>，用<a target="_blank" rel="noopener" href="https://download.osgvisual.org/3rdParty_VS2017_v141_x64_V11_small.7z"> 3rdParty_VS2017_v141_x64_V11_small.7z</a>即可在v143下使用</li>
+<li>数据包可以和3.4.0一至（OpenSceneGraph-Data-3.4.0.zip），也可以不用</li>
+</ul>
+<h2 id="ALL-BUILD时出现部分失败"><a href="#ALL-BUILD时出现部分失败" class="headerlink" title="ALL_BUILD时出现部分失败"></a>ALL_BUILD时出现部分失败</h2><p>如果失败的工程是<code>Examples osgviewerMFC</code>，则打开该工程，找到<code>stdafx.h</code>头文件，进行如下修改：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> WINVER</span></span><br><span class="line"><span class="comment">//#define WINVER 0x0501</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> WINVER 0x0A00</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<p>修改后再执行一次批生成ALL_BUILD即可</p>
+<h2 id="缺少GLine等符号的定义"><a href="#缺少GLine等符号的定义" class="headerlink" title="缺少GLine等符号的定义"></a>缺少GLine等符号的定义</h2><p><img src="/images/image-20220916124812175.png" alt="image-20220916124812175"></p>
+<p>加上预处理器定义<code>WIN32</code></p>
+<p><img src="/images/image-20220916125042406.png" alt="image-20220916125042406"></p>
+<h2 id="osgDB-readNodeFile读取失败，异常：bad-allocation"><a href="#osgDB-readNodeFile读取失败，异常：bad-allocation" class="headerlink" title="osgDB::readNodeFile读取失败，异常：bad allocation"></a>osgDB::readNodeFile读取失败，异常：bad allocation</h2><p>Debug和Release的lib引入错误</p>
+<p>Debug配置下应该引入<code>*d.lib</code></p>
+<p><img src="/images/image-20220916130427652.png" alt="image-20220916130427652"></p>
+<p>Release引入末尾不加d的<code>.lib</code></p>
+<h2 id="Could-not-find-plugin-to-read-objects-from-file"><a href="#Could-not-find-plugin-to-read-objects-from-file" class="headerlink" title="Could not find plugin to read objects from file"></a>Could not find plugin to read objects from file</h2><p>缺少解析插件，解决方案：</p>
+<ol>
+<li>拷贝目录<code>build/bin/osgPlugins-3.6.5</code>到exe目录下（目录名称必须是<code>osgPlugins-3.6.5</code>，改一个字符都用不了）</li>
+<li>拷贝目录<code>build/bin/osgPlugins-3.6.5</code>到中所有dll到exe目录下</li>
+<li>添加<code>build/bin</code>绝对路径到环境变量<code>path</code></li>
+</ol>
+<h1 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h1><p>OSG三件套：</p>
+<ul>
+<li>osg源码（OpenSceneGraph 3.4.0）-<a target="_blank" rel="noopener" href="http://trac.openscenegraph.org/downloads/developer_releases/OpenSceneGraph-3.4.0.zip"> OpenSceneGraph-3.4.0.zip</a></li>
+<li>osg第三方库（3rdParty_VS2013_v120_x86_x64_V9_small - <a target="_blank" rel="noopener" href="https://download.osgvisual.org/3rdParty_VS2013_v120_x86_x64_V9_small.7z">3rdParty_VS2013_v120_x86_x64_V9_small.7z</a></li>
+<li>数据包（OpenSceneGraph-Data-3.4.0）- <a target="_blank" rel="noopener" href="http://www.openscenegraph.org/downloads/stable_releases/OpenSceneGraph-3.4.0/data/OpenSceneGraph-Data-3.4.0.zip">OpenSceneGraph-Data-3.4.0.zip</a></li>
+</ul>
+<p>CMake编译工具：<a target="_blank" rel="noopener" href="https://cmake.org/files/v3.9/cmake-3.9.1-win32-x86.msi">cmake-3.9.1-win32-x86.msi</a></p>
+<p>【注】可以前往<a target="_blank" rel="noopener" href="https://cmake.org/download/">Download | CMake</a>下载最新版本的CMake安装包，根据自身的系统进行不同的选择：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTQ1ODI4NTk0.jfif" alt="无"></p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTUwMTM1NjMz.jfif" alt="安装时添加到系统变量path"></p>
+<p>在CMake的安装过程中部分杀毒软件会进行警告，点击允许即可。</p>
+<h1 id="解压文件"><a href="#解压文件" class="headerlink" title="解压文件"></a>解压文件</h1><p>首先在某个地方创建一个文件夹（我直接在E盘上创建一个名为OSG的文件夹），用来存储数据，在这个文件夹内，创建3个子文件夹（<strong>3rdParty、data、OpenSceneGraph</strong>），分别存储3个压缩包中的内容，如图所示：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTUxNTEyMDYx.jfif" alt="这里写图片描述"></p>
+<p>接着开始解压文件</p>
+<ol>
+<li>打开OSG第三方库（<strong>3rdParty_VS2013_v120_x86_x64_V9_small.7z\3rdParty_x86_x64</strong>），根据自身的系统选择文件夹（有x86和x64两个），打开文件夹后全选里面所有的东西，解压到指定文件夹：<code>$&#123;根目录&#125;\OSG\3rdParty</code>。需要说明的是，x86对应32位系统，x64对应64位系统 <strong>（不过在这里还是推荐选择x86，因为64位的隐患很大，很多库没有64位的，参考链接2里的那位楼主亲自试验过，在后面的VS批生成的时候导致ALL_INSTALL出现了2个失败，在后面的直接4个全失败。所以这里他建议选择使用32位的）</strong></li>
+<li>打开数据包（<strong>OpenSceneGraph-Data-3.4.0.zip\OpenSceneGraph-Data</strong>），全选所有内容解压到 <code>$&#123;根目录&#125;\OSG\data</code></li>
+<li>打开OSG源码（<strong>OpenSceneGraph-3.4.0.zip\OpenSceneGraph-3.4.0</strong>），全选所有内容解压到 <code>$&#123;根目录&#125;\OSG\OpenSceneGraph</code>。为了避免文件过于杂乱，建议在解压完文件后，在<code>OpenSceneGraph</code>文件夹中新建两个文件夹bin和build。</li>
+</ol>
+<h1 id="处理源码"><a href="#处理源码" class="headerlink" title="处理源码"></a>处理源码</h1><p>打开CMake，目录 …\CMake\bin，里面的那个<code>cmake-gui.exe</code>就是（建议在桌面创建一个快捷方式方便打开）。</p>
+<p>将OpenSceneGraph文件夹中的CMakeLists.txt拖到CMake中：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTU0MTE4NTM3.jfif" alt="这里写图片描述"></p>
+<p>将Where to build the binaries后的目录地址改为刚刚创建的build文件夹：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTU0MzU0Nzg2.jfif" alt="这里写图片描述"></p>
+<p>接着点击下方的Configure按钮，在弹出的对话框中作如下选择：（为什么不选择VS2013？？因为最新的CMake没有这个选项，不过我们用VS2012的方式也可以解决问题，<strong>具体措施查看文末</strong>）</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTU1NjMxMzU3.jfif" alt="这里写图片描述"></p>
+<p>finish之后进行相关的设置：</p>
+<ul>
+<li><strong>ACTUAL_3RDPARTY_DIR</strong>：…/OSG/3rdParty;</li>
+<li><strong>BUILD_OSG_EXAMPLES</strong>：勾上</li>
+<li><strong>CMAKE_INSTALL_PREFIE</strong>：…/OSG/OpenSceneGraph/;</li>
+</ul>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTYwMTUwMDQy.jfif" alt="这里写图片描述"></p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTYwMTU5NjQ1.jfif" alt="这里写图片描述"></p>
+<p>修改完参数的值后，再次点击Configure。完成后，将<strong>BUILD_MFC_EXAMPLE</strong>参数后面的√打上，又一次Configure（如果找不到这个参数，将上方的Advanced选上）：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTYwNDIwNTk2.jfif" alt="这里写图片描述"></p>
+<p>最后点击Generate，源码处理完毕。</p>
+<h1 id="编译阶段"><a href="#编译阶段" class="headerlink" title="编译阶段"></a>编译阶段</h1><p>用VS2013打开位于<code>E:/OSG/OpenSceneGraph/build</code>中的工程文件<code>OpenSceneGraph.sln</code>，这个好像是VS2012对应的解决方案文件，不过似乎没什么影响；在打开的过程中会弹出一个对话框问你要不要diable某个option，我不是很清楚就点了否。</p>
+<p>打开【菜单栏】-【生成】-【批生成】，对ALL_BUILD进行生成（选择Debug和Release两种配置）：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTYxNzE5NjE5.jfif" alt="这里写图片描述"></p>
+<p>这段编译时间非常长，大致要3-5个小时（似乎和电脑的配置有关系？）</p>
+<p><strong>这里要插播一句，因为用的是面向VS2012的解决方案（sln），因此编译结束后输出栏中可能会有一大堆的警告和报错，不用管它。（具体解决措施见文末）</strong></p>
+<p>接着对INSTALL执行相同的操作，这部分生成时间较短，在10-20分钟左右。</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMTk0MDUwMDUx.jfif" alt="这里写图片描述"></p>
+<h1 id="数据整理"><a href="#数据整理" class="headerlink" title="数据整理"></a>数据整理</h1><p>编译结束后，生成了大量的数据（估摸着有3个G），为了方便之后的使用，我们在另外的地方重新创建了一个OSG文件夹，里面包含了四个子文件夹：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAwNzQwMzc5.jfif" alt="这里写图片描述"></p>
+<p><strong>填充</strong>这四个文件夹就成了下一步我们要做的事。</p>
+<ul>
+<li>将…\OSG\OpenSceneGraph下的bin,include,lib文件夹直接拷贝至新的OSG文件夹</li>
+<li>打开…\OSG\OpenSceneGraph\build，将里面的bin,include,lib文件夹也拷贝到新的OSG文件夹，期间系统弹出的任何关于合并、替换的提示（替换文件夹，替换xx文件等等），选择“合并”和“复制和替换”：</li>
+</ul>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAxMjM2OTMx.jfif" alt="这里写图片描述"></p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAxMjQ2NDA4.jfif" alt="这里写图片描述"></p>
+<ul>
+<li>最后，将…\OSG下的data文件夹整个拷贝到新的OSG文件夹。</li>
+</ul>
+<h1 id="环境变量设置与链接库"><a href="#环境变量设置与链接库" class="headerlink" title="环境变量设置与链接库"></a>环境变量设置与链接库</h1><p>【我的电脑】-【属性】-【高级系统设置】-【高级】-【环境变量】在系统变量PATH后添加新的OSG文件夹中bin文件夹的目录，即在变量值后面用分号隔开写入新的OSG文件夹bin文件夹的目录：…\OSG\bin; </p>
+<p>另外，手动在系统变量中添加变量<strong>OSG_FILE_PATH</strong>，并将变量值设置为新的OSG文件夹中data的位置，即 …\OSG\data</p>
+<p><strong>注</strong>：win7系统中，环境变量的配置重启后生效，可以配置完毕后再重启。</p>
+<p>这时候回到编译器VS2013，先创建一个一般工程用于测验，然后打开【菜单栏】-【项目】-【属性】-【配置属性】-【VC++目录】，在<strong>包含目录</strong>和<strong>库目录</strong>中分别添加新的OSG文件夹中include和lib的位置：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAyMTA4MDIw.jfif" alt="这里写图片描述"></p>
+<p>以及，在【VC++目录】下两行的【链接器】-【输入】的<strong>附加依赖项</strong>中添加如下代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">OpenThreadsd.lib</span><br><span class="line">osgd.lib</span><br><span class="line">osgDBd.lib</span><br><span class="line">osgUtild.lib</span><br><span class="line">osgGAd.lib</span><br><span class="line">osgViewerd.lib</span><br><span class="line">osgTextd.lib</span><br></pre></td></tr></table></figure>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAyMzE3ODE5.jfif" alt="这里写图片描述"></p>
+<h1 id="调试阶段"><a href="#调试阶段" class="headerlink" title="调试阶段"></a>调试阶段</h1><p>理论上讲，以上操作结束后，osg就可以在VS2013的环境下发挥作用了，这时候我们借助一些简单的代码来进行调试：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;osgViewer/Viewer&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;osgDB/ReadFile&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	osgViewer::Viewer viewer;</span><br><span class="line">	viewer.<span class="built_in">setSceneData</span>(osgDB::<span class="built_in">readNodeFile</span>(<span class="string">&quot;cow.osg&quot;</span>));</span><br><span class="line">	<span class="keyword">return</span> viewer.<span class="built_in">run</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于CMake中不存在VS2013的解决方案，我们之前使用的是VS2012的生成方法，并且在编译的时候也忽略了输出框中的一些警告和报错，因此难免会出点问题。</p>
+<p>比如我在调试的时候编译器就提示我“缺少zlibd.dll文件”，而使用<a target="_blank" rel="noopener" href="http://www.voidtools.com/Everything-1.4.1.877.x64-Setup.exe">everything</a>搜索了之后，发现（新）OSG/bin文件夹中并没有这个dll文件，只有原来的…\OSG\3rdParty\bin\中有一个，于是我将其中相关的3个文件拷贝到了新的文件夹：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjAzOTUxNzc4.jfif" alt="这里写图片描述"></p>
+<p>问题解决，运行成功！类似地，缺少什么dll文件可以先在电脑中搜索一下，然后手动拷贝到新的bin文件夹里，应该不会有什么大问题。以下是例图：</p>
+<p><img src="/images/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwODEzMjA1ODIzOTc0.jfif" alt="这里写图片描述"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/OSG/" rel="tag"><i class="fa fa-tag"></i> OSG</a>
+              <a href="/tags/VS2013/" rel="tag"><i class="fa fa-tag"></i> VS2013</a>
+              <a href="/tags/Cmake/" rel="tag"><i class="fa fa-tag"></i> Cmake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/08/12/%E4%BD%BF%E7%94%A8dcmtk%E5%BA%93%E8%AF%BB%E5%8F%96-dcm%E6%96%87%E4%BB%B6%E5%B9%B6%E8%8E%B7%E5%8F%96%E4%BF%A1%E6%81%AF-%E4%BD%BF%E7%94%A8OpenCV%E6%98%BE%E7%A4%BA%E5%9B%BE%E5%83%8F/" rel="prev" title="使用dcmtk库读取.dcm文件并获取信息+使用OpenCV显示图像">
+      <i class="fa fa-chevron-left"></i> 使用dcmtk库读取.dcm文件并获取信息+使用OpenCV显示图像
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/25/%E4%BD%BF%E7%94%A8Java-NetBeans%E8%AE%BE%E8%AE%A1web%E6%9C%8D%E5%8A%A1%E5%92%8C%E9%A1%B5%E9%9D%A2%EF%BC%8C%E7%94%A8Tomcat%E9%83%A8%E7%BD%B2%E7%BD%91%E9%A1%B5/" rel="next" title="使用Java+NetBeans设计web服务和页面，用Tomcat部署网页">
+      使用Java+NetBeans设计web服务和页面，用Tomcat部署网页 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2022-9-VS2022%E7%BC%96%E8%AF%913-6-5%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">2022.9 VS2022编译3.6.5的注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ALL-BUILD%E6%97%B6%E5%87%BA%E7%8E%B0%E9%83%A8%E5%88%86%E5%A4%B1%E8%B4%A5"><span class="nav-text">ALL_BUILD时出现部分失败</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E5%B0%91GLine%E7%AD%89%E7%AC%A6%E5%8F%B7%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">缺少GLine等符号的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#osgDB-readNodeFile%E8%AF%BB%E5%8F%96%E5%A4%B1%E8%B4%A5%EF%BC%8C%E5%BC%82%E5%B8%B8%EF%BC%9Abad-allocation"><span class="nav-text">osgDB::readNodeFile读取失败，异常：bad allocation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Could-not-find-plugin-to-read-objects-from-file"><span class="nav-text">Could not find plugin to read objects from file</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="nav-text">前期准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6"><span class="nav-text">解压文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%BA%90%E7%A0%81"><span class="nav-text">处理源码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E9%98%B6%E6%AE%B5"><span class="nav-text">编译阶段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%95%B4%E7%90%86"><span class="nav-text">数据整理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE%E4%B8%8E%E9%93%BE%E6%8E%A5%E5%BA%93"><span class="nav-text">环境变量设置与链接库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E9%98%B6%E6%AE%B5"><span class="nav-text">调试阶段</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

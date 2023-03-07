@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Boost操作xml&amp;json常用操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Boost操作xml&amp;json常用操作">
+<meta property="og:url" content="https://whuls.cn/2021/11/18/Boost%E6%93%8D%E4%BD%9Cxmljson%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="Boost操作xml&amp;json常用操作">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-18T09:24:19.000Z">
+<meta property="article:modified_time" content="2022-05-20T14:35:59.056Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Boost">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://whuls.cn/2021/11/18/Boost%E6%93%8D%E4%BD%9Cxmljson%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Boost操作xml&json常用操作 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2021/11/18/Boost%E6%93%8D%E4%BD%9Cxmljson%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Boost操作xml&json常用操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-18 17:24:19" itemprop="dateCreated datePublished" datetime="2021-11-18T17:24:19+08:00">2021-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E9%A2%84%E8%AE%BE"><span class="post-body-toc-text">预设</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%85%B3%E4%BA%8Eptree%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="post-body-toc-text">关于ptree的数据结构</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%86%99XML"><span class="post-body-toc-text">写XML</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="post-body-toc-text">示例</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%8D%95%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%9A%E6%8C%87%E5%AE%9A%E8%B7%AF%E5%BE%84%E5%86%99%E5%85%A5"><span class="post-body-toc-text">单个节点：指定路径写入</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%A4%9A%E4%B8%AA%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%9A%E5%88%97%E8%A1%A8%E5%86%99%E5%85%A5"><span class="post-body-toc-text">多个子节点：列表写入</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%86%99%E5%85%A5%E6%A0%87%E7%AD%BE%E5%B1%9E%E6%80%A7"><span class="post-body-toc-text">写入标签属性</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%86%99%E5%85%A5%E6%B3%A8%E9%87%8A"><span class="post-body-toc-text">写入注释</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#XML%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="post-body-toc-text">XML的输入输出</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%96%87%E4%BB%B6"><span class="post-body-toc-text">文件</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><span class="post-body-toc-text">字符流</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%8E%E5%8E%BB%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="post-body-toc-text">格式化与去格式化</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%89%93%E5%8D%B0ptree"><span class="post-body-toc-text">打印ptree</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%AF%BBXML"><span class="post-body-toc-text">读XML</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%88%A4%E6%96%AD%E8%8A%82%E7%82%B9%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="post-body-toc-text">判断节点是否存在</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%8D%95%E4%B8%AA%E8%8A%82%E7%82%B9%E8%AF%BB%E5%8F%96"><span class="post-body-toc-text">单个节点读取</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%AD%90%E8%8A%82%E7%82%B9%E9%81%8D%E5%8E%86"><span class="post-body-toc-text">子节点遍历</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%AF%BB%E5%86%99JSON"><span class="post-body-toc-text">读写JSON</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E7%A4%BA%E4%BE%8B-1"><span class="post-body-toc-text">示例</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%86%99%E6%95%B0%E7%BB%84%EF%BC%88%E5%88%97%E8%A1%A8%EF%BC%89"><span class="post-body-toc-text">写数组（列表）</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E8%AF%BBJSON"><span class="post-body-toc-text">读JSON</span></a></li></ol></li></ol>
+      
+      
+        <h1 id="预设"><a href="#预设" class="headerlink" title="预设"></a>预设</h1><p>通过测试的Boost版本：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>版本号</th>
+<th>编译器</th>
+<th>平台</th>
+<th>IDE</th>
+<th>语言</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1.57.0</code></td>
+<td>v100/v140/v142</td>
+<td>x86/x64</td>
+<td>VS2010/VS2019</td>
+<td>C/C++</td>
+</tr>
+<tr>
+<td><code>1.75.0</code></td>
+<td>v100/v140/v142</td>
+<td>x86/x64</td>
+<td>VS2010/VS2019</td>
+<td>C/C++</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="关于ptree的数据结构"><a href="#关于ptree的数据结构" class="headerlink" title="关于ptree的数据结构"></a>关于ptree的数据结构</h1><p>一个ptree表示一棵树，其自身是不具名的，只能对其中的数据、节点进行操作。因此，它可以保存的数据类型包括：数据字符串、一个节点、多个节点（列表）。在JSON和XML中都有结构树的概念，因此boost中使用ptree同时表示JSON和XML数据。</p>
+<p>表示XML时，ptree还可以存放注释、节点属性等，分别由<code>&lt;xmlcomment&gt;</code>和<code>&lt;xmlattr&gt;</code>索引。</p>
+<h1 id="写XML"><a href="#写XML" class="headerlink" title="写XML"></a>写XML</h1><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>要得到的xml文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span> <span class="attr">version</span>=<span class="string">&quot;v1.0&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--Root Node--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;single-node&quot;</span>&gt;</span></span><br><span class="line">		Single Node</span><br><span class="line">		<span class="comment">&lt;!--Single Node Comment--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">sub</span> <span class="attr">type</span>=<span class="string">&quot;string&quot;</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;1&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;2&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;3&quot;</span>&gt;</span>3<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--Node List--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">node-list</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 1--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-1&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 1<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 2--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-2&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 2<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 3--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-3&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 3<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">node-list</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/property_tree/ptree.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/property_tree/xml_parser.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">using</span> boost::property_tree::ptree;</span><br><span class="line">	<span class="keyword">using</span> boost::property_tree::write_xml;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span></span><br><span class="line">	&#123;</span><br><span class="line">		ptree tree;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 根节点</span></span><br><span class="line">		tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.&lt;xmlattr&gt;.version&quot;</span>, <span class="string">&quot;v1.0&quot;</span>);           <span class="comment">// 属性</span></span><br><span class="line">		tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.&lt;xmlcomment&gt;&quot;</span>, <span class="string">&quot;Root Node&quot;</span>);           <span class="comment">// 注释</span></span><br><span class="line">		<span class="comment">// 第一个节点</span></span><br><span class="line">		tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.node.&lt;xmlattr&gt;.id&quot;</span>, <span class="string">&quot;single-node&quot;</span>);            <span class="comment">// 节点属性</span></span><br><span class="line">		tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.node.&lt;xmlcomment&gt;&quot;</span>, <span class="string">&quot;Single Node Comment&quot;</span>);    <span class="comment">// 节点注释</span></span><br><span class="line">		tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.node&quot;</span>, <span class="string">&quot;Single Node&quot;</span>);  <span class="comment">// 等价于：tree.get_child(&quot;root.node&quot;).data() = &quot;Single Node&quot;;</span></span><br><span class="line">		<span class="comment">// 子节点</span></span><br><span class="line">		tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.node.sub.&lt;xmlattr&gt;.type&quot;</span>, <span class="string">&quot;string&quot;</span>);   <span class="comment">// 子节点标签属性</span></span><br><span class="line">		tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.node.sub&quot;</span>, <span class="string">&quot;Hello World&quot;</span>);             <span class="comment">// 子节点内容</span></span><br><span class="line">		<span class="comment">// 放置列表</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			ptree&amp; item = tree.<span class="built_in">add</span>&lt;<span class="type">int</span>&gt;(<span class="string">&quot;root.node.list.item&quot;</span>, i + <span class="number">1</span>);  <span class="comment">// 向列表中添加一项</span></span><br><span class="line">			item.<span class="built_in">put</span>&lt;<span class="type">int</span>&gt;(<span class="string">&quot;&lt;xmlattr&gt;.id&quot;</span>, i + <span class="number">1</span>);                       <span class="comment">// 并修改属性值</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 批量添加其他子节点（每个节点包含更复杂的结构）</span></span><br><span class="line">		ptree nodeList;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			ptree node;</span><br><span class="line">			node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;&lt;xmlattr&gt;.id&quot;</span>, std::<span class="built_in">string</span>(<span class="string">&quot;node-&quot;</span>) + std::<span class="built_in">to_string</span>(i + <span class="number">1</span>));</span><br><span class="line">			node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;sub&quot;</span>, std::<span class="built_in">string</span>(<span class="string">&quot;Node &quot;</span>) + std::<span class="built_in">to_string</span>(i + <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">			ptree comment;</span><br><span class="line">			comment.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;&quot;</span>, std::<span class="built_in">string</span>(<span class="string">&quot;Node List &quot;</span>) + std::<span class="built_in">to_string</span>(i + <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">			nodeList.<span class="built_in">add_child</span>(<span class="string">&quot;&lt;xmlcomment&gt;&quot;</span>, comment);</span><br><span class="line">			nodeList.<span class="built_in">add_child</span>(<span class="string">&quot;node&quot;</span>, node);</span><br><span class="line">		&#125;</span><br><span class="line">		tree.<span class="built_in">add</span>&lt;std::string&gt;(<span class="string">&quot;root.&lt;xmlcomment&gt;&quot;</span>, <span class="string">&quot;Node List&quot;</span>);</span><br><span class="line">		tree.<span class="built_in">add_child</span>(<span class="string">&quot;root.node-list&quot;</span>, nodeList);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 输出到文件</span></span><br><span class="line">		<span class="built_in">write_xml</span>(<span class="string">&quot;output.xml&quot;</span>, tree, std::<span class="built_in">locale</span>(), boost::property_tree::<span class="built_in">xml_writer_settings</span>&lt;std::string&gt;(<span class="string">&#x27;\t&#x27;</span>, <span class="number">1</span>));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">catch</span> (<span class="type">const</span> std::exception&amp; e)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cerr &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>boost::property_tree::ptree</code>几个函数的用法解释：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>作用</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>put&lt;T&gt;(path, T value) -&gt; ptree&amp;</code></td>
+<td>在指定路径<code>path</code>放置由类型<code>T</code>指定的值，若<code>path</code>为空字符串，则用法类似于<code>data()</code></td>
+<td>T不能为ptree。若路径存在则替换</td>
+</tr>
+<tr>
+<td><code>put_child(path, ptree) -&gt; ptree&amp;</code></td>
+<td>在指定路径<code>path</code>放置子节点<code>ptree</code>，子节点的名称为<code>path</code>中由<code>.</code>分隔的最后一个字符串，且不允许<code>path</code>为空</td>
+<td>若路径存在则替换</td>
+</tr>
+<tr>
+<td><code>add&lt;T&gt;(path, T value) -&gt; ptree&amp;</code></td>
+<td>在指定路径<code>path</code>添加值，<code>path</code>不允许为空</td>
+<td>T不能为ptree。无论路径是否存在，都执行插入操作</td>
+</tr>
+<tr>
+<td><code>add_child(path, ptree) -&gt; ptree&amp;</code></td>
+<td>在指定路径<code>path</code>添加子节点，子节点的名称为<code>path</code>中由<code>.</code>分隔的最后一个字符串，<code>path</code>不允许为空</td>
+<td>无论路径是否存在，都执行插入操作</td>
+</tr>
+<tr>
+<td><code>get&lt;T&gt;(path) -&gt; T</code></td>
+<td>获取路径<code>path</code>的<code>T</code>类型的值，当<code>path</code>为空字符串时，等同于<code>get_value()</code></td>
+<td>T不能为ptree</td>
+</tr>
+<tr>
+<td><code>get_value&lt;T&gt;() -&gt; T</code></td>
+<td>获取当前节点中保存的<code>T</code>类型的值</td>
+<td></td>
+</tr>
+<tr>
+<td><code>get_child(path) -&gt; ptree&amp;</code></td>
+<td>获取路径<code>path</code>对应的子节点</td>
+<td></td>
+</tr>
+<tr>
+<td><code>data() -&gt; std::string&amp;</code></td>
+<td>获取节点的数据（不带标签的字符串内容）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="单个节点：指定路径写入"><a href="#单个节点：指定路径写入" class="headerlink" title="单个节点：指定路径写入"></a>单个节点：指定路径写入</h2><p>如果是在某个路径下放置一个数据项，例如字符串、整型浮点型的数字，可以直接调用<code>put()</code>函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根节点</span></span><br><span class="line">tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.&lt;xmlattr&gt;.version&quot;</span>, <span class="string">&quot;v1.0&quot;</span>);           <span class="comment">// 属性</span></span><br><span class="line">tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.&lt;xmlcomment&gt;&quot;</span>, <span class="string">&quot;Root Node&quot;</span>);           <span class="comment">// 注释</span></span><br><span class="line">tree.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;root.node&quot;</span>, <span class="string">&quot;Single Node&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>如果子节点较为复杂，可以先构建好子节点的内容，再调用<code>put_child()</code>放置：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ptree node;</span><br><span class="line">node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;&lt;xmlattr&gt;.id&quot;</span>, std::<span class="built_in">string</span>(<span class="string">&quot;node-&quot;</span>) + std::<span class="built_in">to_string</span>(<span class="number">1</span>));</span><br><span class="line">node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;&lt;xmlcomment&gt;&quot;</span>, std::<span class="built_in">string</span>(<span class="string">&quot;Node &quot;</span>) + std::<span class="built_in">to_string</span>(<span class="number">1</span>));</span><br><span class="line">node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;sub&quot;</span>, std::<span class="built_in">string</span>(<span class="string">&quot;Node &quot;</span>) + std::<span class="built_in">to_string</span>(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">tree.<span class="built_in">put_child</span>(<span class="string">&quot;root.node&quot;</span>, node);</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-1&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--Node 1--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 1<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="多个子节点：列表写入"><a href="#多个子节点：列表写入" class="headerlink" title="多个子节点：列表写入"></a>多个子节点：列表写入</h2><p>由于ptree不具名的特点，因此其中可以保存多个子节点，使用<code>add()</code>和<code>add_child</code>进行操作。</p>
+<p><code>add()</code>的用法如下所示，用来在指定位置添加数据，其返回值是插入的最后一个节点的实例引用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    ptree&amp; item = tree.<span class="built_in">add</span>&lt;<span class="type">int</span>&gt;(<span class="string">&quot;root.node.list.item&quot;</span>, i + <span class="number">1</span>);  <span class="comment">// 向列表中添加一项</span></span><br><span class="line">    item.<span class="built_in">put</span>&lt;<span class="type">int</span>&gt;(<span class="string">&quot;&lt;xmlattr&gt;.id&quot;</span>, i + <span class="number">1</span>);                       <span class="comment">// 并修改属性值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;1&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;2&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;3&quot;</span>&gt;</span>3<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>add_child()</code>的用法如下所示，用来在指定位置添加子节点，返回值为插入后的最后一个节点的实例引用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ptree nodeList;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">	ptree node;</span><br><span class="line">	node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;&lt;xmlattr&gt;.id&quot;</span>, std::<span class="built_in">string</span>(<span class="string">&quot;node-&quot;</span>) + std::<span class="built_in">to_string</span>(i + <span class="number">1</span>));</span><br><span class="line">	node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;sub&quot;</span>, std::<span class="built_in">string</span>(<span class="string">&quot;Node &quot;</span>) + std::<span class="built_in">to_string</span>(i + <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">	<span class="function">ptree <span class="title">comment</span><span class="params">(std::string(<span class="string">&quot;Node List &quot;</span>) + std::to_string(i + <span class="number">1</span>))</span></span>;</span><br><span class="line"></span><br><span class="line">	nodeList.<span class="built_in">add_child</span>(<span class="string">&quot;&lt;xmlcomment&gt;&quot;</span>, comment);</span><br><span class="line">	nodeList.<span class="built_in">add_child</span>(<span class="string">&quot;node&quot;</span>, node);</span><br><span class="line">&#125;</span><br><span class="line">tree.<span class="built_in">add_child</span>(<span class="string">&quot;root.node-list&quot;</span>, nodeList);</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">node-list</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 1--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-1&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 1<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 2--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-2&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 2<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 3--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-3&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 3<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">node-list</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="写入标签属性"><a href="#写入标签属性" class="headerlink" title="写入标签属性"></a>写入标签属性</h2><p>写入属性通过<code>&lt;xmlattr&gt;</code>来索引：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ptree node;</span><br><span class="line">node.<span class="built_in">put</span>&lt;<span class="type">int</span>&gt;(<span class="string">&quot;&lt;xmlattr&gt;.id&quot;</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>可以使用<code>put_child</code>，不过设置的值只能是子节点的文本内容，子节点包含的标签不被考虑：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ptree node, sub;</span><br><span class="line">sub.<span class="built_in">data</span>() = <span class="string">&quot;1&quot;</span>;</span><br><span class="line">node.<span class="built_in">put_child</span>(<span class="string">&quot;&lt;xmlattr&gt;.id&quot;</span>, sub);</span><br></pre></td></tr></table></figure>
+<p>如果不使用<code>.</code>来指定属性，比如<code>node.put&lt;int&gt;(&quot;&lt;xmlattr&gt;&quot;, 1);</code>，则什么也不会写入。</p>
+<blockquote>
+<p>由于属性的唯一性，不推荐使用<code>add</code>和<code>add_child</code>。（用也没事，只不过输出的XML文件会报错）</p>
+</blockquote>
+<h2 id="写入注释"><a href="#写入注释" class="headerlink" title="写入注释"></a>写入注释</h2><p>注释比标签属性更纯粹，通过<code>&lt;xmlcomment&gt;</code>写入：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ptree node;</span><br><span class="line">node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;&lt;xmlcomment&gt;&quot;</span>, <span class="string">&quot;Hello&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>写入的注释位置是在节点的内部，其本身就是个文本字符串，加个点指定个属性就啥也写不了（<code>&quot;&lt;xmlcomment&gt;.id&quot;</code>）</p>
+<p>同标签属性，写入注释也可以使用<code>put_child</code>，也是获取子节点文本内容进行写入。</p>
+<p>可以使用<code>add()</code>和<code>add_child()</code>，在节点中写入多个注释。</p>
+<h1 id="XML的输入输出"><a href="#XML的输入输出" class="headerlink" title="XML的输入输出"></a>XML的输入输出</h1><h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> boost::property_tree::ptree;</span><br><span class="line"><span class="keyword">using</span> boost::property_tree::write_xml;</span><br><span class="line"><span class="keyword">using</span> boost::property_tree::read_xml;</span><br><span class="line"></span><br><span class="line">ptree tree;</span><br><span class="line"><span class="comment">// 从文件读入</span></span><br><span class="line"><span class="built_in">read_xml</span>(<span class="string">&quot;input.xml&quot;</span>, tree);</span><br><span class="line"><span class="comment">// 输出到文件</span></span><br><span class="line"><span class="built_in">write_xml</span>(<span class="string">&quot;output.xml&quot;</span>, tree);</span><br></pre></td></tr></table></figure>
+<h2 id="字符流"><a href="#字符流" class="headerlink" title="字符流"></a>字符流</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> boost::property_tree::ptree;</span><br><span class="line"><span class="keyword">using</span> boost::property_tree::write_xml;</span><br><span class="line"><span class="keyword">using</span> boost::property_tree::read_xml;</span><br><span class="line"></span><br><span class="line">ptree tree;</span><br><span class="line"><span class="comment">// 构建字符流</span></span><br><span class="line">std::stringstream ss;</span><br><span class="line">ss.<span class="built_in">str</span>(<span class="string">&quot;&lt;root&gt;Root Node&lt;/root&gt;&quot;</span>);</span><br><span class="line"><span class="comment">// 从字符流读入</span></span><br><span class="line"><span class="built_in">read_xml</span>(ss, tree);</span><br><span class="line"><span class="comment">// 写入到字符流</span></span><br><span class="line"><span class="built_in">write_xml</span>(ss, tree);</span><br></pre></td></tr></table></figure>
+<h2 id="格式化与去格式化"><a href="#格式化与去格式化" class="headerlink" title="格式化与去格式化"></a>格式化与去格式化</h2><p>读入时，去除无用的空格和换行符</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> flags = boost::property_tree::xml_parser::trim_whitespace;</span><br><span class="line"><span class="comment">// 从文件读入</span></span><br><span class="line"><span class="built_in">read_xml</span>(<span class="string">&quot;input.xml&quot;</span>, tree, flags);</span><br><span class="line"><span class="comment">// 从字符流读入</span></span><br><span class="line"><span class="built_in">read_xml</span>(ss, tree, flags);</span><br></pre></td></tr></table></figure>
+<p>输出时，加入缩进</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> settings = boost::property_tree::<span class="built_in">xml_writer_settings</span>&lt;std::string&gt;(<span class="string">&#x27;\t&#x27;</span>, <span class="number">1</span>);</span><br><span class="line"><span class="comment">// 或者：auto settings = boost::property_tree::xml_writer_settings&lt;std::string&gt;(&#x27; &#x27;, 4);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出到文件</span></span><br><span class="line"><span class="built_in">write_xml</span>(<span class="string">&quot;output.xml&quot;</span>, tree, std::<span class="built_in">locale</span>(), settings);</span><br><span class="line"><span class="comment">// 写入到字符流</span></span><br><span class="line"><span class="built_in">write_xml</span>(ss, tree, settings);</span><br></pre></td></tr></table></figure>
+<h2 id="打印ptree"><a href="#打印ptree" class="headerlink" title="打印ptree"></a>打印ptree</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">const</span> boost::property_tree::ptree&amp; tree)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">auto</span> settings = boost::property_tree::xml_parser::<span class="built_in">xml_writer_settings</span>&lt;std::string&gt;(<span class="string">&#x27;\t&#x27;</span>, <span class="number">1</span>);</span><br><span class="line">	std::stringstream ss;</span><br><span class="line">	boost::property_tree::<span class="built_in">write_xml</span>(ss, tree, settings);</span><br><span class="line">	std::cout &lt;&lt; ss.<span class="built_in">str</span>() &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="读XML"><a href="#读XML" class="headerlink" title="读XML"></a>读XML</h1><p>本节内容使用的XML文件如下所示。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span> <span class="attr">version</span>=<span class="string">&quot;v1.0&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--Root Node--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;single-node&quot;</span>&gt;</span></span><br><span class="line">		Single Node</span><br><span class="line">		<span class="comment">&lt;!--Single Node Comment--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">sub</span> <span class="attr">type</span>=<span class="string">&quot;string&quot;</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;1&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;2&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;3&quot;</span>&gt;</span>3<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--Node List--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">node-list</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 1--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-1&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 1<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 2--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-2&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 2<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 3--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-3&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 3<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">node-list</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>首先将该XML文件读入到ptree中，然后读取不同数据。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> boost::property_tree::ptree;</span><br><span class="line"><span class="keyword">using</span> boost::property_tree::read_xml;</span><br><span class="line"></span><br><span class="line">ptree tree;</span><br><span class="line"><span class="built_in">read_xml</span>(<span class="string">&quot;input.xml&quot;</span>, tree, boost::property_tree::xml_parser::trim_whitespace);</span><br></pre></td></tr></table></figure>
+<h2 id="判断节点是否存在"><a href="#判断节点是否存在" class="headerlink" title="判断节点是否存在"></a>判断节点是否存在</h2><p>使用<code>get_child_optional(path)</code>判断节点是否存在</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">auto</span> opt = tree.<span class="built_in">get_child_optional</span>(<span class="string">&quot;root.node.sub1&quot;</span>))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// opt.get()  获取节点引用</span></span><br><span class="line">    <span class="comment">//    .data() 获取节点数据</span></span><br><span class="line">    std::cout &lt;&lt; opt.<span class="built_in">get</span>().<span class="built_in">data</span>() &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;节点不存在&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="单个节点读取"><a href="#单个节点读取" class="headerlink" title="单个节点读取"></a>单个节点读取</h2><p>获取数据：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过路径索引到位</span></span><br><span class="line">tree.<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;root.node.&lt;xmlattr&gt;.id&quot;</span>);  <span class="comment">// single-node</span></span><br><span class="line">tree.<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;root.node&quot;</span>);  <span class="comment">// Single Node</span></span><br></pre></td></tr></table></figure>
+<p>获取节点：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取子节点后再获取内部数据</span></span><br><span class="line">tree.<span class="built_in">get_child</span>(<span class="string">&quot;root.node&quot;</span>).<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;&lt;xmlattr&gt;.id&quot;</span>);  <span class="comment">// single-node</span></span><br><span class="line">tree.<span class="built_in">get_child</span>(<span class="string">&quot;root.node&quot;</span>).<span class="built_in">data</span>();  <span class="comment">// Single Node</span></span><br><span class="line">tree.<span class="built_in">get_child</span>(<span class="string">&quot;root.node&quot;</span>).<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;&lt;xmlcomment&gt;&quot;</span>);  <span class="comment">// Single Node Comment</span></span><br></pre></td></tr></table></figure>
+<p>读取节点内部的数据（也可以将属性和注释作为子节点读取）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取节点中数据的三种方式</span></span><br><span class="line">tree.<span class="built_in">get_child</span>(<span class="string">&quot;root.node.sub&quot;</span>).<span class="built_in">get_value</span>&lt;std::string&gt;();</span><br><span class="line">tree.<span class="built_in">get_child</span>(<span class="string">&quot;root.node.sub&quot;</span>).<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;&quot;</span>);</span><br><span class="line">tree.<span class="built_in">get_child</span>(<span class="string">&quot;root.node.sub&quot;</span>).<span class="built_in">get_child</span>(<span class="string">&quot;&quot;</span>).<span class="built_in">data</span>();</span><br></pre></td></tr></table></figure>
+<h2 id="子节点遍历"><a href="#子节点遍历" class="headerlink" title="子节点遍历"></a>子节点遍历</h2><p>ptree提供了一个迭代器，用来遍历子节点，这些子节点除了数据、子子节点，还包括属性和注释。迭代器中有两个参数，分别为<code>first</code>和<code>second</code>，前者表示子节点的标签名，也可能是<code>&lt;xmlattr&gt;</code>和<code>&lt;xmlcomment&gt;</code>，后者表示子节点，是一个<code>ptree</code>。当迭代器遇到标签属性<code>&lt;xmlattr&gt;</code>时，可以通过遍历第二个参数<code>second</code>来获取每一个标签属性的名称和数据；当迭代器遇到注释<code>&lt;xmlcomment&gt;</code>时，第二个参数的<code>.data()</code>返回的字符串即是注释的内容；当迭代器遇到子节点时，第一个参数<code>first</code>是子节点的标签名，第二个参数<code>second</code>则是子节点本身。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> itr = list.<span class="built_in">begin</span>(); itr != list.<span class="built_in">end</span>(); itr++)</span><br><span class="line">&#123;</span><br><span class="line">    ptree&amp; node = itr-&gt;second;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">BOOST_FOREACH</span>(<span class="keyword">auto</span> &amp; itr, list)</span><br><span class="line">&#123;</span><br><span class="line">    ptree&amp; node = itr.second;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用迭代器遍历子节点的方式如下方代码所示。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取节点</span></span><br><span class="line">ptree* node = <span class="literal">nullptr</span>;</span><br><span class="line">node = &amp;tree.<span class="built_in">get_child</span>(<span class="string">&quot;root.node&quot;</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> itr = node-&gt;<span class="built_in">begin</span>(); itr != node-&gt;<span class="built_in">end</span>(); itr++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (itr-&gt;first.<span class="built_in">compare</span>(<span class="string">&quot;&lt;xmlattr&gt;&quot;</span>) == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;属性：&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="comment">// 遍历属性</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> itr1 = itr-&gt;second.<span class="built_in">begin</span>(); itr1 != itr-&gt;second.<span class="built_in">end</span>(); itr1++)</span><br><span class="line">        &#123;</span><br><span class="line">            std::cout &lt;&lt; <span class="string">&quot;-&gt; &quot;</span> &lt;&lt; itr1-&gt;first &lt;&lt; <span class="string">&quot;: &quot;</span> &lt;&lt; itr1-&gt;second.<span class="built_in">data</span>() &lt;&lt; std::endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (itr-&gt;first.<span class="built_in">compare</span>(<span class="string">&quot;&lt;xmlcomment&gt;&quot;</span>) == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;注释：&quot;</span> &lt;&lt; itr-&gt;second.<span class="built_in">data</span>() &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;子节点：&quot;</span> &lt;&lt; itr-&gt;first &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>root.node</code>的节点数据及上方代码的输出如下所示。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">root</span> <span class="attr">version</span>=<span class="string">&quot;v1.0&quot;</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--Root Node--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;single-node&quot;</span>&gt;</span></span><br><span class="line">		Single Node</span><br><span class="line">		<span class="comment">&lt;!--Single Node Comment--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">sub</span> <span class="attr">type</span>=<span class="string">&quot;string&quot;</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">list</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;1&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;2&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">item</span> <span class="attr">id</span>=<span class="string">&quot;3&quot;</span>&gt;</span>3<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">属性：</span><br><span class="line">-&gt; id: single-node</span><br><span class="line">注释：Single Node Comment</span><br><span class="line">子节点：sub</span><br><span class="line">子节点：list</span><br></pre></td></tr></table></figure>
+<p>遍历<code>root.node-list</code>，数据和代码输出如下所示。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--Node List--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">node-list</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 1--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-1&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 1<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 2--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-2&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 2<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--Node List 3--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">node</span> <span class="attr">id</span>=<span class="string">&quot;node-3&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">sub</span>&gt;</span>Node 3<span class="tag">&lt;/<span class="name">sub</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">node</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">node-list</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">注释：Node List 1</span><br><span class="line">子节点：node</span><br><span class="line">注释：Node List 2</span><br><span class="line">子节点：node</span><br><span class="line">注释：Node List 3</span><br><span class="line">子节点：node</span><br></pre></td></tr></table></figure>
+<h1 id="读写JSON"><a href="#读写JSON" class="headerlink" title="读写JSON"></a>读写JSON</h1><p>使用boost读写JSON相较于其他处理JSON的C++库（如 jsoncpp），要来的繁琐一点，功能性也不如。但如果不想额外引入，仅使用一个boost，也不是完全不能用。</p>
+<p>JSON与XML的数据格式有所类似也有所区别，本节通过一个JSON示例来演示JSON读写。</p>
+<h2 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h2><p>以下这个JSON文件，使用boost无法构建输出出来，原因有二：</p>
+<ol>
+<li>无法输出根节点为列表；</li>
+<li>每一项数据只能是字符串；</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-1&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;list&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;Item-1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Item-2&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="number">123</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="number">17325.321</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-2&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="number">0.22222</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<p>因此，boost只能输出如下格式的JSON：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;node1&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-1&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;list&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;Item 1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Item 2&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123&quot;</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;17325.321&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;node2&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-2&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.22222&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>实现的代码如下所示。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/property_tree/ptree.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;boost/property_tree/json_parser.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">using</span> boost::property_tree::ptree;</span><br><span class="line">	<span class="keyword">using</span> boost::property_tree::write_json;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span></span><br><span class="line">	&#123;</span><br><span class="line">		ptree root;</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">// Node 1</span></span><br><span class="line">			ptree node;</span><br><span class="line">			node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;node-1&quot;</span>);</span><br><span class="line"></span><br><span class="line">			ptree list;</span><br><span class="line">			list.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;&quot;</span>, <span class="built_in">ptree</span>(<span class="string">&quot;Item 1&quot;</span>)));</span><br><span class="line">			&#123;</span><br><span class="line">				ptree node;</span><br><span class="line">				node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;Item 2&quot;</span>);</span><br><span class="line">				node.<span class="built_in">put</span>&lt;<span class="type">int</span>&gt;(<span class="string">&quot;data&quot;</span>, <span class="number">123</span>);</span><br><span class="line">				</span><br><span class="line">				list.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;&quot;</span>, node));</span><br><span class="line">			&#125;</span><br><span class="line">			&#123;</span><br><span class="line">				ptree node;</span><br><span class="line">				node.<span class="built_in">put</span>&lt;<span class="type">double</span>&gt;(<span class="string">&quot;&quot;</span>, <span class="number">17325.321</span>);</span><br><span class="line">				list.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;&quot;</span>, node));</span><br><span class="line">			&#125;</span><br><span class="line">			node.<span class="built_in">put_child</span>(<span class="string">&quot;list&quot;</span>, list);</span><br><span class="line">			root.<span class="built_in">put_child</span>(<span class="string">&quot;node1&quot;</span>, node);</span><br><span class="line">		&#125;</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">// Node 2</span></span><br><span class="line">			ptree node;</span><br><span class="line">			node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;node-2&quot;</span>);</span><br><span class="line">			node.<span class="built_in">put</span>&lt;<span class="type">double</span>&gt;(<span class="string">&quot;data&quot;</span>, <span class="number">0.22222</span>);</span><br><span class="line">			root.<span class="built_in">put_child</span>(<span class="string">&quot;node2&quot;</span>, node);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 输出到文件</span></span><br><span class="line">		<span class="built_in">write_json</span>(<span class="string">&quot;output1.json&quot;</span>, root);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">catch</span> (<span class="type">const</span> std::exception&amp; e)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cerr &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="写数组（列表）"><a href="#写数组（列表）" class="headerlink" title="写数组（列表）"></a>写数组（列表）</h2><p>使用boost写json时，无法将根节点作为列表写入，但可以在子节点写入列表，需要用到<code>ptree::push_back()</code>和<code>std::make_pair()</code>两个函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">ptree root;</span><br><span class="line">&#123;</span><br><span class="line">    ptree list;</span><br><span class="line">    <span class="comment">// 1. 单个数据</span></span><br><span class="line">    list.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;&quot;</span>, <span class="built_in">ptree</span>(<span class="string">&quot;Item 1&quot;</span>)));</span><br><span class="line">    <span class="comment">// 2. 键值对</span></span><br><span class="line">    &#123;</span><br><span class="line">        ptree node;</span><br><span class="line">        node.<span class="built_in">put</span>&lt;std::string&gt;(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;Item 2&quot;</span>);</span><br><span class="line">        node.<span class="built_in">put</span>&lt;<span class="type">int</span>&gt;(<span class="string">&quot;data&quot;</span>, <span class="number">123</span>);</span><br><span class="line">        list.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;&quot;</span>, node));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 3. 数字</span></span><br><span class="line">    &#123;</span><br><span class="line">        ptree node;</span><br><span class="line">        node.<span class="built_in">put</span>&lt;<span class="type">double</span>&gt;(<span class="string">&quot;&quot;</span>, <span class="number">17325.321</span>);</span><br><span class="line">        list.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;&quot;</span>, node));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4. 子列表</span></span><br><span class="line">    &#123;</span><br><span class="line">        ptree list1;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            list1.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;&quot;</span>, <span class="built_in">ptree</span>(std::<span class="built_in">string</span>(<span class="string">&quot;List Item &quot;</span>) + std::<span class="built_in">to_string</span>(i))));</span><br><span class="line">        &#125;</span><br><span class="line">        list.<span class="built_in">push_back</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;&quot;</span>, list1));</span><br><span class="line">    &#125;</span><br><span class="line">    root.<span class="built_in">put_child</span>(<span class="string">&quot;list&quot;</span>, list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>得到<code>root</code>的输出如下所示。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;list&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;Item 1&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Item 2&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="string">&quot;123&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;17325.321&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;List Item 0&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;List Item 1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;List Item 2&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="读JSON"><a href="#读JSON" class="headerlink" title="读JSON"></a>读JSON</h2><p>虽然boost无法输出根节点为列表的JSON，但可以读入该类型的JSON，就以如下JSON文件的读入为例：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-1&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;list&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;Item-1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Item-2&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="number">123</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="number">17325.321</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node-2&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;data&quot;</span><span class="punctuation">:</span> <span class="number">0.22222</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<p>读入后，打印的结果为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ptree root;</span><br><span class="line"><span class="built_in">read_json</span>(<span class="string">&quot;input.json&quot;</span>, root);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印到控制台</span></span><br><span class="line">std::stringstream ss;</span><br><span class="line"><span class="built_in">write_json</span>(ss, root);</span><br><span class="line">std::cout &lt;&lt; ss.<span class="built_in">str</span>() &lt;&lt; std::endl;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &quot;node-1&quot;,</span><br><span class="line">        &quot;list&quot;: [</span><br><span class="line">            &quot;Item-1&quot;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;name&quot;: &quot;Item-2&quot;,</span><br><span class="line">                &quot;data&quot;: &quot;123&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;17325.321&quot;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;&quot;: &#123;</span><br><span class="line">        &quot;name&quot;: &quot;node-2&quot;,</span><br><span class="line">        &quot;data&quot;: &quot;0.22222&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>读取两个<code>node</code>节点的代码如下所示。对于列表，使用迭代器进行循环迭代；对于具名字段，通过<code>get()</code>函数获取数据。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> itr = root.<span class="built_in">begin</span>();</span><br><span class="line"></span><br><span class="line">ptree&amp; node1 = itr-&gt;second;</span><br><span class="line">std::cout &lt;&lt; node1.<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;name&quot;</span>) &lt;&lt; std::endl;  <span class="comment">// node-1</span></span><br><span class="line"></span><br><span class="line">ptree&amp; node2 = (++itr)-&gt;second;</span><br><span class="line">std::cout &lt;&lt; node2.<span class="built_in">get</span>&lt;std::string&gt;(<span class="string">&quot;name&quot;</span>) &lt;&lt; std::endl;  <span class="comment">// node-2</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/Boost/" rel="tag"><i class="fa fa-tag"></i> Boost</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/24/C-%E9%80%90%E5%AD%97%E8%8A%82%E8%AF%BB%E5%8F%96JPEG%E7%9A%84Exif%E4%BF%A1%E6%81%AF/" rel="prev" title="C++逐字节读取JPEG的Exif信息">
+      <i class="fa fa-chevron-left"></i> C++逐字节读取JPEG的Exif信息
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/25/note-about-winsock2/" rel="next" title="随笔-关于WinSock，折腾了两天做点总结">
+      随笔-关于WinSock，折腾了两天做点总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E8%AE%BE"><span class="nav-text">预设</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Eptree%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">关于ptree的数据结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99XML"><span class="nav-text">写XML</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%9A%E6%8C%87%E5%AE%9A%E8%B7%AF%E5%BE%84%E5%86%99%E5%85%A5"><span class="nav-text">单个节点：指定路径写入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E5%AD%90%E8%8A%82%E7%82%B9%EF%BC%9A%E5%88%97%E8%A1%A8%E5%86%99%E5%85%A5"><span class="nav-text">多个子节点：列表写入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E6%A0%87%E7%AD%BE%E5%B1%9E%E6%80%A7"><span class="nav-text">写入标签属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E6%B3%A8%E9%87%8A"><span class="nav-text">写入注释</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XML%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-text">XML的输入输出</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6"><span class="nav-text">文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><span class="nav-text">字符流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%8E%E5%8E%BB%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-text">格式化与去格式化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8D%B0ptree"><span class="nav-text">打印ptree</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%BBXML"><span class="nav-text">读XML</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E8%8A%82%E7%82%B9%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="nav-text">判断节点是否存在</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E4%B8%AA%E8%8A%82%E7%82%B9%E8%AF%BB%E5%8F%96"><span class="nav-text">单个节点读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%90%E8%8A%82%E7%82%B9%E9%81%8D%E5%8E%86"><span class="nav-text">子节点遍历</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%BB%E5%86%99JSON"><span class="nav-text">读写JSON</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-1"><span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E6%95%B0%E7%BB%84%EF%BC%88%E5%88%97%E8%A1%A8%EF%BC%89"><span class="nav-text">写数组（列表）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BBJSON"><span class="nav-text">读JSON</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="转载知乎文章：《Go 每日一库之 casbin》，作者：孤雨。适用于对ACL&#x2F;RBAC&#x2F;ABAC的权限控制规则有一定了解，但是还不熟悉Casbin语法规则的人。文章开头加了一点自己写的感想和总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转载】Go 每日一库之 casbin">
+<meta property="og:url" content="https://whuls.cn/2021/07/10/%E8%BD%AC%E8%BD%BD-Go-%E6%AF%8F%E6%97%A5%E4%B8%80%E5%BA%93%E4%B9%8B-casbin/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="转载知乎文章：《Go 每日一库之 casbin》，作者：孤雨。适用于对ACL&#x2F;RBAC&#x2F;ABAC的权限控制规则有一定了解，但是还不熟悉Casbin语法规则的人。文章开头加了一点自己写的感想和总结。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuls.cn/images/v2-d96d46f024d9736d6a0de63ddb6bc456_720w.jpg">
+<meta property="article:published_time" content="2021-07-09T17:59:00.000Z">
+<meta property="article:modified_time" content="2022-05-20T14:35:59.049Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="Casbin">
+<meta property="article:tag" content="ACL">
+<meta property="article:tag" content="RBAC">
+<meta property="article:tag" content="ABAC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuls.cn/images/v2-d96d46f024d9736d6a0de63ddb6bc456_720w.jpg">
+
+<link rel="canonical" href="https://whuls.cn/2021/07/10/%E8%BD%AC%E8%BD%BD-Go-%E6%AF%8F%E6%97%A5%E4%B8%80%E5%BA%93%E4%B9%8B-casbin/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【转载】Go 每日一库之 casbin | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2021/07/10/%E8%BD%AC%E8%BD%BD-Go-%E6%AF%8F%E6%97%A5%E4%B8%80%E5%BA%93%E4%B9%8B-casbin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【转载】Go 每日一库之 casbin
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-10 01:59:00" itemprop="dateCreated datePublished" datetime="2021-07-10T01:59:00+08:00">2021-07-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Casbin/" itemprop="url" rel="index"><span itemprop="name">Casbin</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="post-body-toc-text">简介</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8"><span class="post-body-toc-text">快速使用</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#RBAC-%E6%A8%A1%E5%9E%8B"><span class="post-body-toc-text">RBAC 模型</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E5%A4%9A%E4%B8%AARBAC"><span class="post-body-toc-text">多个RBAC</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E5%A4%9A%E5%B1%82%E8%A7%92%E8%89%B2"><span class="post-body-toc-text">多层角色</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#RBAC-domain"><span class="post-body-toc-text">RBAC domain</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#ABAC"><span class="post-body-toc-text">ABAC</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%A8%A1%E5%9E%8B%E5%AD%98%E5%82%A8"><span class="post-body-toc-text">模型存储</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E7%AD%96%E7%95%A5%E5%AD%98%E5%82%A8"><span class="post-body-toc-text">策略存储</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0"><span class="post-body-toc-text">使用函数</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%80%BB%E7%BB%93"><span class="post-body-toc-text">总结</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%8F%82%E8%80%83"><span class="post-body-toc-text">参考</span></a></li></ol>
+      
+      
+        <blockquote>
+<p>转载自：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148353743">Go 每日一库之 casbin</a></p>
+<p>最近在学Koa，看到koa-authz，在了解了ACL/RBAC/ABAC的概念后仍然困于Casbin的使用上，不了解其policy和model的具体含义，有幸搜到了这篇文章。文章中使用了Go语言来实现Casbin的功能，尽管我本身对Go语言不太了解，但仍不妨碍我看懂文章中对Casbin配置文件的解释以及在编程中使用Casbin完成用户权限控制的功能，受益匪浅。</p>
+</blockquote>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>权限管理在几乎每个系统中都是必备的模块。如果项目开发每次都要实现一次权限管理，无疑会浪费开发时间，增加开发成本。因此，<code>casbin</code>库出现了。<code>casbin</code>是一个强大、高效的访问控制库。支持常用的多种访问控制模型，如<code>ACL/RBAC/ABAC</code>等。可以实现灵活的访问权限控制。同时，<code>casbin</code>支持多种编程语言，<code>Go/Java/Node/PHP/Python/.NET/Rust</code>。我们只需要<strong>一次学习，多处运用</strong>。</p>
+<h2 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a>快速使用</h2><p>我们依然使用 Go Module 编写代码，先初始化：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">mkdir</span> casbin &amp;&amp; <span class="built_in">cd</span> casbin</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go mod init github.com/darjun/go-daily-lib/casbin</span></span><br></pre></td></tr></table></figure>
+<p>然后安装<code>casbin</code>，目前是<code>v2</code>版本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go get github.com/casbin/casbin/v2</span></span><br></pre></td></tr></table></figure>
+<p>权限实际上就是控制<strong>谁</strong>能对<strong>什么资源</strong>进行什么操作。<code>casbin</code>将访问控制模型抽象到一个基于 PERM（Policy，Effect，Request，Matchers） 元模型的配置文件（模型文件）中。因此切换或更新授权机制只需要简单地修改配置文件。</p>
+<p><code>policy</code>是策略或者说是规则的定义。它定义了具体的规则。</p>
+<p><code>request</code>是对访问请求的抽象，它与<code>e.Enforce()</code>函数的参数是一一对应的</p>
+<p><code>matcher</code>匹配器会将请求与定义的每个<code>policy</code>一一匹配，生成多个匹配结果。</p>
+<p><code>effect</code>根据对请求运用匹配器得出的所有结果进行汇总，来决定该请求是<strong>允许</strong>还是<strong>拒绝</strong>。</p>
+<p>下面这张图很好地描绘了这个过程：</p>
+<p><img src="/images/v2-d96d46f024d9736d6a0de63ddb6bc456_720w.jpg" alt="img"></p>
+<p>我们首先编写模型文件：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[request_definition]</span><br><span class="line">r = sub, obj, act</span><br><span class="line"></span><br><span class="line">[policy_definition]</span><br><span class="line">p = sub, obj, act</span><br><span class="line"></span><br><span class="line">[matchers]</span><br><span class="line">m = r.sub == p.sub &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act</span><br><span class="line"></span><br><span class="line">[policy_effect]</span><br><span class="line">e = some(where (p.eft == allow))</span><br></pre></td></tr></table></figure>
+<p>上面模型文件规定了权限由<code>sub,obj,act</code>三要素组成，只有在策略列表中有和它完全相同的策略时，该请求才能通过。匹配器的结果可以通过<code>p.eft</code>获取，<code>some(where (p.eft == allow))</code>表示只要有一条策略允许即可。</p>
+<p>然后我们策略文件（即谁能对什么资源进行什么操作）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p, dajun, data1, read</span><br><span class="line">p, lizi, data2, write</span><br></pre></td></tr></table></figure>
+<p>上面<code>policy.csv</code>文件的两行内容表示<code>dajun</code>对数据<code>data1</code>有<code>read</code>权限，<code>lizi</code>对数据<code>data2</code>有<code>write</code>权限。</p>
+<p>接下来就是使用的代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">&quot;fmt&quot;</span></span><br><span class="line">  <span class="string">&quot;log&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">&quot;github.com/casbin/casbin/v2&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(e *casbin.Enforcer, sub, obj, act <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">  ok, _ := e.Enforce(sub, obj, act)</span><br><span class="line">  <span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CAN %s %s\n&quot;</span>, sub, act, obj)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CANNOT %s %s\n&quot;</span>, sub, act, obj)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  e, err := casbin.NewEnforcer(<span class="string">&quot;./model.conf&quot;</span>, <span class="string">&quot;./policy.csv&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatalf(<span class="string">&quot;NewEnforecer failed:%v\n&quot;</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码其实不复杂。首先创建一个<code>casbin.Enforcer</code>对象，加载模型文件<code>model.conf</code>和策略文件<code>policy.csv</code>，调用其<code>Enforce</code>方法来检查权限。运行程序：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go run main.go</span></span><br><span class="line">dajun CAN read data1</span><br><span class="line">lizi CAN write data2</span><br><span class="line">dajun CANNOT write data1</span><br><span class="line">dajun CANNOT read data2</span><br></pre></td></tr></table></figure>
+<p>请求必须完全匹配某条策略才能通过。<code>(&quot;dajun&quot;, &quot;data1&quot;, &quot;read&quot;)</code>匹配<code>p, dajun, data1, read</code>，<code>(&quot;lizi&quot;, &quot;data2&quot;, &quot;write&quot;)</code>匹配<code>p, lizi, data2, write</code>，所以前两个检查通过。第 3 个因为<code>&quot;dajun&quot;</code>没有对<code>data1</code>的<code>write</code>权限，第 4 个因为<code>dajun</code>对<code>data2</code>没有<code>read</code>权限，所以检查都不能通过。输出结果符合预期。</p>
+<p><code>sub/obj/act</code>依次对应传给<code>Enforce</code>方法的三个参数。实际上这里的<code>sub/obj/act</code>和<code>read/write/data1/data2</code>是我自己随便取的，你完全可以使用其它的名字，只要能前后一致即可。</p>
+<p>上面例子中实现的就是<code>ACL</code>（access-control-list，访问控制列表）。<code>ACL</code>显示定义了每个主体对每个资源的权限情况，未定义的就没有权限。我们还可以加上超级管理员，超级管理员可以进行任何操作。假设超级管理员为<code>root</code>，我们只需要修改匹配器：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[matchers]</span><br><span class="line">e = r.sub == p.sub &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act || r.sub == &quot;root&quot;</span><br></pre></td></tr></table></figure>
+<p>只要访问主体是<code>root</code>一律放行。</p>
+<p>验证：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  e, err := casbin.NewEnforcer(<span class="string">&quot;./model.conf&quot;</span>, <span class="string">&quot;./policy.csv&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatalf(<span class="string">&quot;NewEnforecer failed:%v\n&quot;</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  check(e, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;execute&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;data3&quot;</span>, <span class="string">&quot;rwx&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为<code>sub = &quot;root&quot;</code>时，匹配器一定能通过，运行结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">go run main.go</span></span><br><span class="line">root CAN read data1</span><br><span class="line">root CAN write data2</span><br><span class="line">root CAN execute data1</span><br><span class="line">root CAN rwx data3</span><br></pre></td></tr></table></figure>
+<h2 id="RBAC-模型"><a href="#RBAC-模型" class="headerlink" title="RBAC 模型"></a>RBAC 模型</h2><p><code>ACL</code>模型在用户和资源都比较少的情况下没什么问题，但是用户和资源量一大，<code>ACL</code>就会变得异常繁琐。想象一下，每次新增一个用户，都要把他需要的权限重新设置一遍是多么地痛苦。<code>RBAC</code>（role-based-access-control）模型通过引入角色（<code>role</code>）这个中间层来解决这个问题。每个用户都属于一个角色，例如开发者、管理员、运维等，每个角色都有其特定的权限，权限的增加和删除都通过角色来进行。这样新增一个用户时，我们只需要给他指派一个角色，他就能拥有该角色的所有权限。修改角色的权限时，属于这个角色的用户权限就会相应的修改。</p>
+<p>在<code>casbin</code>中使用<code>RBAC</code>模型需要在模型文件中添加<code>role_definition</code>模块：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[role_definition]</span><br><span class="line">g = _, _</span><br><span class="line"></span><br><span class="line">[matchers]</span><br><span class="line">m = g(r.sub, p.sub) &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act</span><br></pre></td></tr></table></figure>
+<p><code>g = _,_</code>定义了用户——角色，角色——角色的映射关系，前者是后者的成员，拥有后者的权限。然后在匹配器中，我们不需要判断<code>r.sub</code>与<code>p.sub</code>完全相等，只需要使用<code>g(r.sub, p.sub)</code>来判断请求主体<code>r.sub</code>是否属于<code>p.sub</code>这个角色即可。最后我们修改策略文件添加用户——角色定义：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p, admin, data, read</span><br><span class="line">p, admin, data, write</span><br><span class="line">p, developer, data, read</span><br><span class="line">g, dajun, admin</span><br><span class="line">g, lizi, developer</span><br></pre></td></tr></table></figure>
+<p>上面的<code>policy.csv</code>文件规定了，<code>dajun</code>属于<code>admin</code>管理员，<code>lizi</code>属于<code>developer</code>开发者，使用<code>g</code>来定义这层关系。另外<code>admin</code>对数据<code>data</code>用<code>read</code>和<code>write</code>权限，而<code>developer</code>对数据<code>data</code>只有<code>read</code>权限。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">&quot;fmt&quot;</span></span><br><span class="line">  <span class="string">&quot;log&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">&quot;github.com/casbin/casbin/v2&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(e *casbin.Enforcer, sub, obj, act <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">  ok, _ := e.Enforce(sub, obj, act)</span><br><span class="line">  <span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CAN %s %s\n&quot;</span>, sub, act, obj)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CANNOT %s %s\n&quot;</span>, sub, act, obj)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  e, err := casbin.NewEnforcer(<span class="string">&quot;./model.conf&quot;</span>, <span class="string">&quot;./policy.csv&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatalf(<span class="string">&quot;NewEnforecer failed:%v\n&quot;</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;data&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;data&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很显然<code>lizi</code>所属角色没有<code>write</code>权限：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dajun CAN read data</span><br><span class="line">dajun CAN write data</span><br><span class="line">lizi CAN read data</span><br><span class="line">lizi CANNOT write data</span><br></pre></td></tr></table></figure>
+<h3 id="多个RBAC"><a href="#多个RBAC" class="headerlink" title="多个RBAC"></a>多个RBAC</h3><p><code>casbin</code>支持同时存在多个<code>RBAC</code>系统，即用户和资源都有角色：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[role_definition]</span><br><span class="line">g=_,_</span><br><span class="line">g2=_,_</span><br><span class="line"></span><br><span class="line">[matchers]</span><br><span class="line">m = g(r.sub, p.sub) &amp;&amp; g2(r.obj, p.obj) &amp;&amp; r.act == p.act</span><br></pre></td></tr></table></figure>
+<p>上面的模型文件定义了两个<code>RBAC</code>系统<code>g</code>和<code>g2</code>，我们在匹配器中使用<code>g(r.sub, p.sub)</code>判断请求主体属于特定组，<code>g2(r.obj, p.obj)</code>判断请求资源属于特定组，且操作一致即可放行。</p>
+<p>策略文件:</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">p, admin, prod, read</span><br><span class="line">p, admin, prod, write</span><br><span class="line">p, admin, dev, read</span><br><span class="line">p, admin, dev, write</span><br><span class="line">p, developer, dev, read</span><br><span class="line">p, developer, dev, write</span><br><span class="line">p, developer, prod, read</span><br><span class="line">g, dajun, admin</span><br><span class="line">g, lizi, developer</span><br><span class="line">g2, prod.data, prod</span><br><span class="line">g2, dev.data, dev</span><br></pre></td></tr></table></figure>
+<p>先看角色关系，即最后 4 行，<code>dajun</code>属于<code>admin</code>角色，<code>lizi</code>属于<code>developer</code>角色，<code>prod.data</code>属于生产资源<code>prod</code>角色，<code>dev.data</code>属于开发资源<code>dev</code>角色。<code>admin</code>角色拥有对<code>prod</code>和<code>dev</code>类资源的读写权限，<code>developer</code>只能拥有对<code>dev</code>的读写权限和<code>prod</code>的读权限。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;prod.data&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;prod.data&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;dev.data&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;dev.data&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;prod.data&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>第一个函数中<code>e.Enforce()</code>方法在实际执行的时候先获取<code>dajun</code>所属角色<code>admin</code>，再获取<code>prod.data</code>所属角色<code>prod</code>，根据文件中第一行<code>p, admin, prod, read</code>允许请求。最后一个函数中<code>lizi</code>属于角色<code>developer</code>，而<code>prod.data</code>属于角色<code>prod</code>，所有策略都不允许，故该请求被拒绝：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dajun CAN read prod.data</span><br><span class="line">dajun CAN write prod.data</span><br><span class="line">lizi CAN read dev.data</span><br><span class="line">lizi CAN write dev.data</span><br><span class="line">lizi CANNOT write prod.data</span><br></pre></td></tr></table></figure>
+<h3 id="多层角色"><a href="#多层角色" class="headerlink" title="多层角色"></a>多层角色</h3><p><code>casbin</code>还能为角色定义所属角色，从而实现多层角色关系，这种权限关系是可以传递的。例如<code>dajun</code>属于高级开发者<code>senior</code>，<code>seinor</code>属于开发者，那么<code>dajun</code>也属于开发者，拥有开发者的所有权限。我们可以定义开发者共有的权限，然后额外为<code>senior</code>定义一些特殊的权限。</p>
+<p>模型文件不用修改，策略文件改动如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p, senior, data, write</span><br><span class="line">p, developer, data, read</span><br><span class="line">g, dajun, senior</span><br><span class="line">g, senior, developer</span><br><span class="line">g, lizi, developer</span><br></pre></td></tr></table></figure>
+<p>上面<code>policy.csv</code>文件定义了高级开发者<code>senior</code>对数据<code>data</code>有<code>write</code>权限，普通开发者<code>developer</code>对数据只有<code>read</code>权限。同时<code>senior</code>也是<code>developer</code>，所以<code>senior</code>也继承其<code>read</code>权限。<code>dajun</code>属于<code>senior</code>，所以<code>dajun</code>对<code>data</code>有<code>read</code>和<code>write</code>权限，而<code>lizi</code>只属于<code>developer</code>，对数据<code>data</code>只有<code>read</code>权限。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">check(e, &quot;dajun&quot;, &quot;data&quot;, &quot;read&quot;)</span><br><span class="line">check(e, &quot;dajun&quot;, &quot;data&quot;, &quot;write&quot;)</span><br><span class="line">check(e, &quot;lizi&quot;, &quot;data&quot;, &quot;read&quot;)</span><br><span class="line">check(e, &quot;lizi&quot;, &quot;data&quot;, &quot;write&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="RBAC-domain"><a href="#RBAC-domain" class="headerlink" title="RBAC domain"></a>RBAC domain</h3><p>在<code>casbin</code>中，角色可以是全局的，也可以是特定<code>domain</code>（领域）或<code>tenant</code>（租户），可以简单理解为<strong>组</strong>。例如<code>dajun</code>在组<code>tenant1</code>中是管理员，拥有比较高的权限，在<code>tenant2</code>可能只是个弟弟。</p>
+<p>使用<code>RBAC domain</code>需要对模型文件做以下修改：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[request_definition]</span><br><span class="line">r = sub, dom, obj, act</span><br><span class="line"></span><br><span class="line">[policy_definition]</span><br><span class="line">p = sub, dom, obj, act</span><br><span class="line"></span><br><span class="line">[role_definition]</span><br><span class="line">g = _,_,_</span><br><span class="line"></span><br><span class="line">[matchers]</span><br><span class="line">m = g(r.sub, p.sub, r.dom) &amp;&amp; r.dom == p.dom &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.obj</span><br></pre></td></tr></table></figure>
+<p><code>g=_,_,_</code>表示前者在后者中拥有中间定义的角色，在匹配器中使用<code>g</code>要带上<code>dom</code>。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p, admin, tenant1, data1, read</span><br><span class="line">p, admin, tenant2, data2, read</span><br><span class="line">g, dajun, admin, tenant1</span><br><span class="line">g, dajun, developer, tenant2</span><br></pre></td></tr></table></figure>
+<p>在<code>tenant1</code>中，只有<code>admin</code>可以读取数据<code>data1</code>。在<code>tenant2</code>中，只有<code>admin</code>可以读取数据<code>data2</code>。<code>dajun</code>在<code>tenant1</code>中是<code>admin</code>，但是在<code>tenant2</code>中不是。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(e *casbin.Enforcer, sub, domain, obj, act <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">  ok, _ := e.Enforce(sub, domain, obj, act)</span><br><span class="line">  <span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CAN %s %s in %s\n&quot;</span>, sub, act, obj, domain)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CANNOT %s %s in %s\n&quot;</span>, sub, act, obj, domain)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  e, err := casbin.NewEnforcer(<span class="string">&quot;./model.conf&quot;</span>, <span class="string">&quot;./policy.csv&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatalf(<span class="string">&quot;NewEnforecer failed:%v\n&quot;</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;tenant1&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;tenant2&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果不出意料：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dajun CAN read data1 in tenant1</span><br><span class="line">dajun CANNOT read data2 in tenant2</span><br></pre></td></tr></table></figure>
+<h2 id="ABAC"><a href="#ABAC" class="headerlink" title="ABAC"></a>ABAC</h2><p><code>RBAC</code>模型对于实现比较规则的、相对静态的权限管理非常有用。但是对于特殊的、动态的需求，<code>RBAC</code>就显得有点力不从心了。例如，我们在不同的时间段对数据<code>data</code>实现不同的权限控制。正常工作时间<code>9:00-18:00</code>所有人都可以读写<code>data</code>，其他时间只有数据所有者能读写。这种需求我们可以很方便地使用<code>ABAC</code>（attribute base access list）模型完成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[request_definition]</span><br><span class="line">r = sub, obj, act</span><br><span class="line"></span><br><span class="line">[policy_definition]</span><br><span class="line">p = sub, obj, act</span><br><span class="line"></span><br><span class="line">[matchers]</span><br><span class="line">m = r.sub.Hour &gt;= 9 &amp;&amp; r.sub.Hour &lt; 18 || r.sub.Name == r.obj.Owner</span><br><span class="line"></span><br><span class="line">[policy_effect]</span><br><span class="line">e = some(where (p.eft == allow))</span><br></pre></td></tr></table></figure>
+<p>该规则不需要策略文件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Object <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name  <span class="type">string</span></span><br><span class="line">  Owner <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Subject <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name <span class="type">string</span></span><br><span class="line">  Hour <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(e *casbin.Enforcer, sub Subject, obj Object, act <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">  ok, _ := e.Enforce(sub, obj, act)</span><br><span class="line">  <span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CAN %s %s at %d:00\n&quot;</span>, sub.Name, act, obj.Name, sub.Hour)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CANNOT %s %s at %d:00\n&quot;</span>, sub.Name, act, obj.Name, sub.Hour)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  e, err := casbin.NewEnforcer(<span class="string">&quot;./model.conf&quot;</span>, <span class="string">&quot;./policy.csv&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatalf(<span class="string">&quot;NewEnforecer failed:%v\n&quot;</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  o := Object&#123;<span class="string">&quot;data&quot;</span>, <span class="string">&quot;dajun&quot;</span>&#125;</span><br><span class="line">  s1 := Subject&#123;<span class="string">&quot;dajun&quot;</span>, <span class="number">10</span>&#125;</span><br><span class="line">  check(e, s1, o, <span class="string">&quot;read&quot;</span>)</span><br><span class="line"></span><br><span class="line">  s2 := Subject&#123;<span class="string">&quot;lizi&quot;</span>, <span class="number">10</span>&#125;</span><br><span class="line">  check(e, s2, o, <span class="string">&quot;read&quot;</span>)</span><br><span class="line"></span><br><span class="line">  s3 := Subject&#123;<span class="string">&quot;dajun&quot;</span>, <span class="number">20</span>&#125;</span><br><span class="line">  check(e, s3, o, <span class="string">&quot;read&quot;</span>)</span><br><span class="line"></span><br><span class="line">  s4 := Subject&#123;<span class="string">&quot;lizi&quot;</span>, <span class="number">20</span>&#125;</span><br><span class="line">  check(e, s4, o, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显然<code>lizi</code>在<code>20:00</code>不能<code>read</code>数据<code>data</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dajun CAN read data at 10:00</span><br><span class="line">lizi CAN read data at 10:00</span><br><span class="line">dajun CAN read data at 20:00</span><br><span class="line">lizi CANNOT read data at 20:00</span><br></pre></td></tr></table></figure>
+<p>我们知道，在<code>model.conf</code>文件中可以通过<code>r.sub</code>和<code>r.obj</code>，<code>r.act</code>来访问传给<code>Enforce</code>方法的参数。实际上<code>sub/obj</code>可以是结构体对象，得益于<code>govaluate</code>库的强大功能，我们可以在<code>model.conf</code>文件中获取这些结构体的字段值。如上面的<code>r.sub.Name</code>、<code>r.Obj.Owner</code>等。<code>govaluate</code>库的内容可以参见我之前的一篇文章<a href="https://link.zhihu.com/?target=https%3A//darjun.github.io/2020/04/01/godailylib/govaluate/">《Go 每日一库之 govaluate》</a>。</p>
+<p>使用<code>ABAC</code>模型可以非常灵活的权限控制，但是一般情况下<code>RBAC</code>就已经够用了。</p>
+<h2 id="模型存储"><a href="#模型存储" class="headerlink" title="模型存储"></a>模型存储</h2><p>上面代码中，我们一直将模型存储在文件中。<code>casbin</code>也可以实现在代码中动态初始化模型，例如<code>get-started</code>的例子可以改写为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  m := model.NewModel()</span><br><span class="line">  m.AddDef(<span class="string">&quot;r&quot;</span>, <span class="string">&quot;r&quot;</span>, <span class="string">&quot;sub, obj, act&quot;</span>)</span><br><span class="line">  m.AddDef(<span class="string">&quot;p&quot;</span>, <span class="string">&quot;p&quot;</span>, <span class="string">&quot;sub, obj, act&quot;</span>)</span><br><span class="line">  m.AddDef(<span class="string">&quot;e&quot;</span>, <span class="string">&quot;e&quot;</span>, <span class="string">&quot;some(where (p.eft == allow))&quot;</span>)</span><br><span class="line">  m.AddDef(<span class="string">&quot;m&quot;</span>, <span class="string">&quot;m&quot;</span>, <span class="string">&quot;r.sub == g.sub &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act&quot;</span>)</span><br><span class="line"></span><br><span class="line">  a := fileadapter.NewAdapter(<span class="string">&quot;./policy.csv&quot;</span>)</span><br><span class="line">  e, err := casbin.NewEnforcer(m, a)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatalf(<span class="string">&quot;NewEnforecer failed:%v\n&quot;</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样地，我们也可以从字符串中加载模型：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  text := <span class="string">`</span></span><br><span class="line"><span class="string">  [request_definition]</span></span><br><span class="line"><span class="string">  r = sub, obj, act</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  [policy_definition]</span></span><br><span class="line"><span class="string">  p = sub, obj, act</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  [policy_effect]</span></span><br><span class="line"><span class="string">  e = some(where (p.eft == allow))</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  [matchers]</span></span><br><span class="line"><span class="string">  m = r.sub == p.sub &amp;&amp; r.obj == p.obj &amp;&amp; r.act == p.act</span></span><br><span class="line"><span class="string">  `</span></span><br><span class="line"></span><br><span class="line">  m, _ := model.NewModelFromString(text)</span><br><span class="line">  a := fileadapter.NewAdapter(<span class="string">&quot;./policy.csv&quot;</span>)</span><br><span class="line">  e, _ := casbin.NewEnforcer(m, a)</span><br><span class="line"></span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这两种方式并不推荐。</p>
+<h2 id="策略存储"><a href="#策略存储" class="headerlink" title="策略存储"></a>策略存储</h2><p>在前面的例子中，我们都是将策略存储在<code>policy.csv</code>文件中。一般在实际应用中，很少使用文件存储。<code>casbin</code>以第三方适配器的方式支持多种存储方式包括<code>MySQL/MongoDB/Redis/Etcd</code>等，还可以实现自己的存储。完整列表看这里<a href="https://link.zhihu.com/?target=https%3A//casbin.org/docs/en/adapters">https://casbin.org/docs/en/adapters</a>。下面我们介绍使用<code>Gorm Adapter</code>。先连接到数据库，执行下面的<code>SQL</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> casbin;</span><br><span class="line"></span><br><span class="line">USE casbin;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> casbin_rule (</span><br><span class="line">  p_type <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  v0 <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">  v1 <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">  v2 <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">  v3 <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">  v4 <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">  v5 <span class="type">VARCHAR</span>(<span class="number">100</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> casbin_rule <span class="keyword">VALUES</span></span><br><span class="line">(<span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;dajun&#x27;</span>, <span class="string">&#x27;data1&#x27;</span>, <span class="string">&#x27;read&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span>),</span><br><span class="line">(<span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;lizi&#x27;</span>, <span class="string">&#x27;data2&#x27;</span>, <span class="string">&#x27;write&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>然后使用<code>Gorm Adapter</code>加载<code>policy</code>，<code>Gorm Adapter</code>默认使用<code>casbin</code>库中的<code>casbin_rule</code>表：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">&quot;github.com/casbin/casbin/v2&quot;</span></span><br><span class="line">  gormadapter <span class="string">&quot;github.com/casbin/gorm-adapter/v2&quot;</span></span><br><span class="line">  _ <span class="string">&quot;github.com/go-sql-driver/mysql&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">check</span><span class="params">(e *casbin.Enforcer, sub, obj, act <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">  ok, _ := e.Enforce(sub, obj, act)</span><br><span class="line">  <span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CAN %s %s\n&quot;</span>, sub, act, obj)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%s CANNOT %s %s\n&quot;</span>, sub, act, obj)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  a, _ := gormadapter.NewAdapter(<span class="string">&quot;mysql&quot;</span>, <span class="string">&quot;root:12345@tcp(127.0.0.1:3306)/&quot;</span>)</span><br><span class="line">  e, _ := casbin.NewEnforcer(<span class="string">&quot;./model.conf&quot;</span>, a)</span><br><span class="line"></span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data1&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data2&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dajun CAN read data1</span><br><span class="line">lizi CAN write data2</span><br><span class="line">dajun CANNOT write data1</span><br><span class="line">dajun CANNOT read data2</span><br></pre></td></tr></table></figure>
+<h2 id="使用函数"><a href="#使用函数" class="headerlink" title="使用函数"></a>使用函数</h2><p>我们可以在匹配器中使用函数。<code>casbin</code>内置了一些函数<code>keyMatch/keyMatch2/keyMatch3/keyMatch4</code>都是匹配 URL 路径的，<code>regexMatch</code>使用正则匹配，<code>ipMatch</code>匹配 IP 地址。参见<a href="https://link.zhihu.com/?target=https%3A//casbin.org/docs/en/function">https://casbin.org/docs/en/function</a>。使用内置函数我们能很容易对路由进行权限划分：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[matchers]</span><br><span class="line">m = r.sub == p.sub &amp;&amp; keyMatch(r.obj, p.obj) &amp;&amp; r.act == p.act</span><br><span class="line">p, dajun, user/dajun/*, read</span><br><span class="line">p, lizi, user/lizi/*, read</span><br></pre></td></tr></table></figure>
+<p>不同用户只能访问其对应路由下的 URL：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  e, err := casbin.NewEnforcer(<span class="string">&quot;./model.conf&quot;</span>, <span class="string">&quot;./policy.csv&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatalf(<span class="string">&quot;NewEnforecer failed:%v\n&quot;</span>, err)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;user/dajun/1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;lizi&quot;</span>, <span class="string">&quot;user/lizi/2&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">  check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;user/lizi/1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dajun CAN read user/dajun/1</span><br><span class="line">lizi CAN read user/lizi/2</span><br><span class="line">dajun CANNOT read user/lizi/1</span><br></pre></td></tr></table></figure>
+<p>我们当然也可以定义自己的函数。先定义一个函数，返回 bool：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">KeyMatch</span><span class="params">(key1, key2 <span class="type">string</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">  i := strings.Index(key2, <span class="string">&quot;*&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> i == <span class="number">-1</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> key1 == key2</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> <span class="built_in">len</span>(key1) &gt; i &#123;</span><br><span class="line">    <span class="keyword">return</span> key1[:i] == key2[:i]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> key1 == key2[:i]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里实现了一个简单的正则匹配，只处理<code>*</code>。</p>
+<p>然后将这个函数用<code>interface&#123;&#125;</code>类型包装一层：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">KeyMatchFunc</span><span class="params">(args ...<span class="keyword">interface</span>&#123;&#125;)</span></span> (<span class="keyword">interface</span>&#123;&#125;, <span class="type">error</span>) &#123;</span><br><span class="line">  name1 := args[<span class="number">0</span>].(<span class="type">string</span>)</span><br><span class="line">  name2 := args[<span class="number">1</span>].(<span class="type">string</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (<span class="type">bool</span>)(KeyMatch(name1, name2)), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后添加到权限认证器中：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e.AddFunction(<span class="string">&quot;my_func&quot;</span>, KeyMatchFunc)</span><br></pre></td></tr></table></figure>
+<p>这样我们就可以在匹配器中使用该函数实现正则匹配了：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[matchers]</span><br><span class="line">m = r.sub == p.sub &amp;&amp; my_func(r.obj, p.obj) &amp;&amp; r.act == p.act</span><br></pre></td></tr></table></figure>
+<p>接下来我们在策略文件中为<code>dajun</code>赋予权限：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p, dajun, data/*, read</span><br></pre></td></tr></table></figure>
+<p><code>dajun</code>对匹配模式<code>data/*</code>的文件都有<code>read</code>权限。</p>
+<p>验证一下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data/1&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data/2&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br><span class="line">check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;data/1&quot;</span>, <span class="string">&quot;write&quot;</span>)</span><br><span class="line">check(e, <span class="string">&quot;dajun&quot;</span>, <span class="string">&quot;mydata&quot;</span>, <span class="string">&quot;read&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><code>dajun</code>对<code>data/1</code>没有<code>write</code>权限，<code>mydata</code>不符合<code>data/*</code>模式，也没有<code>read</code>权限：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dajun CAN read data/1</span><br><span class="line">dajun CAN read data/2</span><br><span class="line">dajun CANNOT write data/1</span><br><span class="line">dajun CANNOT read mydata</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>casbin</code>功能强大，简单高效，且多语言通用。值得学习。</p>
+<p>大家如果发现好玩、好用的 Go 语言库，欢迎到 Go 每日一库 GitHub 上提交 issue </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>casbin GitHub：<a href="https://link.zhihu.com/?target=https%3A//github.com/casbin/casbin">https://github.com/casbin/casbin</a></li>
+<li>casbin 官网：<a href="https://link.zhihu.com/?target=https%3A//casbin.org/">https://casbin.org/</a></li>
+<li>一种基于元模型的访问控制策略描述语言：<a href="https://link.zhihu.com/?target=http%3A//www.jos.org.cn/html/2020/2/5624.htm">http://www.jos.org.cn/html/2020/2/5624.htm</a></li>
+<li>Go 每日一库 GitHub：<a href="https://link.zhihu.com/?target=https%3A//github.com/darjun/go-daily-lib">https://github.com/darjun/go-daily-lib</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Golang/" rel="tag"><i class="fa fa-tag"></i> Golang</a>
+              <a href="/tags/Casbin/" rel="tag"><i class="fa fa-tag"></i> Casbin</a>
+              <a href="/tags/ACL/" rel="tag"><i class="fa fa-tag"></i> ACL</a>
+              <a href="/tags/RBAC/" rel="tag"><i class="fa fa-tag"></i> RBAC</a>
+              <a href="/tags/ABAC/" rel="tag"><i class="fa fa-tag"></i> ABAC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/06/Ubuntu-18-04%E4%B8%8BNginx%E4%BD%BF%E7%94%A8%E6%89%8B%E8%AE%B0/" rel="prev" title="Ubuntu 18.04下Nginx使用手记">
+      <i class="fa fa-chevron-left"></i> Ubuntu 18.04下Nginx使用手记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/10/Koa-js%E4%B8%AD%E7%9A%84Cookies%E9%98%B2%E7%AF%A1%E6%94%B9%E6%9C%BA%E5%88%B6/" rel="next" title="Koa.js中的Cookies防篡改机制">
+      Koa.js中的Cookies防篡改机制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8"><span class="nav-text">快速使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RBAC-%E6%A8%A1%E5%9E%8B"><span class="nav-text">RBAC 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AARBAC"><span class="nav-text">多个RBAC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%B1%82%E8%A7%92%E8%89%B2"><span class="nav-text">多层角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC-domain"><span class="nav-text">RBAC domain</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ABAC"><span class="nav-text">ABAC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%AD%98%E5%82%A8"><span class="nav-text">模型存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E5%AD%98%E5%82%A8"><span class="nav-text">策略存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0"><span class="nav-text">使用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

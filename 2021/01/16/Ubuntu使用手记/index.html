@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录了一些Ubuntu使用中的常用命令、常用软件的安装等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu使用手记">
+<meta property="og:url" content="https://whuls.cn/2021/01/16/Ubuntu%E4%BD%BF%E7%94%A8%E6%89%8B%E8%AE%B0/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="记录了一些Ubuntu使用中的常用命令、常用软件的安装等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-16T15:06:00.000Z">
+<meta property="article:modified_time" content="2022-06-18T08:49:31.605Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://whuls.cn/2021/01/16/Ubuntu%E4%BD%BF%E7%94%A8%E6%89%8B%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ubuntu使用手记 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2021/01/16/Ubuntu%E4%BD%BF%E7%94%A8%E6%89%8B%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ubuntu使用手记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-16 23:06:00" itemprop="dateCreated datePublished" datetime="2021-01-16T23:06:00+08:00">2021-01-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-18 16:49:31" itemprop="dateModified" datetime="2022-06-18T16:49:31+08:00">2022-06-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Ubuntu</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#1-%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C%E9%83%A8%E5%88%86"><span class="post-body-toc-text">1. 终端操作部分</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-1-%E6%9F%A5%E7%9C%8B%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="post-body-toc-text">1.1. 查看操作系统信息</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E4%BD%8D%E6%95%B0"><span class="post-body-toc-text">位数</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="post-body-toc-text">操作系统版本号</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E5%85%B6%E4%BB%96%E4%BF%A1%E6%81%AF"><span class="post-body-toc-text">其他信息</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-2-%E6%9F%A5%E7%9C%8B%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="post-body-toc-text">1.2. 查看硬件信息</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%98%BE%E5%8D%A1%E5%9E%8B%E5%8F%B7"><span class="post-body-toc-text">查看显卡型号</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-3-%E6%89%BE%E5%88%B0%E5%91%BD%E4%BB%A4%E5%AF%B9%E5%BA%94%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="post-body-toc-text">1.3. 找到命令对应的路径</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-4-%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="post-body-toc-text">1.4. 软链接</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E5%88%9B%E5%BB%BA%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="post-body-toc-text">创建软链接</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E5%88%A0%E9%99%A4%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="post-body-toc-text">删除软链接</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-5-wget-%E7%BD%91%E7%BB%9C%E4%B8%8B%E8%BD%BD"><span class="post-body-toc-text">1.5. wget 网络下载</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-6-tar-%E6%89%93%E5%8C%85%E4%B8%8E%E8%A7%A3%E5%8E%8B"><span class="post-body-toc-text">1.6. tar 打包与解压</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E8%A7%A3%E5%8E%8B"><span class="post-body-toc-text">解压</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6"><span class="post-body-toc-text">查看压缩文件</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E6%89%93%E5%8C%85%E5%88%9B%E5%BB%BA%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6"><span class="post-body-toc-text">打包创建压缩文件</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-7-%E5%9C%A8%E7%BB%88%E7%AB%AF%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8"><span class="post-body-toc-text">1.7. 在终端打开文件资源管理器</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-8-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="post-body-toc-text">1.8. 环境变量</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-9-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%88%E5%A4%B9%EF%BC%89"><span class="post-body-toc-text">1.9. 删除文件（夹）</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-10-grep-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="post-body-toc-text">1.10. grep 正则表达式</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-11-%E5%B0%86%E7%BB%88%E7%AB%AF%E8%BE%93%E5%87%BA%E4%BF%9D%E5%AD%98%E5%88%B0%E4%B8%B4%E6%97%B6%E5%8F%98%E9%87%8F"><span class="post-body-toc-text">1.11. 将终端输出保存到临时变量</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-12-%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="post-body-toc-text">1.12. 输出重定向</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-13-lsmod-%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%8A%A0%E8%BD%BD%E7%9A%84module"><span class="post-body-toc-text">1.13. lsmod 查看已加载的module</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-14-telinit%E4%B8%8E%E5%88%87%E6%8D%A2tty"><span class="post-body-toc-text">1.14. telinit与切换tty</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-15-chmod-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90"><span class="post-body-toc-text">1.15. chmod 修改文件权限</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-16-gedit-%E5%9B%BE%E5%BD%A2%E5%8C%96%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%99%A8"><span class="post-body-toc-text">1.16. gedit 图形化文件编辑器</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#2-%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E9%83%A8%E5%88%86"><span class="post-body-toc-text">2. 软件安装部分</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-1-%E5%AE%89%E8%A3%85Typora"><span class="post-body-toc-text">2.1. 安装Typora</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-2-%E5%AE%89%E8%A3%85nodejs"><span class="post-body-toc-text">2.2. 安装nodejs</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-3-%E5%AE%89%E8%A3%85VS-Code%EF%BC%88%E4%B8%8D%E8%A6%81%E7%94%A8snap-VS-Code%EF%BC%89"><span class="post-body-toc-text">2.3. 安装VS Code（不要用snap VS Code）</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-4-%E5%AE%89%E8%A3%85NVIDIA%E9%A9%B1%E5%8A%A8%EF%BC%88%E6%89%8B%E5%8A%A8%EF%BC%89"><span class="post-body-toc-text">2.4. 安装NVIDIA驱动（手动）</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E6%8C%91%E9%80%89%E5%90%88%E9%80%82%E7%9A%84%E9%A9%B1%E5%8A%A8"><span class="post-body-toc-text">挑选合适的驱动</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E6%AD%A3%E5%BC%8F%E5%AE%89%E8%A3%85"><span class="post-body-toc-text">正式安装</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="post-body-toc-text">遇到的问题</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-5-%E5%AE%89%E8%A3%85CUDA-10-2-cuDNN-7-6-5"><span class="post-body-toc-text">2.5. 安装CUDA 10.2+cuDNN 7.6.5</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E5%87%86%E5%A4%87"><span class="post-body-toc-text">准备</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E5%AE%89%E8%A3%85CUDA-10-2"><span class="post-body-toc-text">安装CUDA 10.2</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#%E5%AE%89%E8%A3%85cuDNN-7-6-5"><span class="post-body-toc-text">安装cuDNN 7.6.5</span></a></li></ol></li></ol></li></ol>
+      
+      
+        <h1 id="1-终端操作部分"><a href="#1-终端操作部分" class="headerlink" title="1. 终端操作部分"></a>1. 终端操作部分</h1><h2 id="1-1-查看操作系统信息"><a href="#1-1-查看操作系统信息" class="headerlink" title="1.1. 查看操作系统信息"></a>1.1. 查看操作系统信息</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhengxiangwen/article/details/60324802">https://blog.csdn.net/zhengxiangwen/article/details/60324802</a></p>
+</blockquote>
+<h3 id="位数"><a href="#位数" class="headerlink" title="位数"></a>位数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo name -m</span><br></pre></td></tr></table></figure>
+<p>32位会显示<code>i386</code>到<code>i686</code>，64位会显示<code>x86_64</code></p>
+<h3 id="操作系统版本号"><a href="#操作系统版本号" class="headerlink" title="操作系统版本号"></a>操作系统版本号</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue</span><br></pre></td></tr></table></figure>
+<p>输出诸如：<code># Ubuntu 18.04.5 LTS \n \l</code></p>
+<h3 id="其他信息"><a href="#其他信息" class="headerlink" title="其他信息"></a>其他信息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(base) whuls@whuls:~$uname -s  # 内核名称</span><br><span class="line">Linux</span><br><span class="line">(base) whuls@whuls:~$uname -r  # 内核版本</span><br><span class="line">5.4.0-62-generic</span><br><span class="line">(base) whuls@whuls:~$uname -n  # 网络主机名</span><br><span class="line">whuls</span><br><span class="line">(base) whuls@whuls:~$uname -p  # CPU</span><br><span class="line">x86_64</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-查看硬件信息"><a href="#1-2-查看硬件信息" class="headerlink" title="1.2. 查看硬件信息"></a>1.2. 查看硬件信息</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci</span><br></pre></td></tr></table></figure>
+<h3 id="查看显卡型号"><a href="#查看显卡型号" class="headerlink" title="查看显卡型号"></a>查看显卡型号</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci | grep VGA</span><br></pre></td></tr></table></figure>
+<p>输出诸如：<code>01:00.0 VGA compatible controller: NVIDIA Corporation GP106 [GeForce GTX 1060 5GB] (rev a1)</code></p>
+<h2 id="1-3-找到命令对应的路径"><a href="#1-3-找到命令对应的路径" class="headerlink" title="1.3. 找到命令对应的路径"></a>1.3. 找到命令对应的路径</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which code</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis code</span><br></pre></td></tr></table></figure>
+<p><code>which</code>显示当前可执行脚本的路径，而<code>whereis</code>会在环境变量里面搜索所有匹配的命令或文件（或软链接）。</p>
+<h2 id="1-4-软链接"><a href="#1-4-软链接" class="headerlink" title="1.4. 软链接"></a>1.4. 软链接</h2><h3 id="创建软链接"><a href="#创建软链接" class="headerlink" title="创建软链接"></a>创建软链接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s ./node /usr/bin/</span><br></pre></td></tr></table></figure>
+<p><code>-s</code>用来指定链接类型为软链接，后面紧跟的第一个参数指定<strong>文件</strong>，第二个参数是软链接保存的<strong>路径</strong>。</p>
+<p>上面的命令中意思是在<code>/usr/bin/</code>目录下创建一个关于<code>node</code>的软链接。</p>
+<h3 id="删除软链接"><a href="#删除软链接" class="headerlink" title="删除软链接"></a>删除软链接</h3><p>如果在创建软链接后，把链接的文件删除了，创建的软链接就成了无效的软链接。删除无效软链接使用<code>symlinks</code>自动完成。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install symlinks</span><br><span class="line">symlinks -d /usr/bin</span><br></pre></td></tr></table></figure>
+<p>命令的意思：删除<code>/usr/bin/</code>目录下所有无效软链接。</p>
+<h2 id="1-5-wget-网络下载"><a href="#1-5-wget-网络下载" class="headerlink" title="1.5. wget 网络下载"></a>1.5. wget 网络下载</h2><p>用来下载网络文件。通过一条命令来解释一些常用参数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<p><code>-q</code>: 安静模式，无命令行输出；</p>
+<p><code>-O</code>：大写字母O，将地址的内容输出到文件名中。在这条命令中，<code>-</code>是一个特殊的符号，表示将链接内容输出到变量<code>-</code>中；</p>
+<p><code>-P</code>：下载的文件的保存路径，文件是啥名就保存啥名字，不关心文件内容；如果已经声明了<code>-O</code>，<code>-P</code>就不起作用；</p>
+<h2 id="1-6-tar-打包与解压"><a href="#1-6-tar-打包与解压" class="headerlink" title="1.6. tar 打包与解压"></a>1.6. tar 打包与解压</h2><h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir nodejs</span><br><span class="line">tar -xf node-v14.15.4-linux-x64.tar.xz -C ./nodejs</span><br></pre></td></tr></table></figure>
+<p>将<code>*.tar.xz</code>解压到<code>./nodejs</code>文件夹中，前提是该文件夹存在。若不指定，则解压到当前文件夹。</p>
+<p><code>-C</code>：指定目标文件夹，默认为<code>.</code> </p>
+<p><code>-x</code>：从压缩包中取出文件</p>
+<p><code>-f</code>：指定压缩包的文件名</p>
+<h3 id="查看压缩文件"><a href="#查看压缩文件" class="headerlink" title="查看压缩文件"></a>查看压缩文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -tf node-v14.15.4-linux-x64.tar.xz</span><br><span class="line">tar -tvf node-v14.15.4-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
+<p><code>-t</code>：列出压缩包的内容</p>
+<p><code>-v</code>：列出压缩包的<strong>详细</strong>内容</p>
+<h3 id="打包创建压缩文件"><a href="#打包创建压缩文件" class="headerlink" title="打包创建压缩文件"></a>打包创建压缩文件</h3><p>默认的<code>tar</code>命令只能创建<code>.tar</code>或<code>.tar.gz</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -c abc.doc -f pack.tar</span><br><span class="line">tar -cf pack.tar abc.doc</span><br><span class="line">tar -cvf pack.tar abc.doc</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zc abc.doc -f pack.tar</span><br><span class="line">tar -zcf pack.tar abc.doc</span><br><span class="line">tar -zcvf pack.tar abc.doc</span><br></pre></td></tr></table></figure>
+<p><code>-c</code>创建新的压缩包，但没有压缩功能，仅打包。可以选择一个或多个文件或文件夹；</p>
+<p><code>-z</code>压缩或解压，算法为<code>gzip</code>；</p>
+<p><code>-v</code>打包的时候显示文件信息；</p>
+<h2 id="1-7-在终端打开文件资源管理器"><a href="#1-7-在终端打开文件资源管理器" class="headerlink" title="1.7. 在终端打开文件资源管理器"></a>1.7. 在终端打开文件资源管理器</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nautilus .</span><br></pre></td></tr></table></figure>
+<p>后面那个<code>.</code>可以替换为任意相对或绝对路径</p>
+<h2 id="1-8-环境变量"><a href="#1-8-环境变量" class="headerlink" title="1.8. 环境变量"></a>1.8. 环境变量</h2><p>在命令行输入<code>env</code>，查看环境变量内容</p>
+<p>设置环境变量在<code>~/.bashrc</code>中，导出一个环境变量用<code>export</code>命令，具体用法见下方：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export NODE_HOME=/usr/local/nodejs/node-v14.15.4-linux-x64</span><br><span class="line">export PATH=$NODE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+<h2 id="1-9-删除文件（夹）"><a href="#1-9-删除文件（夹）" class="headerlink" title="1.9. 删除文件（夹）"></a>1.9. 删除文件（夹）</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm xxxx.xx</span><br></pre></td></tr></table></figure>
+<p><code>-f</code>强制删除；</p>
+<p><code>-r</code>递归，用来删除文件夹，删除空文件夹还可以用：<code>rmdir xxx</code>；</p>
+<h2 id="1-10-grep-正则表达式"><a href="#1-10-grep-正则表达式" class="headerlink" title="1.10. grep 正则表达式"></a>1.10. grep 正则表达式</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/peida/archive/2012/12/17/2821195.html">每天一个linux命令（39）：grep 命令</a></p>
+</blockquote>
+<p>全称为Global Regular Expression Print，执行正则表达式匹配搜索。一般用来筛选终端的输出，用法如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(base) whuls@whuls:~$ ls</span><br><span class="line">anaconda3  codes  snap  公共的  模板  视频  图片  文档  下载  音乐  桌面</span><br></pre></td></tr></table></figure>
+<p>筛选只有英文和数字的文件夹名：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(base) whuls@whuls:~$ ls | grep &quot;[a-z|0-9]&quot;</span><br><span class="line">anaconda3</span><br><span class="line">codes</span><br><span class="line">snap</span><br></pre></td></tr></table></figure>
+<h2 id="1-11-将终端输出保存到临时变量"><a href="#1-11-将终端输出保存到临时变量" class="headerlink" title="1.11. 将终端输出保存到临时变量"></a>1.11. 将终端输出保存到临时变量</h2><blockquote>
+<p>应用场景：通过<code>ls</code>获取当前文件夹的文件时，需要在下一条命令中对这个文件进行操作</p>
+</blockquote>
+<p>获取当前文件夹下的一个<code>xxx.deb</code>文件，保存到变量<code>$m_out</code>中，并且执行安装操作。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">m_out=$(ls *.deb)  # 将ls *.deb的结果作为变量保存到m_out中</span><br><span class="line">echo $m_out  # 打印变量内容（不会作为命令执行）</span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">m_out  <span class="comment"># 将变量内容作为命令执行</span></span></span><br><span class="line">sudo apt install ./$m_out  # 安装.deb文件</span><br></pre></td></tr></table></figure>
+<h2 id="1-12-输出重定向"><a href="#1-12-输出重定向" class="headerlink" title="1.12. 输出重定向"></a>1.12. 输出重定向</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-shell-io-redirections.html">Shell 输入/输出重定向 | 菜鸟教程</a></p>
+</blockquote>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>command &gt; file</code></td>
+<td>将输出重定向到 file。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>command &lt; file</code></td>
+<td>将输入重定向到 file。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>command &gt;&gt; file</code></td>
+<td>将输出以追加的方式重定向到 file。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>n &gt; file</code></td>
+<td>将文件描述符为 n 的文件重定向到 file。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>n &gt;&gt; file</code></td>
+<td>将文件描述符为 n 的文件以追加的方式重定向到 file。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>n &gt;&amp; m</code></td>
+<td>将输出文件 m 和 n 合并。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>n &lt;&amp; m</code></td>
+<td>将输入文件 m 和 n 合并。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;&lt; tag</code></td>
+<td>将开始标记 tag 和结束标记 tag 之间的内容作为输入。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>常见的一种用法就是<code>2&gt;&amp;1</code>，这里<code>2</code>代表标准输出错误<code>stderr</code>，<code>1</code>代表标准输出<code>stdout</code>。</p>
+<h2 id="1-13-lsmod-查看已加载的module"><a href="#1-13-lsmod-查看已加载的module" class="headerlink" title="1.13. lsmod 查看已加载的module"></a>1.13. lsmod 查看已加载的module</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-lsmod.html">Linux lsmod命令 | 菜鸟教程</a></p>
+</blockquote>
+<p>查看是否开启<code>nouveau</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
+<h2 id="1-14-telinit与切换tty"><a href="#1-14-telinit与切换tty" class="headerlink" title="1.14. telinit与切换tty"></a>1.14. telinit与切换tty</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dengjin20104042056/article/details/99686141">【Linux】一步一步学Linux——telinit命令(144)</a></p>
+</blockquote>
+<p><code>telinit</code>用来设置当前系统的运行等级，常用作关闭图形界面、关机、重启等操作。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(base) whuls@whuls:~$ telinit --help</span><br><span class="line">telinit [OPTIONS...] &#123;COMMAND&#125;</span><br><span class="line"></span><br><span class="line">Send control commands to the init daemon.</span><br><span class="line"></span><br><span class="line">     --help      Show this help</span><br><span class="line">     --no-wall   Don&#x27;t send wall message before halt/power-off/reboot</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  0              Power-off the machine</span><br><span class="line">  6              Reboot the machine</span><br><span class="line">  2, 3, 4, 5     Start runlevelX.target unit</span><br><span class="line">  1, s, S        Enter rescue mode</span><br><span class="line">  q, Q           Reload init daemon configuration</span><br><span class="line">  u, U           Reexecute init daemon</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关机：<code>telinit 0</code></li>
+<li>重启：<code>telinit 6</code></li>
+<li>关闭图形化界面：<code>telinit 3</code></li>
+<li>（重新）启动图形化界面：<code>telinit 5</code>，若启动失败，通过<code>sudo service gdm3 start</code>启动（<code>gdm3</code>or<code>lightdm</code>）</li>
+</ul>
+<p>关闭图形化界面后，显示屏会黑掉，且会关闭当前运行的程序，接着自动进入一个命令行，需要登录；若没有自动进入，使用<code>Ctrl + Alt +F1</code>开启。</p>
+<p><code>Ctrl</code> + <code>Alt</code> + <code>F1~6</code>，最多开启6个。</p>
+<h2 id="1-15-chmod-修改文件权限"><a href="#1-15-chmod-修改文件权限" class="headerlink" title="1.15. chmod 修改文件权限"></a>1.15. chmod 修改文件权限</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-chmod.html">Linux chmod命令</a></p>
+</blockquote>
+<p>一条命令：给<code>xxx.run</code>添加所有用户的可执行权限。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod a+x xxx.run</span><br></pre></td></tr></table></figure>
+<p><code>a</code>代表所有用户，<code>+</code>表示添加权限（<code>-</code>是删除权限），<code>x</code>表示执行，<code>r/w</code>表示读/写。</p>
+<p>查看权限：<code>ls -l 文件名</code>;</p>
+<h2 id="1-16-gedit-图形化文件编辑器"><a href="#1-16-gedit-图形化文件编辑器" class="headerlink" title="1.16. gedit 图形化文件编辑器"></a>1.16. gedit 图形化文件编辑器</h2><p>通常用于编辑需要<strong>高级权限</strong>的文本文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit [filename]</span><br></pre></td></tr></table></figure>
+<h1 id="2-软件安装部分"><a href="#2-软件安装部分" class="headerlink" title="2. 软件安装部分"></a>2. 软件安装部分</h1><h2 id="2-1-安装Typora"><a href="#2-1-安装Typora" class="headerlink" title="2.1. 安装Typora"></a>2.1. 安装Typora</h2><blockquote>
+<p> 参考链接：<a target="_blank" rel="noopener" href="https://typora.io/#linux">https://typora.io/#linux</a></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">or run:</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span></span><br><span class="line">wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">add Typora<span class="string">&#x27;s repository</span></span></span><br><span class="line">sudo add-apt-repository &#x27;deb https://typora.io/linux ./&#x27;</span><br><span class="line">sudo apt-get update</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">install typora</span></span></span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-安装nodejs"><a href="#2-2-安装nodejs" class="headerlink" title="2.2. 安装nodejs"></a>2.2. 安装nodejs</h2><p><strong>第一步</strong>：下载安装包</p>
+<ul>
+<li>中文网：<a target="_blank" rel="noopener" href="http://nodejs.cn/download/">http://nodejs.cn/download/</a></li>
+<li>官网：<a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a></li>
+<li>下载<strong>Linux Binaries (x64)</strong></li>
+</ul>
+<p><strong>第二步</strong>：解压</p>
+<p>一般解压到系统目录下，如<code>/usr/local/nodejs</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://npm.taobao.org/mirrors/node/v14.15.4/node-v14.15.4-linux-x64.tar.xz</span><br><span class="line">sudo mkdir ~/nodejs</span><br><span class="line">sudo tar -xf node-v14.15.4-linux-x64.tar.xz -C /usr/local/nodejs</span><br></pre></td></tr></table></figure>
+<p><strong>第三步</strong>：添加环境变量</p>
+<p>在<code>~/.bashrc</code>末尾添加：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export NODE_HOME=/usr/local/nodejs/node-v14.15.4-linux-x64</span><br><span class="line">export PATH=$NODE_HOME/bin:$PATH</span><br></pre></td></tr></table></figure>
+<h2 id="2-3-安装VS-Code（不要用snap-VS-Code）"><a href="#2-3-安装VS-Code（不要用snap-VS-Code）" class="headerlink" title="2.3. 安装VS Code（不要用snap VS Code）"></a>2.3. 安装VS Code（不要用snap VS Code）</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/setup/linux">VS Code官网 | Linux</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35092399/article/details/105526908">Ubuntu使用VSCode无法输入中文</a></p>
+</blockquote>
+<p>在Snap中下载的VS Code是阉割版本的，无法支持中文。改为官方版本的流程如下：（若没有安装过code，直接从第二步开始）</p>
+<ol>
+<li><p>从snap中卸载VS Code：<code>sudo snap remove code</code></p>
+</li>
+<li><p>下载VS Code的.deb包：<a target="_blank" rel="noopener" href="https://code.visualstudio.com/download">官网</a></p>
+</li>
+<li><p>安装deb包</p>
+<ul>
+<li>方法一：在下载目录下，执行<code>vscode_deb_name=$(ls|grep &quot;^code_&quot;) | echo $vscode_deb_name | sudo apt install $vscode_deb_name</code></li>
+<li>方法二：复制deb包的名称，直接<code>sudo apt install 包名</code></li>
+</ul>
+</li>
+<li><p>查看安装是否成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(base) whuls@whuls:~/下载$ code -v</span><br><span class="line">1.52.1</span><br><span class="line">ea3859d4ba2f3e577a159bc91e3074c5d85c0523</span><br><span class="line">x64</span><br><span class="line">(base) whuls@whuls:~/下载$ whereis code</span><br><span class="line">code: /usr/bin/code /usr/share/code</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="2-4-安装NVIDIA驱动（手动）"><a href="#2-4-安装NVIDIA驱动（手动）" class="headerlink" title="2.4. 安装NVIDIA驱动（手动）"></a>2.4. 安装NVIDIA驱动（手动）</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014682691/article/details/80605201">【成功】ubuntu安装显卡驱动的三种方法</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wf19930209/article/details/81877822#t7">【失败】使用官方的NVIDIA驱动手动安装 | Linux安装NVIDIA显卡驱动的正确姿势</a></p>
+<p><a target="_blank" rel="noopener" href="https://http.download.nvidia.com/XFree86/">NVIDIA下载中心</a></p>
+</blockquote>
+<h3 id="挑选合适的驱动"><a href="#挑选合适的驱动" class="headerlink" title="挑选合适的驱动"></a>挑选合适的驱动</h3><p>查看显卡型号：<code>lspci</code>或<code>lshw</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">(base) whuls@whuls:~$ lspci | grep VGA</span><br><span class="line">01:00.0 VGA compatible controller: NVIDIA Corporation GP106 [GeForce GTX 1060 5GB] (rev a1)</span><br><span class="line">(base) whuls@whuls:~$ lshw -numeric -C display</span><br><span class="line">WARNING: you should run this program as super-user.</span><br><span class="line">  *-display                 </span><br><span class="line">       description: VGA compatible controller</span><br><span class="line">       product: GP106 [GeForce GTX 1060 5GB] [10DE:1C04]</span><br><span class="line">       vendor: NVIDIA Corporation [10DE]</span><br><span class="line">       physical id: 0</span><br><span class="line">       bus info: pci@0000:01:00.0</span><br><span class="line">       version: a1</span><br><span class="line">       width: 64 bits</span><br><span class="line">       clock: 33MHz</span><br><span class="line">       capabilities: vga_controller bus_master cap_list rom</span><br><span class="line">       configuration: driver=nouveau latency=0</span><br><span class="line">       resources: irq:137 memory:a2000000-a2ffffff memory:90000000-9fffffff memory:a0000000-a1ffffff ioport:4000(size=128) memory:c0000-dffff</span><br><span class="line">WARNING: output may be incomplete or inaccurate, you should run this program as super-user.</span><br></pre></td></tr></table></figure>
+<p>前往<a target="_blank" rel="noopener" href="https://www.nvidia.com/">NVIDIA官网</a>寻找<a target="_blank" rel="noopener" href="https://www.nvidia.cn/geforce/drivers/">驱动程序</a>并下载，一般能搜到多个版本，这是显卡能支持的所有驱动；或者前往<a target="_blank" rel="noopener" href="https://http.download.nvidia.com/XFree86/Linux-x86_64/">下载列表</a>找到你想要的驱动。要选择哪一个进行安装，主要看具体用途，比如我们需要用到CUDA，就可以到官网去看看<a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html">CUDA版本和驱动对应</a>的情况。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>CUDA Toolkit</th>
+<th>Linux x86_64 Driver Version</th>
+<th>Windows x86_64 Driver Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUDA 11.2.0 GA</td>
+<td>&gt;=460.27.04</td>
+<td>&gt;=460.89</td>
+</tr>
+<tr>
+<td>CUDA 11.1.1 Update 1</td>
+<td>&gt;=455.32</td>
+<td>&gt;=456.81</td>
+</tr>
+<tr>
+<td>CUDA 11.1 GA</td>
+<td>&gt;=455.23</td>
+<td>&gt;=456.38</td>
+</tr>
+<tr>
+<td>CUDA 11.0.3 Update 1</td>
+<td>&gt;= 450.51.06</td>
+<td>&gt;= 451.82</td>
+</tr>
+<tr>
+<td>CUDA 11.0.2 GA</td>
+<td>&gt;= 450.51.05</td>
+<td>&gt;= 451.48</td>
+</tr>
+<tr>
+<td>CUDA 11.0.1 RC</td>
+<td>&gt;= 450.36.06</td>
+<td>&gt;= 451.22</td>
+</tr>
+<tr>
+<td>CUDA 10.2.89</td>
+<td>&gt;= 440.33</td>
+<td>&gt;= 441.22</td>
+</tr>
+<tr>
+<td>CUDA 10.1 (10.1.105 general release, and updates)</td>
+<td>&gt;= 418.39</td>
+<td>&gt;= 418.96</td>
+</tr>
+<tr>
+<td>CUDA 10.0.130</td>
+<td>&gt;= 410.48</td>
+<td>&gt;= 411.31</td>
+</tr>
+<tr>
+<td>CUDA 9.2 (9.2.148 Update 1)</td>
+<td>&gt;= 396.37</td>
+<td>&gt;= 398.26</td>
+</tr>
+<tr>
+<td>CUDA 9.2 (9.2.88)</td>
+<td>&gt;= 396.26</td>
+<td>&gt;= 397.44</td>
+</tr>
+<tr>
+<td>CUDA 9.1 (9.1.85)</td>
+<td>&gt;= 390.46</td>
+<td>&gt;= 391.29</td>
+</tr>
+<tr>
+<td>CUDA 9.0 (9.0.76)</td>
+<td>&gt;= 384.81</td>
+<td>&gt;= 385.54</td>
+</tr>
+<tr>
+<td>CUDA 8.0 (8.0.61 GA2)</td>
+<td>&gt;= 375.26</td>
+<td>&gt;= 376.51</td>
+</tr>
+<tr>
+<td>CUDA 8.0 (8.0.44)</td>
+<td>&gt;= 367.48</td>
+<td>&gt;= 369.30</td>
+</tr>
+<tr>
+<td>CUDA 7.5 (7.5.16)</td>
+<td>&gt;= 352.31</td>
+<td>&gt;= 353.66</td>
+</tr>
+<tr>
+<td>CUDA 7.0 (7.0.28)</td>
+<td>&gt;= 346.46</td>
+<td>&gt;= 347.62</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="正式安装"><a href="#正式安装" class="headerlink" title="正式安装"></a>正式安装</h3><ol>
+<li>这里我选择了<a target="_blank" rel="noopener" href="https://http.download.nvidia.com/XFree86/Linux-x86_64/440.100/NVIDIA-Linux-x86_64-440.100.run">440版本的驱动</a>，下载下来的文件名为<code>NVIDIA-Linux-x86_64-440.100.run</code>;</li>
+<li>卸载已经安装过的显卡驱动：<code>sudo apt-get remove --purge nvidia*</code>;</li>
+<li>禁用nouveau<ul>
+<li>创建<code>/etc/modprobe.d/blacklist-nouveau.conf</code></li>
+<li>文末添加<code>blacklist nouveau</code>和<code>options nouveau modeset=0</code></li>
+<li>重新构建内核生效<code>sudo update-initramfs -u</code></li>
+<li>重启<code>reboot</code></li>
+</ul>
+</li>
+<li>BIOS禁用secure boot，如果没有禁用，会导致驱动安装失败或不正常;</li>
+<li>关闭图形服务：<code>sudo service gdm3 stop</code>;</li>
+<li>关闭可视化界面：<code>sudo telinit 3</code>;</li>
+<li>执行安装：<code>sudo sh ./NVIDIA-Linux-x86_64-440.100.run</code>;</li>
+<li>重新打开图形化界面：<code>sudo service gdm3 start</code>;</li>
+</ol>
+<p>验证是否安装成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br><span class="line">nvidia-settings</span><br></pre></td></tr></table></figure>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ol>
+<li>checksum错误：一般是.run文件下载不全，检查完整性；（<a target="_blank" rel="noopener" href="https://http.download.nvidia.com/XFree86/Linux-x86_64/">下载列表</a>）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error in check sums xxxxxxxx xxxxxxxx</span><br></pre></td></tr></table></figure>
+<ol>
+<li>在<a target="_blank" rel="noopener" href="https://blog.csdn.net/wf19930209/article/details/81877822#t7">有些教程</a>里面说指导的最后一步的安装命令应该加上<code>--no-opengl-files</code>参数，且还要把<code>nouveau</code>禁用，我这么试了发现重启的时候根本就无法正常分辨率显示，然后换了个<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014682691/article/details/80605201">教程</a>跟了一下发现并没有这个参数，安装驱动就很轻松；</li>
+<li>执行<code>sudo ./xxx.run</code>之后，会提示<code>pre-install script failed...</code>的错误，据说这只是一个程序员开的玩笑，直接不理点继续就行了，然后之后的步骤就按照默认一路Enter就行，除非你能明白自己在做什么，否则按照默认的来就行了；好像我只改了一个地方，成功了，之前不成功估计也是自作聪明瞎改选项。</li>
+</ol>
+<h2 id="2-5-安装CUDA-10-2-cuDNN-7-6-5"><a href="#2-5-安装CUDA-10-2-cuDNN-7-6-5" class="headerlink" title="2.5. 安装CUDA 10.2+cuDNN 7.6.5"></a>2.5. 安装CUDA 10.2+cuDNN 7.6.5</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">CUDA Toolkit Archive</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive">cuDNN Archive</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhouchen1998/article/details/107778087">Linux系统CUDA10.2+CUDNN安装教程</a></p>
+</blockquote>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>前往<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-10.2-download-archive?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1804&amp;target_type=runfilelocal">CUDA 官网</a>下载<code>cuda_10.2.89_440.33.01_linux.run</code>。</p>
+<p>注册一个NVIDIA账号，前往<a target="_blank" rel="noopener" href="https://developer.nvidia.com/rdp/cudnn-archive">cuDNN下载页面</a>下载<a target="_blank" rel="noopener" href="https://developer.nvidia.com/compute/machine-learning/cudnn/secure/7.6.5.32/Production/10.2_20191118/cudnn-10.2-linux-x64-v7.6.5.32.tgz">cnDNN Library for Linux | cuDNN 7.6.5 for CUDA 10.2</a>，文件名为<code>cudnn-10.2-linux-x64-v7.6.5.32.tgz</code>。</p>
+<h3 id="安装CUDA-10-2"><a href="#安装CUDA-10-2" class="headerlink" title="安装CUDA 10.2"></a>安装CUDA 10.2</h3><ol>
+<li><p>关闭图形化界面，进入终端模式：<code>sudo telinit 3</code>；</p>
+</li>
+<li><p>运行runfile：<code>sudo sh ./cuda_10.2.89_440.33.01_linux.run</code>；</p>
+</li>
+<li><p>如果计算机上已经安装过一个驱动，会提示<code>Existing package manager installation of the driver found. It is strongly recommended that you remove this before continuing.</code>，意思就是强烈推荐你重新装一个驱动，你要不同意就不让你继续。不过我们还是有办法不用重新安装驱动就可以成功安装CUDA 10.2，在这里选择<code>Continue</code>；</p>
+</li>
+<li><p>下一页是一个<code>End User License Aggrement</code>，在下面输入<code>accept</code>表示同意安装协议；</p>
+</li>
+<li><p>进入<code>CUDA Installer</code>，在这里直接把<code>Driver</code>/<code>CUDA Samples 10.2</code>/<code>CUDA Demo Suite 10.2</code>/<code>CUDA Documentation 10.2</code>全都去掉，只保留<code>CUDA Toolkit 10.2</code>，接着选择<code>Install</code>，回车；</p>
+</li>
+<li><p>安装完成后，重新打开图形化界面：<code>sudo service gdm3 start</code>（<code>gdm3</code>或<code>lightdm</code>）</p>
+</li>
+<li><p>在目录<code>/usr/local/</code>下已自动创建<code>cuda-10.2</code>文件夹，将其添加到环境变量：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">~/.bashrc</span></span><br><span class="line">export CUDA_HOME=/usr/local/cuda-10.2</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_HOME/lib64</span><br><span class="line">export PATH=$PATH:$CUDA_HOME/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接着更新环境变量：<code>source ~/.bashrc</code>；</p>
+</li>
+<li><p>输入<code>nvcc -V</code>查看是否安装成功：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(base) whuls@whuls:~$ nvcc -V</span><br><span class="line">nvcc: NVIDIA (R) Cuda compiler driver</span><br><span class="line">Copyright (c) 2005-2019 NVIDIA Corporation</span><br><span class="line">Built on Wed_Oct_23_19:24:38_PDT_2019</span><br><span class="line">Cuda compilation tools, release 10.2, V10.2.89</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="安装cuDNN-7-6-5"><a href="#安装cuDNN-7-6-5" class="headerlink" title="安装cuDNN 7.6.5"></a>安装cuDNN 7.6.5</h3><p>安装过程就是把cuDNN的内容拷贝到CUDA安装目录下并且使其可执行。</p>
+<p>解压cuDNN</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-z解压，-x从压缩包中读取，-v读取详细信息，-f文件名</span></span><br><span class="line">tar -zxvf cudnn-10.2-linux-x64-v7.6.5.32.tgz</span><br></pre></td></tr></table></figure>
+<p>拷贝到cuda目录下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cp cuda/include/cudnn.h /usr/local/cuda-10.2/include/</span><br><span class="line">sudo cp cuda/lib64/libcudnn* /usr/local/cuda-10.2/lib64/</span><br></pre></td></tr></table></figure>
+<p>设置权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">-r可读</span></span><br><span class="line">sudo chmod a+r /usr/local/cuda-10.2/include/cudnn.h</span><br><span class="line">sudo chmod a+r /usr/local/cuda-10.2/lib64/libcudnn*</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/01/JavaScript%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%86%E5%89%B2%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B9%B6%E8%BF%94%E5%9B%9E%E6%AF%8F%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E8%B5%B7%E5%A7%8B%E4%BD%8D%E7%BD%AE/" rel="prev" title="JavaScript用正则表达式分割字符串并返回每个字符串的起始位置">
+      <i class="fa fa-chevron-left"></i> JavaScript用正则表达式分割字符串并返回每个字符串的起始位置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/20/%E5%9F%BA%E4%BA%8EOpenCV%E7%9A%84%E5%AE%9E%E7%94%A8%E5%87%BD%E6%95%B0/" rel="next" title="基于OpenCV的实用函数">
+      基于OpenCV的实用函数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C%E9%83%A8%E5%88%86"><span class="nav-text">1. 终端操作部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E6%9F%A5%E7%9C%8B%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="nav-text">1.1. 查看操作系统信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E6%95%B0"><span class="nav-text">位数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="nav-text">操作系统版本号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BF%A1%E6%81%AF"><span class="nav-text">其他信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E6%9F%A5%E7%9C%8B%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="nav-text">1.2. 查看硬件信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%98%BE%E5%8D%A1%E5%9E%8B%E5%8F%B7"><span class="nav-text">查看显卡型号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%89%BE%E5%88%B0%E5%91%BD%E4%BB%A4%E5%AF%B9%E5%BA%94%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="nav-text">1.3. 找到命令对应的路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-text">1.4. 软链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-text">创建软链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-text">删除软链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-wget-%E7%BD%91%E7%BB%9C%E4%B8%8B%E8%BD%BD"><span class="nav-text">1.5. wget 网络下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-tar-%E6%89%93%E5%8C%85%E4%B8%8E%E8%A7%A3%E5%8E%8B"><span class="nav-text">1.6. tar 打包与解压</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B"><span class="nav-text">解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6"><span class="nav-text">查看压缩文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E5%88%9B%E5%BB%BA%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6"><span class="nav-text">打包创建压缩文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-%E5%9C%A8%E7%BB%88%E7%AB%AF%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-text">1.7. 在终端打开文件资源管理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1.8. 环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-9-%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%EF%BC%88%E5%A4%B9%EF%BC%89"><span class="nav-text">1.9. 删除文件（夹）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-10-grep-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">1.10. grep 正则表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-11-%E5%B0%86%E7%BB%88%E7%AB%AF%E8%BE%93%E5%87%BA%E4%BF%9D%E5%AD%98%E5%88%B0%E4%B8%B4%E6%97%B6%E5%8F%98%E9%87%8F"><span class="nav-text">1.11. 将终端输出保存到临时变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-12-%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-text">1.12. 输出重定向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-13-lsmod-%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%8A%A0%E8%BD%BD%E7%9A%84module"><span class="nav-text">1.13. lsmod 查看已加载的module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-14-telinit%E4%B8%8E%E5%88%87%E6%8D%A2tty"><span class="nav-text">1.14. telinit与切换tty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-15-chmod-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90"><span class="nav-text">1.15. chmod 修改文件权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-16-gedit-%E5%9B%BE%E5%BD%A2%E5%8C%96%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-text">1.16. gedit 图形化文件编辑器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E9%83%A8%E5%88%86"><span class="nav-text">2. 软件安装部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85Typora"><span class="nav-text">2.1. 安装Typora</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%AE%89%E8%A3%85nodejs"><span class="nav-text">2.2. 安装nodejs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E5%AE%89%E8%A3%85VS-Code%EF%BC%88%E4%B8%8D%E8%A6%81%E7%94%A8snap-VS-Code%EF%BC%89"><span class="nav-text">2.3. 安装VS Code（不要用snap VS Code）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E5%AE%89%E8%A3%85NVIDIA%E9%A9%B1%E5%8A%A8%EF%BC%88%E6%89%8B%E5%8A%A8%EF%BC%89"><span class="nav-text">2.4. 安装NVIDIA驱动（手动）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%91%E9%80%89%E5%90%88%E9%80%82%E7%9A%84%E9%A9%B1%E5%8A%A8"><span class="nav-text">挑选合适的驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%BC%8F%E5%AE%89%E8%A3%85"><span class="nav-text">正式安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">遇到的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-%E5%AE%89%E8%A3%85CUDA-10-2-cuDNN-7-6-5"><span class="nav-text">2.5. 安装CUDA 10.2+cuDNN 7.6.5</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87"><span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85CUDA-10-2"><span class="nav-text">安装CUDA 10.2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85cuDNN-7-6-5"><span class="nav-text">安装cuDNN 7.6.5</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GitLab &amp; GitLab Runner 实现代码上传与CI&#x2F;CD自动部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitLab &amp; GitLab Runner 实现代码上传与CI&#x2F;CD自动部署（基于Docker实现）">
+<meta property="og:url" content="https://whuls.cn/2022/07/21/GitLab-GitLab-Runner-%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81%E4%B8%8A%E4%BC%A0%E4%B8%8ECI-CD%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="GitLab &amp; GitLab Runner 实现代码上传与CI&#x2F;CD自动部署">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-21T09:53:28.000Z">
+<meta property="article:modified_time" content="2022-07-21T12:21:44.446Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="GitLab">
+<meta property="article:tag" content="CI&#x2F;CD">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://whuls.cn/2022/07/21/GitLab-GitLab-Runner-%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81%E4%B8%8A%E4%BC%A0%E4%B8%8ECI-CD%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>GitLab & GitLab Runner 实现代码上传与CI/CD自动部署（基于Docker实现） | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2022/07/21/GitLab-GitLab-Runner-%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81%E4%B8%8A%E4%BC%A0%E4%B8%8ECI-CD%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GitLab & GitLab Runner 实现代码上传与CI/CD自动部署（基于Docker实现）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-21 17:53:28 / 修改时间：20:21:44" itemprop="dateCreated datePublished" datetime="2022-07-21T17:53:28+08:00">2022-07-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GitLab/" itemprop="url" rel="index"><span itemprop="name">GitLab</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#GitLab%E4%B8%8EGitLab-Runner%E5%AE%89%E8%A3%85"><span class="post-body-toc-text">GitLab与GitLab-Runner安装</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E4%B8%BA%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93%E6%8C%87%E5%AE%9ARunner"><span class="post-body-toc-text">为代码仓库指定Runner</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E9%85%8D%E7%BD%AERunner%E5%B9%B6%E6%8C%82%E8%BD%BD%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95"><span class="post-body-toc-text">配置Runner并挂载宿主机目录</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%AE%BE%E7%BD%AECI-CD%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC"><span class="post-body-toc-text">设置CI&#x2F;CD执行脚本</span></a></li></ol>
+      
+      
+        <blockquote>
+<p>操作系统：Ubuntu 18.04</p>
+</blockquote>
+<p>GitLab是代码仓库，GitLab-Runner用于运行代码提交后的自动部署脚本，以实现CI/CD。</p>
+<h1 id="GitLab与GitLab-Runner安装"><a href="#GitLab与GitLab-Runner安装" class="headerlink" title="GitLab与GitLab-Runner安装"></a>GitLab与GitLab-Runner安装</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://docs.gitlab.cn/jh/install/docker.html">极狐GitLab Docker 镜像 | GitLab</a></p>
+</blockquote>
+<p>使用docker-compose，挂载三个目录：config, logs和data</p>
+<p>然后将阿里云邮箱服务的配置添加进去</p>
+<p>GitLab-Runner需要将宿主机的<code>/var/run/docker.sock</code>传入，以使用docker。Runner需要一个运行环境，用来执行构建或者其他操作，该环境可以是命令行，也可以是docker容器，传入宿主机的docker配置使其可以直接调用宿主机的docker命令。</p>
+<p>docker-compose.yml配置文件如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.6&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">&#x27;registry.gitlab.cn/omnibus/gitlab-jh:latest&#x27;</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">GITLAB_ROOT_PASSWORD:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">      <span class="attr">GITLAB_OMNIBUS_CONFIG:</span> <span class="string">|</span></span><br><span class="line"><span class="string">        # Add any other gitlab.rb configuration here, each on its own line</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_enable&#x27;] = true</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_address&#x27;] = &quot;smtpdm.aliyun.com&quot;</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_port&#x27;] = 465</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_user_name&#x27;] = &quot;邮箱用户@域名.com&quot;</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_password&#x27;] = &quot;smtp服务密码&quot;</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_domain&#x27;] = &quot;域名.com&quot;</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_authentication&#x27;] = &quot;login&quot;</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_enable_starttls_auto&#x27;] = false</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_tls&#x27;] = true</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;smtp_ssl&#x27;] = false</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;gitlab_email_from&#x27;] = &#x27;同smtp_user_name&#x27;</span></span><br><span class="line"><span class="string">        gitlab_rails[&#x27;gitlab_email_display_name&#x27;] = &#x27;邮件标识符&#x27;</span></span><br><span class="line"><span class="string"></span>    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;880:80&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;8443:443&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;822:22&#x27;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;./config:/etc/gitlab&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;./logs:/var/log/gitlab&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;./data:/var/opt/gitlab&#x27;</span></span><br><span class="line">    <span class="attr">shm_size:</span> <span class="string">&#x27;256m&#x27;</span></span><br><span class="line">  <span class="attr">runner:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">gitlab/gitlab-runner:latest</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;./runner/config.toml:/etc/gitlab-runner/config.toml&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;/var/run/docker.sock:/var/run/docker.sock&#x27;</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">web</span></span><br></pre></td></tr></table></figure>
+<p>运行<code>docker-compose up -d</code>，启动多个容器并分离（detach）到后台。</p>
+<h1 id="为代码仓库指定Runner"><a href="#为代码仓库指定Runner" class="headerlink" title="为代码仓库指定Runner"></a>为代码仓库指定Runner</h1><p>打开一个代码仓库，设置，CI/CD，Runner，指定Runner。这里提供的网址和注册令牌将用来注册Runner</p>
+<p>在宿主机执行以下命令，进入Runner</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker container ls -a  # 查看容器名称，假设为gitlab-runner-1</span><br><span class="line">docker exec -it gitlab-runner-1 gitlab-runner register</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>输入网址和注册令牌</p>
+</li>
+<li><p>选择执行器（executor），可以是docker，也可以是shell、ssh等（建议docker，运行脚本需要用到一些额外的构建依赖，可以通过指定容器来提供，如果是shell，就需要自己再安装，不太方便）</p>
+</li>
+<li><p>如果执行器（executor）选择了docker，接着需要选择默认的镜像，根据构建的环境来选，不知道选什么也可以写<code>docker:latest</code>，之后可以在配置文件中再指定。</p>
+</li>
+</ol>
+<p>注册完成后回到仓库，刷新后可以看到指定的Runner。</p>
+<h1 id="配置Runner并挂载宿主机目录"><a href="#配置Runner并挂载宿主机目录" class="headerlink" title="配置Runner并挂载宿主机目录"></a>配置Runner并挂载宿主机目录</h1><p>挂载为<code>/etc/gitlab-runner/config.toml</code>的配置文件中，可以看到多了刚刚注册的Runner信息：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">concurrent</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">check_interval</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="section">[session_server]</span></span><br><span class="line">  <span class="attr">session_timeout</span> = <span class="number">1800</span></span><br><span class="line"></span><br><span class="line"><span class="section">[[runners]]</span></span><br><span class="line">  <span class="attr">name</span> = <span class="string">&quot;a2a920771c6a&quot;</span></span><br><span class="line">  <span class="attr">url</span> = <span class="string">&quot;http://域名/&quot;</span></span><br><span class="line">  <span class="attr">token</span> = <span class="string">&quot;口令&quot;</span></span><br><span class="line">  <span class="attr">executor</span> = <span class="string">&quot;docker&quot;</span></span><br><span class="line">  <span class="section">[runners.custom_build_dir]</span></span><br><span class="line">  <span class="section">[runners.cache]</span></span><br><span class="line">    <span class="section">[runners.cache.s3]</span></span><br><span class="line">    <span class="section">[runners.cache.gcs]</span></span><br><span class="line">    <span class="section">[runners.cache.azure]</span></span><br><span class="line">  <span class="section">[runners.docker]</span></span><br><span class="line">    <span class="attr">tls_verify</span> = <span class="literal">false</span></span><br><span class="line">    <span class="attr">image</span> = <span class="string">&quot;docker:latest&quot;</span></span><br><span class="line">    <span class="attr">pull_policy</span> = <span class="string">&quot;if-not-present&quot;</span></span><br><span class="line">    <span class="attr">privileged</span> = <span class="literal">false</span></span><br><span class="line">    <span class="attr">disable_entrypoint_overwrite</span> = <span class="literal">false</span></span><br><span class="line">    <span class="attr">oom_kill_disable</span> = <span class="literal">false</span></span><br><span class="line">    <span class="attr">disable_cache</span> = <span class="literal">false</span></span><br><span class="line">    <span class="attr">volumes</span> = [<span class="string">&quot;/cache&quot;</span>, <span class="string">&quot;/home/deploy:/home/build/dist&quot;</span>]</span><br><span class="line">    <span class="attr">shm_size</span> = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>需要注意这里加了一句<code>pull_policy = &quot;if-not-present&quot;</code>，避免每次执行脚本都拉取一次镜像。</p>
+<p>这个配置就是一个配置而已，作为一个配置记录，但很有用：</p>
+<ol>
+<li><p>当运行<code>gitlab-runner verify</code>时，检查该配置文件中的runner，是否与GitLab仓库建立关系。若将该配置文件的配置项删除，则不检查。若在仓库中解除与runner的联系，则会提示<code>is removed</code>。</p>
+</li>
+<li><p>在GitLab仓库执行CI/CD脚本时，系统通过指定的runner，找到这个配置文件，再通过这个配置文件中的内容，创建docker容器（如果executor=”docker”）。因此可以在这个地方设置宿主机runner创建的容器之间的挂载目录，用于<strong>构建完成后将文件夹拷贝到宿主机的指定目录</strong>。</p>
+</li>
+</ol>
+<h1 id="设置CI-CD执行脚本"><a href="#设置CI-CD执行脚本" class="headerlink" title="设置CI/CD执行脚本"></a>设置CI/CD执行脚本</h1><p>GitLab仓库，CI/CD，编辑器，默认会打开根目录下的<code>.gitlab-ci.yml</code>文件进行编辑：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 缓存路径，避免重复安装依赖</span></span><br><span class="line"><span class="attr">cache:</span></span><br><span class="line">  <span class="attr">key:</span> <span class="string">$&#123;CI_PROJECT_NAME&#125;</span></span><br><span class="line">  <span class="attr">paths:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">node_modules/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建阶段，按顺序进行</span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">build</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建</span></span><br><span class="line"><span class="attr">build-job:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">node:14-alpine</span>  <span class="comment"># 指定镜像</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span>  <span class="comment"># 阶段名称，作为标识符</span></span><br><span class="line">  <span class="attr">only:</span>  <span class="comment"># 仅在某个分支提交时才执行脚本</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">  <span class="attr">script:</span>  <span class="comment"># 执行脚本，首先安装，接着构建</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">yarn</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">yarn</span> <span class="string">build</span></span><br><span class="line">  <span class="attr">artifacts:</span>  <span class="comment"># 传递到下一阶段可用的文件（文件夹）</span></span><br><span class="line">    <span class="attr">expire_in:</span> <span class="number">1</span> <span class="string">week</span></span><br><span class="line">    <span class="attr">paths:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">dist</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署阶段（不指定镜像则使用默认的）</span></span><br><span class="line"><span class="attr">deploy-job:</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deploy</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">    <span class="string">cp</span> <span class="string">-r</span> <span class="string">dist/*</span> <span class="string">/home/build/dist/</span>  <span class="comment"># 复制所有文件和文件夹到指定目录下</span></span><br></pre></td></tr></table></figure>
+<p>经过以上设置，每次提交到主分支master，都会执行构建脚本，通过“流水线（pipeline）”可以看到执行进度和执行过程中的输出。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+              <a href="/tags/GitLab/" rel="tag"><i class="fa fa-tag"></i> GitLab</a>
+              <a href="/tags/CI-CD/" rel="tag"><i class="fa fa-tag"></i> CI/CD</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/20/Ubuntu-18-04-%E5%AE%89%E8%A3%85Docker%E5%92%8Cdocker-compose/" rel="prev" title="Ubuntu 18.04 安装Docker和docker-compose">
+      <i class="fa fa-chevron-left"></i> Ubuntu 18.04 安装Docker和docker-compose
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/08/09/FFMPEG-HEVC%E8%BD%ACH-264/" rel="next" title="FFMPEG HEVC转H.264">
+      FFMPEG HEVC转H.264 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GitLab%E4%B8%8EGitLab-Runner%E5%AE%89%E8%A3%85"><span class="nav-text">GitLab与GitLab-Runner安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BA%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93%E6%8C%87%E5%AE%9ARunner"><span class="nav-text">为代码仓库指定Runner</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AERunner%E5%B9%B6%E6%8C%82%E8%BD%BD%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9B%AE%E5%BD%95"><span class="nav-text">配置Runner并挂载宿主机目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AECI-CD%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC"><span class="nav-text">设置CI&#x2F;CD执行脚本</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

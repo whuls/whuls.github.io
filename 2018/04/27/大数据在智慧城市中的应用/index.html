@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="文章首先介绍了大数据和智慧城市的概念、大数据的应用潜力和当前国际上智慧城市的建设概况，然后简要介绍了大数据的四个方面共16种关键技术，最后参考欧盟提出的大数据在智慧城市应用的九个方面，提出了自己在这些应用方面的想法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据在智慧城市中的应用">
+<meta property="og:url" content="https://whuls.cn/2018/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="文章首先介绍了大数据和智慧城市的概念、大数据的应用潜力和当前国际上智慧城市的建设概况，然后简要介绍了大数据的四个方面共16种关键技术，最后参考欧盟提出的大数据在智慧城市应用的九个方面，提出了自己在这些应用方面的想法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-27T03:54:28.000Z">
+<meta property="article:modified_time" content="2022-05-20T14:35:59.029Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="大数据关键技术">
+<meta property="article:tag" content="大数据应用">
+<meta property="article:tag" content="智慧城市">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://whuls.cn/2018/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>大数据在智慧城市中的应用 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2018/04/27/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大数据在智慧城市中的应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-27 11:54:28" itemprop="dateCreated datePublished" datetime="2018-04-27T11:54:28+08:00">2018-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82/" itemprop="url" rel="index"><span itemprop="name">智慧城市</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#1-%E5%BC%95%E8%A8%80"><span class="post-body-toc-text">1. 引言</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-1-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E5%BA%94%E7%94%A8%E8%83%8C%E6%99%AF"><span class="post-body-toc-text">1.1 大数据的应用背景</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-2-%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%E6%BD%9C%E5%8A%9B"><span class="post-body-toc-text">1.2 大数据在智慧城市中的应用潜力</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-3-%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E5%BB%BA%E8%AE%BE%E6%83%85%E5%86%B5-4"><span class="post-body-toc-text">1.3 智慧城市建设情况[4]</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#2-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF-5"><span class="post-body-toc-text">2. 大数据的关键技术[5]</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-1-%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86"><span class="post-body-toc-text">2.1 大数据采集</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-1-1-%E6%97%A0%E7%BA%BF%E5%B0%84%E9%A2%91%E5%92%8C%E4%BC%A0%E6%84%9F%E5%99%A8"><span class="post-body-toc-text">2.1.1 无线射频和传感器</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-1-2-%E6%95%B0%E6%8D%AE%E5%BA%93%E9%87%87%E9%9B%86"><span class="post-body-toc-text">2.1.2 数据库采集</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-1-3-%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86"><span class="post-body-toc-text">2.1.3 网络数据采集</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-1-4-%E6%96%87%E4%BB%B6%E9%87%87%E9%9B%86"><span class="post-body-toc-text">2.1.4 文件采集</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-2-%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="post-body-toc-text">2.2 大数据预处理</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-2-1-%E6%95%B0%E6%8D%AE%E6%B8%85%E7%90%86"><span class="post-body-toc-text">2.2.1 数据清理</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-2-2-%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90"><span class="post-body-toc-text">2.2.2 数据集成</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-2-3-%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2"><span class="post-body-toc-text">2.2.3 数据转换</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-2-4-%E6%95%B0%E6%8D%AE%E8%A7%84%E7%BA%A6"><span class="post-body-toc-text">2.2.4 数据规约</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="post-body-toc-text">2.3 大数据存储</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-3-1-MPP%E6%9E%B6%E6%9E%84%E7%9A%84%E6%96%B0%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E7%BE%A4"><span class="post-body-toc-text">2.3.1 MPP架构的新型数据库集群</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-3-2-%E5%9F%BA%E4%BA%8EHadoop%E7%9A%84%E6%8A%80%E6%9C%AF%E6%89%A9%E5%B1%95%E5%92%8C%E5%B0%81%E8%A3%85"><span class="post-body-toc-text">2.3.2 基于Hadoop的技术扩展和封装</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-3-3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%80%E4%BD%93%E6%9C%BA"><span class="post-body-toc-text">2.3.3 大数据一体机</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-4-%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8C%96%E6%8E%98"><span class="post-body-toc-text">2.4 大数据分析挖掘</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-4-1-%E5%8F%AF%E8%A7%86%E5%8C%96%E5%88%86%E6%9E%90"><span class="post-body-toc-text">2.4.1 可视化分析</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-4-2-%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95"><span class="post-body-toc-text">2.4.2 数据挖掘算法</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-4-3-%E9%A2%84%E6%B5%8B%E6%80%A7%E5%88%86%E6%9E%90"><span class="post-body-toc-text">2.4.3 预测性分析</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-4-4-%E8%AF%AD%E4%B9%89%E5%BC%95%E6%93%8E"><span class="post-body-toc-text">2.4.4 语义引擎</span></a></li><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#2-4-5-%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86"><span class="post-body-toc-text">2.4.5 数据质量管理</span></a></li></ol></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-6"><span class="post-body-toc-text">3. 大数据在智慧城市中的应用[6]</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-1-%E6%99%BA%E6%85%A7%E7%BB%8F%E6%B5%8E"><span class="post-body-toc-text">3.1 智慧经济</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-2-%E6%99%BA%E6%85%A7%E6%B2%BB%E7%90%86"><span class="post-body-toc-text">3.2 智慧治理</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-3-%E7%8E%AF%E5%A2%83%E7%9B%91%E6%B5%8B"><span class="post-body-toc-text">3.3 环境监测</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-4-%E6%99%BA%E6%85%A7%E5%8C%BB%E7%96%97"><span class="post-body-toc-text">3.4 智慧医疗</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-5-%E6%99%BA%E8%83%BD%E6%90%9C%E7%B4%A2"><span class="post-body-toc-text">3.5 智能搜索</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-6-%E8%88%86%E6%83%85%E7%9B%91%E6%B5%8B"><span class="post-body-toc-text">3.6 舆情监测</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-7-%E7%B2%BE%E5%87%86%E8%90%A5%E9%94%80"><span class="post-body-toc-text">3.7 精准营销</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-8-%E7%8A%AF%E7%BD%AA%E9%A2%84%E8%AD%A6"><span class="post-body-toc-text">3.8 犯罪预警</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-9-%E5%B8%82%E5%9C%BA%E4%BB%B7%E6%A0%BC%E7%9B%91%E6%B5%8B"><span class="post-body-toc-text">3.9 市场价格监测</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#4-%E6%80%BB%E7%BB%93"><span class="post-body-toc-text">4. 总结</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="post-body-toc-text">参考文献</span></a></li></ol>
+      
+      
+        <p><strong>摘要</strong>：文章首先介绍了大数据和智慧城市的概念、大数据的应用潜力和当前国际上智慧城市的建设概况，然后简要介绍了大数据的四个方面共16种关键技术，最后参考欧盟提出的大数据在智慧城市应用的九个方面，提出了自己在这些应用方面的想法。<br><strong>关键词</strong>：大数据，智慧城市，数据采集，数据挖掘，数据处理，数据存储</p>
+<h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1. 引言"></a>1. 引言</h1><p>时下最流行的术语要属“大数据”了。在百度指数上，“大数据”一词的搜索次数从2012年以前的每周50次不到，飙升至最高每周9859次，并持续保有热度。顾名思义，大数据的首要特征是其数据量庞大，它的数据量已经从太字节(TB，240)级上升到拍字节(PB，250)级，甚至是泽字节(ZB，270)级。“据统计，如今人们每两天生产的数据量就与人类文明发展至2003年产生的总数据量相当，而迄今为止人类所积累的数据量的90%都来自过去两年。——2015”[1]而在2018的今天，随着科技的进步，数据获取途径更多、数量更大，其中就包括了RFID射频数据、传感器数据、社交网络数据、移动互联网数据等方式获得各种类型的结构化、半结构化及非结构化的海量数据。<br>智慧城市(smart city)这一概念发端于20世纪80年代的信息城市(information city)，经历了20世纪90年代的智能城市(intelligent city)与数字城市(digital city)，在2000年后逐步演化为智慧城市。2009年IBM公司首次提出了智慧城市愿景，使得智慧城市理念与实践在全球范围内迅速传播。[1]在百度指数上，“智慧城市”一词的搜索热度随不及“大数据”，但可以明显看出，从2011年以来，搜索量持续上涨并最终稳定在每周2000次左右。<strong>智慧城市就是基于数字城市、物联网和云计算建立的现实世界与数字世界的融合，运用信息和通信技术手段感测、分析、整合城市运行核心系统的各项关键信息，以实现对人和物的感知、控制和智能服务，从而对包括民生、环保、公共安全、城市服务、工商业活动在内的各种需求做出智能响应。</strong>其实质是利用先进的信息技术，实现城市智慧式管理和运行，进而为城市中的人创造更美好的生活，促进城市的和谐、可持续成长。[2][3]<br>大数据是信息和通信技术领域的概念，而智慧城市的实现依赖于这项技术，因此，研究他们之间的关系，探讨大数据在智慧城市中的应用，对于更好地从民生、环保、公共安全、城市服务等方面促进城市发展，有着至关重要的作用。</p>
+<h2 id="1-1-大数据的应用背景"><a href="#1-1-大数据的应用背景" class="headerlink" title="1.1 大数据的应用背景"></a>1.1 大数据的应用背景</h2><p>根据国际商业机器公司（IBM）估计的数据来看，现在我们每天生成的数据高达250兆亿个字节，信息的指数型增长有时被人们视为万灵药，就好比20世纪70年代出现的计算机一样。《连线》杂志的前主编克里斯·安德森曾经在2008年的一篇文章中说：“数量庞大的数据会使人们不再需要理论，甚至不再需要科学的方法。”<br>被誉为大数据时代的预言家的“维克托-迈尔-舍恩伯格”在2012年出版的《大数据时代》一书中说到：“在大数据时代，我们的思维发生了巨大的变革，我们不再关注事物的因果关系，而更多的关注它们的相关关系。”从哲学的层面来讲，大数据时代发生的思维变革主要影响了人们的“理性认知世界”的过程。人类的理性认知主要包括概念、判断、推理三个过程，概念是人们对一个事物进行总结、概括、抽象后的认知，判断是通过学习对事物进行定义，推理是通过已有判断得出新的判断的过程。在过去，人们进行理性认知的过程往往通过部分样本来进行，也就是说，通过事物的样本来获取整体认知，而在大数据时代，样本即总体，对事物的认知方式也来到了一个新的阶段。<br>那么这种认知方式有何好处呢？很显然，它具有高效性和准确性。以往，科学家们在一个科学规律发现之前，往往要进行大量的试验和理论论证，而且实验的样本也难以包含全部，只是一种随机的样本，那么这个试验加上推理论证的方法就会耗费大量的时间，而在实际应用时，又会遇到很多的问题。如今，<strong>云计算理念下的虚拟化技术</strong>大幅提高了人类对数据的处理能力，对海量数据的组织、整理、归纳和学习成为现实，而且由于是对所有的数据进行操作，样本=总体，那么得到的结果也更加准确。同时，由于计算的高效，在获取新的知识后，对已有认知进行更新也将十分迅速。<br>如今，大数据主要被应用于预测领域。美国最具影响力的预测专家纳特·西尔弗在2013年出版的《信号与噪声》一书中列举了大量涉及不同领域的大数据预测。包括政治选举预测、棒球比赛预测、天气预测、地震预测、经济预测、传染性疾病预测、国际象棋大战、扑克牌游戏、股票市场、温室效应、恐怖主义，几乎涵盖了政治、经济、社会、文化、娱乐等方方面面，由此可以看出，大数据在预测方面具有巨大的潜力。</p>
+<h2 id="1-2-大数据在智慧城市中的应用潜力"><a href="#1-2-大数据在智慧城市中的应用潜力" class="headerlink" title="1.2 大数据在智慧城市中的应用潜力"></a>1.2 大数据在智慧城市中的应用潜力</h2><p>大数据是智慧城市各个领域都能够实现“智慧化”的关键性支撑技术，智慧城市的建设离不开大数据。建设智慧城市，是城市发展的新范式和新战略。大数据将遍布智慧城市的方方面面，从政府决策与服务，到人们衣食住行的生活方式，再到城市的产业布局和规划，直到城市的运营和管理方式，都将在大数据支撑下走向“智慧化”，大数据成为智慧城市的智慧引擎。[4]<br>我们在前面说到，智慧城市是基于数字城市、物联网和云计算建立的现实世界与数字世界的融合，以实现对人和物的感知、控制和智能服务。感知是数字城市的功能，控制和智能服务是智慧的高级阶段。<br>首先在感知方面，随着科技水平的进步，我们可以多渠道、多方式地采集海量数据，从地下、地表到航空、航天，从室外到室内，或者沿着时间轴，贯穿一个时间段地收集数据。<br>其次是控制和服务方面。正如前面所说，数据量在近两年有了指数级的增长，但这不仅是采集技术进步的功劳。纳特·西弗斯在《信号与噪声中》说：“一旦信息的增长速度过快，而我们处理信息的能力尚且不足，情况就很危险。过去40年的人类历史表明，把信息转变为有用的只是可能还需要很长时间，一不小心，我们就有可能倒退回去。”显然，和大数据一同发展的，还有大数据信息处理技术。我们利用云计算对海量数据进行信息提取，进而利用机器学习的方法，进行预测，就能提供智能服务，也能实现对某些事物的控制。</p>
+<h2 id="1-3-智慧城市建设情况-4"><a href="#1-3-智慧城市建设情况-4" class="headerlink" title="1.3 智慧城市建设情况[4]"></a>1.3 智慧城市建设情况[4]</h2><p>目前，我国正处于城镇化加速发展的时期，部分地区“城市病”问题日益严峻。为解决城市发展难题，实现城市可持续发展，建设智慧城市已成为当今世界城市发展不可逆转的历史潮流。智慧城市的建设在国内外许多地区已经展开，并取得了一系列成果，国内的如智慧上海、智慧双流；国外如新加坡的“智慧国计划”、韩国的“U-City计划”等。</p>
+<h1 id="2-大数据的关键技术-5"><a href="#2-大数据的关键技术-5" class="headerlink" title="2. 大数据的关键技术[5]"></a>2. 大数据的关键技术[5]</h1><p>大数据应用于智慧城市建设的关键技术主要有四个方面：大数据采集，大数据预处理、大数据存储及管理、大数据分析及挖掘。下面将简要阐述四个方面共16项技术及其在智慧城市建设中的应用。</p>
+<h2 id="2-1-大数据采集"><a href="#2-1-大数据采集" class="headerlink" title="2.1 大数据采集"></a>2.1 大数据采集</h2><p>数据采集是大数据生命周期的第一个环节，除了通过RFID射频、传感器等硬件技术获取技术，还可以获取已有数据库数据、社交网络数据、移动互联网数据等各种类型的结构化、半结构化及非结构化的海量数据。由于可能有成千上万的用户同时进行并发访问和操作，因此，必须采用专门针对大数据的采集方法，其主要包括以下几种：</p>
+<h3 id="2-1-1-无线射频和传感器"><a href="#2-1-1-无线射频和传感器" class="headerlink" title="2.1.1 无线射频和传感器"></a>2.1.1 无线射频和传感器</h3><p>传感器是一种获取电信号的技术，分为接触式和非接触式；而无线射频技术是一种非接触式通信技术，可通过无线电讯号识别特定目标并读写相关数据。</p>
+<h3 id="2-1-2-数据库采集"><a href="#2-1-2-数据库采集" class="headerlink" title="2.1.2 数据库采集"></a>2.1.2 数据库采集</h3><p>从已有的数据库中采集数据。传统的关系型数据库有MySQL和Oracle等。常用的的工具有Sqoop和结构化数据库间的ETL工具，当然当前对于开源的Kettle和Talend本身也包含了大数据集成内容，可以实现和HDFS，HBase和主流NoSQL数据库之间的数据同步和集成。</p>
+<h3 id="2-1-3-网络数据采集"><a href="#2-1-3-网络数据采集" class="headerlink" title="2.1.3 网络数据采集"></a>2.1.3 网络数据采集</h3><p>网络数据采集主要是借助网络爬虫或网站公开API等方式，从网站上获取数据信息的过程。可以获取网络上非结构化及半结构化数据，并存储。</p>
+<h3 id="2-1-4-文件采集"><a href="#2-1-4-文件采集" class="headerlink" title="2.1.4 文件采集"></a>2.1.4 文件采集</h3><p>使用Flume实现分布式的海量日志采集、聚合和传输。也可以使用轻量级的ELK(Elasticsearch、Logstash、Kibana三个开源软件的组合)进行日志收集处理。</p>
+<h2 id="2-2-大数据预处理"><a href="#2-2-大数据预处理" class="headerlink" title="2.2 大数据预处理"></a>2.2 大数据预处理</h2><p>大数据数量巨大，但也会有残缺、虚假、过时的数据。无效的数据不仅没有任何作用，还会影响后续操作，因此数据的预处理就极为重要。大数据预处理就是对采集到的原始数据进行清洗、填补、平滑、合并、规格化以及检查一致性等。主要包括：数据清理、数据集成、数据转换以及数据规约四大部分。</p>
+<h3 id="2-2-1-数据清理"><a href="#2-2-1-数据清理" class="headerlink" title="2.2.1 数据清理"></a>2.2.1 数据清理</h3><p>数据清理主要包含遗漏值处理(缺少感兴趣的属性)、噪音数据处理(数据中存在着错误、或偏离期望值的数据)、不一致数据处理。主要的清洗工具是ETL(Extraction/Transformation/Loading)和Potter’s Wheel。</p>
+<h3 id="2-2-2-数据集成"><a href="#2-2-2-数据集成" class="headerlink" title="2.2.2 数据集成"></a>2.2.2 数据集成</h3><p>数据集成是指将多个数据源中的数据合并存放到一个一致的数据存储库中。</p>
+<h3 id="2-2-3-数据转换"><a href="#2-2-3-数据转换" class="headerlink" title="2.2.3 数据转换"></a>2.2.3 数据转换</h3><p>数据转换包括两类：第一类，数据名称及格式的统一，即数据粒度转换、商务规则计算以及统一的命名、数据格式、计量单位等；第二类，数据仓库中存在源数据库中可能不存在的数据，因此需要进行字段的组合、分割或计算。</p>
+<h3 id="2-2-4-数据规约"><a href="#2-2-4-数据规约" class="headerlink" title="2.2.4 数据规约"></a>2.2.4 数据规约</h3><p>数据归约是指在尽可能保持数据原貌的前提下，最大限度地精简数据量，主要包括：数据方聚集、维规约、数据压缩、数值规约和概念分层等。</p>
+<h2 id="2-3-大数据存储"><a href="#2-3-大数据存储" class="headerlink" title="2.3 大数据存储"></a>2.3 大数据存储</h2><p>大数据存储与管理要用存储器把采集到的数据存储起来，建立相应的数据库，以便管理和调用。大数据存储技术路线最典型的共有三种：</p>
+<h3 id="2-3-1-MPP架构的新型数据库集群"><a href="#2-3-1-MPP架构的新型数据库集群" class="headerlink" title="2.3.1 MPP架构的新型数据库集群"></a>2.3.1 MPP架构的新型数据库集群</h3><p>MPP（Massively Parallel Processing，大规模并行处理系统）。采用Shared Nothing架构，通过列存储、粗粒度索引等多项大数据处理技术，再结合MPP架构高效的分布式计算模式，完成对分析类应用的支撑，运行环境多为低成本 PC Server，<strong>对于企业新一代的数据仓库和结构化数据分析，目前最佳选择是MPP数据库。</strong></p>
+<h3 id="2-3-2-基于Hadoop的技术扩展和封装"><a href="#2-3-2-基于Hadoop的技术扩展和封装" class="headerlink" title="2.3.2 基于Hadoop的技术扩展和封装"></a>2.3.2 基于Hadoop的技术扩展和封装</h3><p>这里面有几十种NoSQL技术，也在进一步的细分。<strong>对于非结构、半结构化数据处理、复杂的ETL流程、复杂的数据挖掘和计算模型，Hadoop平台更擅长。</strong></p>
+<h3 id="2-3-3-大数据一体机"><a href="#2-3-3-大数据一体机" class="headerlink" title="2.3.3 大数据一体机"></a>2.3.3 大数据一体机</h3><p>这是一种专为大数据的分析处理而设计的软、硬件结合的产品，由一组集成的服务器、存储设备、操作系统、数据库管理系统以及为数据查询、处理、分析用途而预先安装及优化的软件组成，高性能大数据一体机具有良好的稳定性和纵向扩展性。</p>
+<h2 id="2-4-大数据分析挖掘"><a href="#2-4-大数据分析挖掘" class="headerlink" title="2.4 大数据分析挖掘"></a>2.4 大数据分析挖掘</h2><p>数据的分析与挖掘主要目的是把隐藏在一大批看来杂乱无章的数据中的信息集中起来，进行萃取、提炼，以找出潜在有用的信息和所研究对象的内在规律的过程。包括可视化分析、数据挖掘算法、预测性分析、语义引擎以及数据质量和数据管理五大方面。</p>
+<h3 id="2-4-1-可视化分析"><a href="#2-4-1-可视化分析" class="headerlink" title="2.4.1 可视化分析"></a>2.4.1 可视化分析</h3><p>数据可视化主要是借助于图形化手段，清晰有效地传达与沟通信息。目的是做出简单明了、清晰直观，更易于接受的图表。</p>
+<h3 id="2-4-2-数据挖掘算法"><a href="#2-4-2-数据挖掘算法" class="headerlink" title="2.4.2 数据挖掘算法"></a>2.4.2 数据挖掘算法</h3><p>数据挖掘算法是大数据分析的理论核心，数据挖掘的算法多种多样，不同的算法基于不同的数据类型和格式会呈现出数据所具备的不同特点，致力于深入数据内部，挖掘出数据的价值。</p>
+<h3 id="2-4-3-预测性分析"><a href="#2-4-3-预测性分析" class="headerlink" title="2.4.3 预测性分析"></a>2.4.3 预测性分析</h3><p>预测性分析结合了多种高级分析功能，包括特别统计分析、预测建模、数据挖掘、文本分析、实体分析、优化、实时评分、机器学习等。</p>
+<h3 id="2-4-4-语义引擎"><a href="#2-4-4-语义引擎" class="headerlink" title="2.4.4 语义引擎"></a>2.4.4 语义引擎</h3><p>语义引擎就是给已有的数据（结构化或非结构化）加上语义层。语义技术目的是让用户更快、更准确、更全面地获得所需信息，提高用户的互联网体验。</p>
+<h3 id="2-4-5-数据质量管理"><a href="#2-4-5-数据质量管理" class="headerlink" title="2.4.5 数据质量管理"></a>2.4.5 数据质量管理</h3><p>数据质量管理是指对数据从生命周期中每个阶段（计划、获取、存储、共享、维护、应用、消亡）可能引发的各类数据质量问题进行识别、度量、监控、预警等一系列管理活动，并通过改善和提高组织的管理水平使得数据质量获得进一步提高。</p>
+<h1 id="3-大数据在智慧城市中的应用-6"><a href="#3-大数据在智慧城市中的应用-6" class="headerlink" title="3. 大数据在智慧城市中的应用[6]"></a>3. 大数据在智慧城市中的应用[6]</h1><p>首先举出当前大数据在智慧城市中应用的九个方面，然后以此为思路导向，提出自己的想法。</p>
+<h2 id="3-1-智慧经济"><a href="#3-1-智慧经济" class="headerlink" title="3.1 智慧经济"></a>3.1 智慧经济</h2><p>在商业上，大数据预测可以用于分析用户的购物行为，什么商品搭配在一起会卖得更好，还可以通过分析找到最佳客户。在淘宝平台上，商家可以根据淘宝的数据魔方了解平台上的行业宏观情况、自己品牌的市场状况、消费者行为情况等，并可以据此作出经营决策；阿里公司根据在淘宝网上中小企业的交易状况筛选出财务健康和诚信的企业，从而无需担保来放贷，目前已放贷300多亿元，坏帐率仅0.3％，大大低于商业银行；IBM日本公司建立了一个经济指标预测系统，从互联网新闻中搜索影响制造业的480项经济数据，计算出采购经理人指数（PMI，用于评估行业兴衰）；华尔街对冲基金依据购物网站顾客评论分析企业产品销售状况，华尔街银行根据求职网站岗位数量推断就业率。<br>企业通过信息收集很好的掌握企业的运营状况，分析居民与财务有关的记录包括贷款申请、租赁、房地产、购买零售商品、纳税申报、水电费缴付、有线电视缴费、电话缴费、报纸与杂志订阅、机动车档案等，能够得出消费者的个人信用评分，从而推断客户支付意向与支付能力，发现潜在的商机和欺诈行为。<br>利用大数据分析可实现对合理库存量的管理；利用心情分析方法可以分析用户在购物时的心情，从而为其安排更好的购物方案；通过分析顾客在购买商品时的关联性，超市经营者可以做出更好的商品布局。</p>
+<h2 id="3-2-智慧治理"><a href="#3-2-智慧治理" class="headerlink" title="3.2 智慧治理"></a>3.2 智慧治理</h2><p>美国纽约的警察分析交通拥堵与犯罪发生地点的关系，有效改进治安；美国纽约的交通部门从交通违规和事故的统计数据中发现规律，改进了道路设计；电信运营商拥有大量的手机数据，通过对手机数据的挖掘，不针对个人而是着眼于群体行为，可从中分析：实时动态的流动人口的来源及分布情况、出行和实时交通客流信息及拥塞情况；利用手机用户身份和位置的检测可了解突发性事件的聚集情况；MIT的Reality Mining项目，通过对10万多人手机的通话、短信和空间位置等信息进行处理，提取人们行为的时空规则性和重复性，进行流行病预警和犯罪预测；利用短信、微博、微信和搜索引擎可以收集热点事件与舆情挖掘；</p>
+<h2 id="3-3-环境监测"><a href="#3-3-环境监测" class="headerlink" title="3.3 环境监测"></a>3.3 环境监测</h2><p>通过卫星、无人机、地面无人车等遥感平台采集空间数据。对森林和植被、湖泊、河流、土地进行数据采集监测和分析，能够判别城市中有没有污染。</p>
+<h2 id="3-4-智慧医疗"><a href="#3-4-智慧医疗" class="headerlink" title="3.4 智慧医疗"></a>3.4 智慧医疗</h2><p>智慧医疗主要体现在医疗模式的开发。首先是居家监护，收集中老年人或婴幼儿很长时间（数年甚至数十年）的健康数据，进行分析预测，可以从一定程度上避免意外状况的发生；其次是医疗网络监控，根据网民搜索内容分析全球范围内流感等病疫传播状况；另外还有个性化医疗，有研究表明，同样的治疗对一些病人无效，75％癌症病人，70％的老年痴呆者、50％的关节炎病人、43％的糖尿病患者、40％的哮喘病患者，38％的抑郁症病人，因为人体对药品代谢方式的差异取决于个体特定的基因、酶和蛋白质组合，因此基因信息对选择最优治疗非常关键。对人体个性体质的挖掘会做到真正意义上的对症下药，一个人的基因信息大概1GB；最后，参考舆情监督，可以通过社交网络获取许多患者分享的临床症状和经验，增加医院在这些方面的临床统计资料。</p>
+<h2 id="3-5-智能搜索"><a href="#3-5-智能搜索" class="headerlink" title="3.5 智能搜索"></a>3.5 智能搜索</h2><p>如今，搜索引擎不再局限于基于文本字符串的匹配搜索，出现了基于图片的搜索、基于语音的搜索、基于位置的搜索。例如百度搜索，图片搜索和文字搜索已经达到了非常高的精度，而百度旗下的百度地图，在语音搜索和基于位置的搜索也做的相当令人满意。<br>在搜索形式上，除了现有的几种搜索，还可以借助传感器和机器学习，利用大数据分析方法，进行基于气味的搜索、基于视频信息的搜索等。<br>在搜索内容上，智能搜索的理念被用于理解用户的语义，分析用户在进行搜索过程时的心情和状态，据此提供用户真正感兴趣的内容。</p>
+<h2 id="3-6-舆情监测"><a href="#3-6-舆情监测" class="headerlink" title="3.6 舆情监测"></a>3.6 舆情监测</h2><p>随着大众传播的发展以及新型传播的发展，传播领域将产生大量数据。互联网具有虚拟性、隐蔽性、发散性、渗透性和随意性等特点，例如微博传播具有裂变性、主动性、即时性、便捷性、交互性、草根性，跟进性和临场感，每一个微博用户既是”服务器”，也是”受众”。<br>通过互联网进行舆情监测，主要可以应用于政府决策、商品销售、产品研发等方面。政府通过舆情监测，及时发现存在的负面舆情，进行引导和调控，稳定社会；公司企业通过舆情监测，分析用户需求和需求分布，控制主流和非主流商品的销售状况；科研机构或大学通过舆情监测，获取社会对科研产品的需求情况，确定研发方向和研究课题。</p>
+<h2 id="3-7-精准营销"><a href="#3-7-精准营销" class="headerlink" title="3.7 精准营销"></a>3.7 精准营销</h2><p>精准营销有两个方面的内容，一是根据顾客需求，在合适的时间，通过合适渠道，把合适的营销信息投送给每个顾客；二是通过分析顾客行为，进行商品的预备。<br>第一方面的内容现在许多大公司如今日头条、百度、阿里巴巴都已经做得十分完善，其他的公司也能做得媲美这些大公司。对于第二方面商品预备物资分配的问题仍有更多的开发空间，以身边的商家为例，首先是外卖行业，现在存在送货慢、备餐久等问题，商家可以通过分析点餐者的点餐时段、菜品偏好，提前准备好餐品，并和外送公司达成沟通，提高送餐效率；其次是零售超市，目前存在的问题是，超市和顾客供需不对等，商品月均销量起伏等，这影响了超市的经营和顾客的体验。超市可以通过分析需求，在需求剧烈的时段增加商品供应，或者可以在销售淡季进行回馈活动来增长销量等。</p>
+<h2 id="3-8-犯罪预警"><a href="#3-8-犯罪预警" class="headerlink" title="3.8 犯罪预警"></a>3.8 犯罪预警</h2><p>可以通过监测通话、聊天等信息获取可能存在的犯罪。不过这个在中国基本上不能实现。能实现的只有在公共电话、视频监控中进行监测，例如监测视频中的不正常行为，电话中语音内容的识别，但中国人口众多，视频和语音数据量巨大，实现难度相当高。</p>
+<h2 id="3-9-市场价格监测"><a href="#3-9-市场价格监测" class="headerlink" title="3.9 市场价格监测"></a>3.9 市场价格监测</h2><p>通过分析，可以发现正常的价格变化规律，如果价格变化持续异常，就可以怀疑存在价格垄断的行为。市场价格监测可以为政府进行宏观调控提供参考依据</p>
+<h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h1><p>埃里克·西格尔在《大数据预测》一书中说到：“大数据时代下的核心——预测分析已经在商业和社会中得到广泛应用。随着越来越多的数据被记录和整理，未来预测分析必定会成为所有领域的关键技术。”诚如西格尔所言，当大数据与智慧城市完美契合，将是对传统城市模式的一种极大的颠覆。过去人们在城市里生活，思考如何去迎合这个冰冷的钢铁森林，而在智慧城市的服务之下，仿佛一切有了温度，人们在城市的每个角落都能感受到她的温情。智慧城市的理念和技术将成为实现服务型城市的关键。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] <a target="_blank" rel="noopener" href="http://www.cbdio.com/BigData/2015-09/08/content_3776453.htm">刘伦.大数据时代的智慧城市规划：国际经验[J].国际城市规划,2015,(9)</a><br>[2] <a target="_blank" rel="noopener" href="https://www.baidu.com">百度百科</a><br>[3] <a target="_blank" rel="noopener" href="http://www.eastups.com/cn_php/news_show_62_860.html">易事特公司.大数据在智慧城市中的应用,2016,(11)</a><br>[4] <a target="_blank" rel="noopener" href="https://www.aliyun.com">阿里云</a><br>[5] <a target="_blank" rel="noopener" href="http://bigdata.51cto.com/art/201610/519300.htm">51CTO大数据</a><br>[6] <a target="_blank" rel="noopener" href="https://www.aliyun.com/zixun/content/2_6_1870887.html">大数据在智慧城市的10大应用</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF/" rel="tag"><i class="fa fa-tag"></i> 大数据关键技术</a>
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%BA%94%E7%94%A8/" rel="tag"><i class="fa fa-tag"></i> 大数据应用</a>
+              <a href="/tags/%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82/" rel="tag"><i class="fa fa-tag"></i> 智慧城市</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/25/%E4%BD%BF%E7%94%A8Java-NetBeans%E8%AE%BE%E8%AE%A1web%E6%9C%8D%E5%8A%A1%E5%92%8C%E9%A1%B5%E9%9D%A2%EF%BC%8C%E7%94%A8Tomcat%E9%83%A8%E7%BD%B2%E7%BD%91%E9%A1%B5/" rel="prev" title="使用Java+NetBeans设计web服务和页面，用Tomcat部署网页">
+      <i class="fa fa-chevron-left"></i> 使用Java+NetBeans设计web服务和页面，用Tomcat部署网页
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/12/sort%E5%87%BD%E6%95%B0%E7%94%A8%E4%BA%8Evector%E5%90%91%E9%87%8F%E7%9A%84%E6%8E%92%E5%BA%8F/" rel="next" title="sort函数用于vector向量的排序">
+      sort函数用于vector向量的排序 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BC%95%E8%A8%80"><span class="nav-text">1. 引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E5%BA%94%E7%94%A8%E8%83%8C%E6%99%AF"><span class="nav-text">1.1 大数据的应用背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%E6%BD%9C%E5%8A%9B"><span class="nav-text">1.2 大数据在智慧城市中的应用潜力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E5%BB%BA%E8%AE%BE%E6%83%85%E5%86%B5-4"><span class="nav-text">1.3 智慧城市建设情况[4]</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF-5"><span class="nav-text">2. 大数据的关键技术[5]</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86"><span class="nav-text">2.1 大数据采集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-%E6%97%A0%E7%BA%BF%E5%B0%84%E9%A2%91%E5%92%8C%E4%BC%A0%E6%84%9F%E5%99%A8"><span class="nav-text">2.1.1 无线射频和传感器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-%E6%95%B0%E6%8D%AE%E5%BA%93%E9%87%87%E9%9B%86"><span class="nav-text">2.1.2 数据库采集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86"><span class="nav-text">2.1.3 网络数据采集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-%E6%96%87%E4%BB%B6%E9%87%87%E9%9B%86"><span class="nav-text">2.1.4 文件采集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-text">2.2 大数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-%E6%95%B0%E6%8D%AE%E6%B8%85%E7%90%86"><span class="nav-text">2.2.1 数据清理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90"><span class="nav-text">2.2.2 数据集成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2"><span class="nav-text">2.2.3 数据转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-%E6%95%B0%E6%8D%AE%E8%A7%84%E7%BA%A6"><span class="nav-text">2.2.4 数据规约</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="nav-text">2.3 大数据存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-MPP%E6%9E%B6%E6%9E%84%E7%9A%84%E6%96%B0%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9B%86%E7%BE%A4"><span class="nav-text">2.3.1 MPP架构的新型数据库集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-%E5%9F%BA%E4%BA%8EHadoop%E7%9A%84%E6%8A%80%E6%9C%AF%E6%89%A9%E5%B1%95%E5%92%8C%E5%B0%81%E8%A3%85"><span class="nav-text">2.3.2 基于Hadoop的技术扩展和封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%80%E4%BD%93%E6%9C%BA"><span class="nav-text">2.3.3 大数据一体机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8C%96%E6%8E%98"><span class="nav-text">2.4 大数据分析挖掘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-1-%E5%8F%AF%E8%A7%86%E5%8C%96%E5%88%86%E6%9E%90"><span class="nav-text">2.4.1 可视化分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-2-%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%AE%97%E6%B3%95"><span class="nav-text">2.4.2 数据挖掘算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-3-%E9%A2%84%E6%B5%8B%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-text">2.4.3 预测性分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-4-%E8%AF%AD%E4%B9%89%E5%BC%95%E6%93%8E"><span class="nav-text">2.4.4 语义引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-5-%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E7%AE%A1%E7%90%86"><span class="nav-text">2.4.5 数据质量管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8-6"><span class="nav-text">3. 大数据在智慧城市中的应用[6]</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%99%BA%E6%85%A7%E7%BB%8F%E6%B5%8E"><span class="nav-text">3.1 智慧经济</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%99%BA%E6%85%A7%E6%B2%BB%E7%90%86"><span class="nav-text">3.2 智慧治理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E7%8E%AF%E5%A2%83%E7%9B%91%E6%B5%8B"><span class="nav-text">3.3 环境监测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E6%99%BA%E6%85%A7%E5%8C%BB%E7%96%97"><span class="nav-text">3.4 智慧医疗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E6%99%BA%E8%83%BD%E6%90%9C%E7%B4%A2"><span class="nav-text">3.5 智能搜索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-%E8%88%86%E6%83%85%E7%9B%91%E6%B5%8B"><span class="nav-text">3.6 舆情监测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-%E7%B2%BE%E5%87%86%E8%90%A5%E9%94%80"><span class="nav-text">3.7 精准营销</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-8-%E7%8A%AF%E7%BD%AA%E9%A2%84%E8%AD%A6"><span class="nav-text">3.8 犯罪预警</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-9-%E5%B8%82%E5%9C%BA%E4%BB%B7%E6%A0%BC%E7%9B%91%E6%B5%8B"><span class="nav-text">3.9 市场价格监测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%80%BB%E7%BB%93"><span class="nav-text">4. 总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

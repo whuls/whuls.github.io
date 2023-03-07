@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="RSA签名：Node.js与C++协同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA签名：Node.js与C++协同">
+<meta property="og:url" content="https://whuls.cn/2022/01/14/RSA%E7%AD%BE%E5%90%8D-Node-js%E4%B8%8EC-%E5%8D%8F%E5%90%8C/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="RSA签名：Node.js与C++协同">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-13T16:27:33.000Z">
+<meta property="article:modified_time" content="2022-05-20T14:35:59.226Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="CryptoPP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://whuls.cn/2022/01/14/RSA%E7%AD%BE%E5%90%8D-Node-js%E4%B8%8EC-%E5%8D%8F%E5%90%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>RSA签名：Node.js与C++协同 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">123</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">63</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">162</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2022/01/14/RSA%E7%AD%BE%E5%90%8D-Node-js%E4%B8%8EC-%E5%8D%8F%E5%90%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RSA签名：Node.js与C++协同
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-14 00:27:33" itemprop="dateCreated datePublished" datetime="2022-01-14T00:27:33+08:00">2022-01-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/" itemprop="url" rel="index"><span itemprop="name">Node.js</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node-js/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%89%8D%E8%A8%80"><span class="post-body-toc-text">前言</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%B9%B3%E5%8F%B0"><span class="post-body-toc-text">平台</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%AF%86%E9%92%A5%E5%AF%B9%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="post-body-toc-text">密钥对文件格式</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%B7%A8%E7%AB%AF%E9%AA%8C%E8%AF%81"><span class="post-body-toc-text">跨端验证</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E7%AD%BE%E5%90%8D%EF%BC%9ANode-js"><span class="post-body-toc-text">签名：Node.js</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E9%AA%8C%E8%AF%81%EF%BC%9AC"><span class="post-body-toc-text">验证：C++</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E4%BD%BF%E7%94%A8%E5%90%84%E7%A7%8D%E5%B7%A5%E5%85%B7%E5%AE%9E%E7%8E%B0%E7%9A%84%E7%AD%BE%E5%90%8D%E5%92%8C%E9%AA%8C%E8%AF%81"><span class="post-body-toc-text">使用各种工具实现的签名和验证</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#Node-js-Node-RSA"><span class="post-body-toc-text">Node.js: Node-RSA</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#Node-js-crypto"><span class="post-body-toc-text">Node.js: crypto</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#C-CryptoPP"><span class="post-body-toc-text">C++: CryptoPP</span></a></li></ol></li></ol>
+      
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用RSA密钥对不仅可以用来加密数据，还可以用来进行签名。前者使用公钥进行加密，私钥进行解密；后者使用私钥进行签名，用公钥验证签名。</p>
+<h2 id="平台"><a href="#平台" class="headerlink" title="平台"></a>平台</h2><ul>
+<li>Node.js - v12.14.0</li>
+<li>VS2019 - v142 &amp;&amp; v100</li>
+<li>CryptoPP 8.5.0</li>
+</ul>
+<h2 id="密钥对文件格式"><a href="#密钥对文件格式" class="headerlink" title="密钥对文件格式"></a>密钥对文件格式</h2><p>公钥：<code>test_pub.pem</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">......</span><br><span class="line">-----END PUBLIC KEY-----</span><br></pre></td></tr></table></figure>
+<p>私钥：<code>test_prv.pem</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN PRIVATE KEY-----</span><br><span class="line">......</span><br><span class="line">-----END PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+<h1 id="跨端验证"><a href="#跨端验证" class="headerlink" title="跨端验证"></a>跨端验证</h1><blockquote>
+<p>原本想使用RSASSA-PSS算法（RSA Signature Scheme with Appendix - Probabilistic Signature Scheme）进行签名和验证，这也是<code>crypto++</code>的PSS模式默认使用的签名算法；但是Node.js似乎不支持该算法，无论是node-rsa还是crypto，其自身只能调用PSS算法，关于RSASSA-PSS简单查了一下没找到现有的解决方案，在这一方面就先不折腾太多，先退而求其次使用PKCS1模式。</p>
+</blockquote>
+<h2 id="签名：Node-js"><a href="#签名：Node-js" class="headerlink" title="签名：Node.js"></a>签名：Node.js</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">&#x27;crypto&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">sign_crypto</span> = (<span class="params">str = <span class="string">&#x27;&#x27;</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> prvKey = crypto.<span class="title function_">createPrivateKey</span>(&#123;</span><br><span class="line">        <span class="attr">key</span>: fs.<span class="title function_">readFileSync</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;rsa&#x27;</span>, <span class="string">&#x27;test_prv.pem&#x27;</span>)).<span class="title function_">toString</span>(<span class="string">&#x27;utf8&#x27;</span>),</span><br><span class="line">        <span class="attr">format</span>: <span class="string">&#x27;pem&#x27;</span>,</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;pkcs8&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> result = crypto.<span class="title function_">sign</span>(<span class="string">&#x27;RSA-SHA256&#x27;</span>, <span class="keyword">new</span> <span class="title class_">TextEncoder</span>().<span class="title function_">encode</span>(str), &#123;</span><br><span class="line">        <span class="attr">key</span>: prvKey,</span><br><span class="line">        <span class="attr">padding</span>: crypto.<span class="property">constants</span>.<span class="property">RSA_PKCS1_PADDING</span></span><br><span class="line">    &#125;).<span class="title function_">toString</span>(<span class="string">&#x27;base64&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> msg = <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">sign_crypto</span>(msg));</span><br></pre></td></tr></table></figure>
+<h2 id="验证：C"><a href="#验证：C" class="headerlink" title="验证：C++"></a>验证：C++</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cryptopp/rsa.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cryptopp/base64.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cryptopp/pssr.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">RSAVerify</span><span class="params">(<span class="type">const</span> std::string&amp; msg, <span class="type">const</span> std::string&amp; base64SignStr, <span class="type">const</span> std::string&amp; base64PubKeyStr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">using</span> <span class="keyword">namespace</span> CryptoPP;</span><br><span class="line">	<span class="keyword">try</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function">StringSource <span class="title">pubKeySrc</span><span class="params">(base64PubKeyStr, <span class="literal">true</span>, <span class="keyword">new</span> Base64Decoder)</span></span>;</span><br><span class="line">		</span><br><span class="line">		std::string signStrAscii;</span><br><span class="line">		<span class="function">StringSource <span class="title">s1</span><span class="params">(base64SignStr, <span class="literal">true</span>, <span class="keyword">new</span> Base64Decoder(<span class="keyword">new</span> StringSink(signStrAscii)))</span></span>;</span><br><span class="line"></span><br><span class="line">		RSASS&lt;PKCS1v15, SHA256&gt;::<span class="function">Verifier <span class="title">verifier</span><span class="params">(pubKeySrc)</span></span>;</span><br><span class="line">		<span class="function">StringSource <span class="title">s2</span><span class="params">(msg + signStrAscii, <span class="literal">true</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">			<span class="keyword">new</span> SignatureVerificationFilter(verifier, <span class="literal">nullptr</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">				SignatureVerificationFilter::THROW_EXCEPTION |</span></span></span><br><span class="line"><span class="params"><span class="function">				SignatureVerificationFilter::PUT_MESSAGE</span></span></span><br><span class="line"><span class="params"><span class="function">			)</span></span></span><br><span class="line"><span class="params"><span class="function">		)</span></span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">catch</span> (<span class="type">const</span> std::exception&amp; e)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cerr &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::string msg, signStr;</span><br><span class="line">	msg = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">	signStr = <span class="string">&quot;...&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">RSAVerify</span>(msg, signStr, pub))</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;验证成功&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用各种工具实现的签名和验证"><a href="#使用各种工具实现的签名和验证" class="headerlink" title="使用各种工具实现的签名和验证"></a>使用各种工具实现的签名和验证</h1><blockquote>
+<p>由于不同工具和平台的算法对于PSS模式的签名实现各不相同（应该只是某些细节参数设置不同），只能保证在其自身的工具集中签名和验证相匹配，一旦使用A签名B验证或者B签名A验证等方式，就很难做到全都能验证通过。</p>
+<p>这里先做一个记录，关于Node-RSA, node.js/crypto, crypto++…自身实现的PSS模式签名和验证的方法。</p>
+</blockquote>
+<h2 id="Node-js-Node-RSA"><a href="#Node-js-Node-RSA" class="headerlink" title="Node.js: Node-RSA"></a>Node.js: Node-RSA</h2><p>使用PSS（Probabilistic Signature Scheme）签名模式，签名函数为sha256</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">NodeRSA</span> = <span class="built_in">require</span>(<span class="string">&#x27;node-rsa&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 签名</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">sign_node_rsa</span> = (<span class="params">str = <span class="string">&#x27;&#x27;</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> prvKey = <span class="keyword">new</span> <span class="title class_">NodeRSA</span>(fs.<span class="title function_">readFileSync</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;rsa&#x27;</span>, <span class="string">&#x27;test_prv.pem&#x27;</span>)), <span class="string">&#x27;pkcs8-private-pem&#x27;</span>, &#123; <span class="attr">signingScheme</span>: <span class="string">&#x27;pss-sha256&#x27;</span> &#125;);</span><br><span class="line">    <span class="keyword">return</span> prvKey.<span class="title function_">sign</span>(str, <span class="string">&#x27;base64&#x27;</span>, <span class="string">&#x27;utf8&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 验证</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">verify_node_rsa</span> = (<span class="params">str = <span class="string">&#x27;&#x27;</span>, sign = <span class="string">&#x27;&#x27;</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> pubKey = <span class="keyword">new</span> <span class="title class_">NodeRSA</span>(fs.<span class="title function_">readFileSync</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;rsa&#x27;</span>, <span class="string">&#x27;test_pub.pem&#x27;</span>)), <span class="string">&#x27;pkcs8-public-pem&#x27;</span>, &#123; <span class="attr">signingScheme</span>: <span class="string">&#x27;pss-sha256&#x27;</span> &#125;);</span><br><span class="line">    <span class="keyword">return</span> pubKey.<span class="title function_">verify</span>(str, sign, <span class="string">&#x27;utf8&#x27;</span>, <span class="string">&#x27;base64&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> str = <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> sign = <span class="title function_">sign_node_rsa</span>(str);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">verify_node_rsa</span>(str, sign));  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="Node-js-crypto"><a href="#Node-js-crypto" class="headerlink" title="Node.js: crypto"></a>Node.js: crypto</h2><p>使用Node.js自带的crypto模块进行签名（Node-RSA的底层也是crypto），签名模式是PSS，签名算法是sha256。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">&#x27;crypto&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 签名</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">sign_crypto</span> = (<span class="params">str = <span class="string">&#x27;&#x27;</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> prvKey = crypto.<span class="title function_">createPrivateKey</span>(&#123;</span><br><span class="line">        <span class="attr">key</span>: fs.<span class="title function_">readFileSync</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;rsa&#x27;</span>, <span class="string">&#x27;test_prv.pem&#x27;</span>)).<span class="title function_">toString</span>(<span class="string">&#x27;utf8&#x27;</span>),</span><br><span class="line">        <span class="attr">format</span>: <span class="string">&#x27;pem&#x27;</span>,</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;pkcs8&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> result = crypto.<span class="title function_">sign</span>(<span class="string">&#x27;RSA-SHA256&#x27;</span>, <span class="keyword">new</span> <span class="title class_">TextEncoder</span>().<span class="title function_">encode</span>(str), &#123;</span><br><span class="line">        <span class="attr">key</span>: prvKey,</span><br><span class="line">        <span class="attr">padding</span>: crypto.<span class="property">constants</span>.<span class="property">RSA_PKCS1_PSS_PADDING</span>,</span><br><span class="line">        <span class="attr">saltLength</span>: crypto.<span class="property">constants</span>.<span class="property">RSA_PSS_SALTLEN_AUTO</span></span><br><span class="line">    &#125;).<span class="title function_">toString</span>(<span class="string">&#x27;base64&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 验证</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">verify_crypto</span> = (<span class="params">str = <span class="string">&#x27;&#x27;</span>, sign = <span class="string">&#x27;&#x27;</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> pubKey = crypto.<span class="title function_">createPublicKey</span>(&#123;</span><br><span class="line">        <span class="attr">key</span>: fs.<span class="title function_">readFileSync</span>(path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;rsa&#x27;</span>, <span class="string">&#x27;test_pub.pem&#x27;</span>)).<span class="title function_">toString</span>(<span class="string">&#x27;utf8&#x27;</span>),</span><br><span class="line">        <span class="attr">format</span>: <span class="string">&#x27;pem&#x27;</span>,</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;spki&#x27;</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> result = crypto.<span class="title function_">verify</span>(<span class="string">&#x27;RSA-SHA256&#x27;</span>, <span class="keyword">new</span> <span class="title class_">TextEncoder</span>().<span class="title function_">encode</span>(str), &#123;</span><br><span class="line">        <span class="attr">key</span>: pubKey,</span><br><span class="line">        <span class="attr">padding</span>: crypto.<span class="property">constants</span>.<span class="property">RSA_PKCS1_PSS_PADDING</span>,</span><br><span class="line">        <span class="attr">saltLength</span>: crypto.<span class="property">constants</span>.<span class="property">RSA_PSS_SALTLEN_AUTO</span></span><br><span class="line">    &#125;, <span class="title class_">Buffer</span>.<span class="title function_">from</span>(sign, <span class="string">&#x27;base64&#x27;</span>));</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> str = <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> sign = <span class="title function_">sign_crypto</span>(str);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">verify_crypto</span>(str, sign));  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="C-CryptoPP"><a href="#C-CryptoPP" class="headerlink" title="C++: CryptoPP"></a>C++: CryptoPP</h2><p>加密模式为PSS，加密算法为sha256。其中，公钥和私钥字符串不包含文件的首尾行。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cryptopp/rsa.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cryptopp/base64.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cryptopp/pssr.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">RSASign</span><span class="params">(<span class="type">const</span> std::string&amp; msg, std::string* base64SignStr, <span class="type">const</span> std::string&amp; base64PrvKeyStr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">using</span> <span class="keyword">namespace</span> CryptoPP;</span><br><span class="line">	<span class="keyword">try</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (base64SignStr == <span class="literal">nullptr</span>) <span class="keyword">throw</span> std::<span class="built_in">exception</span>(<span class="string">&quot;Null output pointer&quot;</span>);</span><br><span class="line"></span><br><span class="line">		AutoSeededRandomPool rng;</span><br><span class="line">		<span class="function">StringSource <span class="title">prvKeySrc</span><span class="params">(base64PrvKeyStr, <span class="literal">true</span>, <span class="keyword">new</span> Base64Decoder)</span></span>;</span><br><span class="line"></span><br><span class="line">		RSASS&lt;PSS, SHA256&gt;::<span class="function">Signer <span class="title">signer</span><span class="params">(prvKeySrc)</span></span>;</span><br><span class="line"></span><br><span class="line">		<span class="function">StringSource <span class="title">s</span><span class="params">(msg, <span class="literal">true</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">			<span class="keyword">new</span> SignerFilter(rng, signer,</span></span></span><br><span class="line"><span class="params"><span class="function">				<span class="keyword">new</span> Base64Encoder(<span class="keyword">new</span> StringSink(*base64SignStr))</span></span></span><br><span class="line"><span class="params"><span class="function">			)</span></span></span><br><span class="line"><span class="params"><span class="function">		)</span></span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">catch</span> (<span class="type">const</span> std::exception&amp; e)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cerr &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">RSAVerify</span><span class="params">(<span class="type">const</span> std::string&amp; msg, <span class="type">const</span> std::string&amp; base64SignStr, <span class="type">const</span> std::string&amp; base64PubKeyStr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">using</span> <span class="keyword">namespace</span> CryptoPP;</span><br><span class="line">	<span class="keyword">try</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="function">StringSource <span class="title">pubKeySrc</span><span class="params">(base64PubKeyStr, <span class="literal">true</span>, <span class="keyword">new</span> Base64Decoder)</span></span>;</span><br><span class="line">		</span><br><span class="line">		std::string signStrAscii;</span><br><span class="line">		<span class="function">StringSource <span class="title">s1</span><span class="params">(base64SignStr, <span class="literal">true</span>, <span class="keyword">new</span> Base64Decoder(<span class="keyword">new</span> StringSink(signStrAscii)))</span></span>;</span><br><span class="line"></span><br><span class="line">		RSASS&lt;PSS, SHA256&gt;::<span class="function">Verifier <span class="title">verifier</span><span class="params">(pubKeySrc)</span></span>;</span><br><span class="line">		<span class="function">StringSource <span class="title">s2</span><span class="params">(msg + signStrAscii, <span class="literal">true</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">			<span class="keyword">new</span> SignatureVerificationFilter(verifier, <span class="literal">nullptr</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">				SignatureVerificationFilter::THROW_EXCEPTION |</span></span></span><br><span class="line"><span class="params"><span class="function">				SignatureVerificationFilter::PUT_MESSAGE</span></span></span><br><span class="line"><span class="params"><span class="function">			)</span></span></span><br><span class="line"><span class="params"><span class="function">		)</span></span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">catch</span> (<span class="type">const</span> std::exception&amp; e)</span><br><span class="line">	&#123;</span><br><span class="line">		std::cerr &lt;&lt; e.<span class="built_in">what</span>() &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;    </span><br><span class="line">    std::string pub, prv;</span><br><span class="line">    <span class="built_in">ReadRSAPubKey</span>(<span class="string">&quot;./test_pub.pem&quot;</span>, &amp;pub);</span><br><span class="line">    <span class="built_in">ReadRSAPrvKey</span>(<span class="string">&quot;./test_prv.pem&quot;</span>, &amp;prv);</span><br><span class="line">    </span><br><span class="line">	std::string msg, signStr;</span><br><span class="line">	msg = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">RSASign</span>(msg, &amp;signStr, prv))</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; signStr &lt;&lt; std::endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">RSAVerify</span>(msg, signStr, pub))</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;验证成功&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/Node-js/" rel="tag"><i class="fa fa-tag"></i> Node.js</a>
+              <a href="/tags/CryptoPP/" rel="tag"><i class="fa fa-tag"></i> CryptoPP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/04/VS-Code%E4%BD%BF%E7%94%A8ssh%E5%AF%86%E9%92%A5Windows%E8%BF%9E%E6%8E%A5Linux%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="prev" title="VS Code使用ssh密钥Windows连接Linux服务器">
+      <i class="fa fa-chevron-left"></i> VS Code使用ssh密钥Windows连接Linux服务器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/22/%E4%B8%8D%E8%A6%81%E5%9C%A8Promise%E4%B8%AD%E4%BD%BF%E7%94%A8throw/" rel="next" title="不要在Promise中使用throw">
+      不要在Promise中使用throw <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E5%8F%B0"><span class="nav-text">平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E5%AF%B9%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="nav-text">密钥对文件格式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%A8%E7%AB%AF%E9%AA%8C%E8%AF%81"><span class="nav-text">跨端验证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%BE%E5%90%8D%EF%BC%9ANode-js"><span class="nav-text">签名：Node.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%EF%BC%9AC"><span class="nav-text">验证：C++</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%90%84%E7%A7%8D%E5%B7%A5%E5%85%B7%E5%AE%9E%E7%8E%B0%E7%9A%84%E7%AD%BE%E5%90%8D%E5%92%8C%E9%AA%8C%E8%AF%81"><span class="nav-text">使用各种工具实现的签名和验证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js-Node-RSA"><span class="nav-text">Node.js: Node-RSA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js-crypto"><span class="nav-text">Node.js: crypto</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-CryptoPP"><span class="nav-text">C++: CryptoPP</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">162</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">123</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">651k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9:52</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
