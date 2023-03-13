@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Cef自定义协议处理工厂并处理HTTP资源请求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cef自定义协议处理工厂并处理HTTP资源请求">
+<meta property="og:url" content="https://whuls.cn/2023/03/13/Cef%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE%E5%A4%84%E7%90%86%E5%B7%A5%E5%8E%82%E5%B9%B6%E5%A4%84%E7%90%86HTTP%E8%B5%84%E6%BA%90%E8%AF%B7%E6%B1%82/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="Cef自定义协议处理工厂并处理HTTP资源请求">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-13T09:16:27.000Z">
+<meta property="article:modified_time" content="2023-03-13T09:30:32.350Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Cef">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://whuls.cn/2023/03/13/Cef%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE%E5%A4%84%E7%90%86%E5%B7%A5%E5%8E%82%E5%B9%B6%E5%A4%84%E7%90%86HTTP%E8%B5%84%E6%BA%90%E8%AF%B7%E6%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Cef自定义协议处理工厂并处理HTTP资源请求 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">124</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">64</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">164</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2023/03/13/Cef%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8D%8F%E8%AE%AE%E5%A4%84%E7%90%86%E5%B7%A5%E5%8E%82%E5%B9%B6%E5%A4%84%E7%90%86HTTP%E8%B5%84%E6%BA%90%E8%AF%B7%E6%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Cef自定义协议处理工厂并处理HTTP资源请求
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-03-13 17:16:27 / 修改时间：17:30:32" itemprop="dateCreated datePublished" datetime="2023-03-13T17:16:27+08:00">2023-03-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cef/" itemprop="url" rel="index"><span itemprop="name">Cef</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#App%E7%B1%BB"><span class="post-body-toc-text">App类</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#HttpSchemeFactory%E7%B1%BB"><span class="post-body-toc-text">HttpSchemeFactory类</span></a></li></ol>
+      
+      
+        <h1 id="App类"><a href="#App类" class="headerlink" title="App类"></a>App类</h1><p>App.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;App.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;include/wrapper/cef_helpers.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;include/views/cef_browser_view.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;include/views/cef_window.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;WindowDelegate.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HttpSchemeFactory.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;BrowserClient.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">App::OnContextInitialized</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 确保在主线程中调用</span></span><br><span class="line">	<span class="built_in">CEF_REQUIRE_UI_THREAD</span>();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 注册自定义协议处理工厂</span></span><br><span class="line">	<span class="built_in">CefRegisterSchemeHandlerFactory</span>(<span class="string">&quot;http&quot;</span>, <span class="string">&quot;my-domain&quot;</span>, <span class="keyword">new</span> <span class="built_in">HttpSchemeFactory</span>(<span class="string">&quot;my-domain&quot;</span>));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">auto</span> url = <span class="string">&quot;http://my-domain/index.html&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 创建浏览器窗口</span></span><br><span class="line">	CefWindowInfo info;</span><br><span class="line">	info.<span class="built_in">SetAsPopup</span>(<span class="literal">nullptr</span>, <span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line"></span><br><span class="line">	CefBrowserSettings settings;</span><br><span class="line">	settings.windowless_frame_rate = <span class="number">60</span>; <span class="comment">// 最低帧率</span></span><br><span class="line"></span><br><span class="line">	CefBrowserHost::<span class="built_in">CreateBrowser</span>(info, <span class="keyword">new</span> <span class="built_in">BrowserClient</span>(), url, settings, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过<code>CefRegisterSchemeHandlerFactory()</code>函数注册自定义协议</li>
+<li>第一个参数是协议，默认用http</li>
+<li>第二个参数是域名，可以自定义；为空则表示某协议下所有域名</li>
+</ul>
+<h1 id="HttpSchemeFactory类"><a href="#HttpSchemeFactory类" class="headerlink" title="HttpSchemeFactory类"></a>HttpSchemeFactory类</h1><p>HttpSchemeFactory.h</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;include\cef_scheme.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HttpSchemeFactory</span> : <span class="keyword">public</span> CefSchemeHandlerFactory</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">HttpSchemeFactory</span>() = <span class="keyword">default</span>;</span><br><span class="line">	<span class="built_in">HttpSchemeFactory</span>(<span class="type">const</span> std::string&amp; domain) : _domain(domain) &#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 不允许删除和拷贝</span></span><br><span class="line">	<span class="built_in">HttpSchemeFactory</span>(<span class="type">const</span> HttpSchemeFactory&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">	HttpSchemeFactory&amp; <span class="keyword">operator</span>=(<span class="type">const</span> HttpSchemeFactory&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 当浏览器内核以 用户自定义的协议 发起请求时，会调用这个方法</span></span><br><span class="line">	<span class="comment">// 该方法接管了浏览器内核的请求，并给出响应</span></span><br><span class="line">	<span class="function">CefRefPtr&lt;CefResourceHandler&gt; <span class="title">Create</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">		CefRefPtr&lt;CefBrowser&gt; browser,</span></span></span><br><span class="line"><span class="params"><span class="function">		CefRefPtr&lt;CefFrame&gt; frame,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="type">const</span> CefString&amp; scheme_name,</span></span></span><br><span class="line"><span class="params"><span class="function">		CefRefPtr&lt;CefRequest&gt; request)</span> <span class="keyword">override</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="built_in">IMPLEMENT_REFCOUNTING</span>(HttpSchemeFactory);</span><br><span class="line"></span><br><span class="line">	std::string _domain;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>定义了一个域名，用于标识，只处理该域名下的请求（一个网页可能会发出包含其他协议内容/其他域名的http请求）</li>
+</ul>
+<p>HttpSchemeFactory.cpp</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;HttpSchemeFactory.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;include/wrapper/cef_helpers.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;include/wrapper/cef_stream_resource_handler.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;include/cef_urlrequest.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;filesystem&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> min</span></span><br><span class="line"><span class="meta">#<span class="keyword">undef</span> min</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// min</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">CefRefPtr&lt;CefResourceHandler&gt; <span class="title">HttpSchemeFactory::Create</span><span class="params">(CefRefPtr&lt;CefBrowser&gt; browser, CefRefPtr&lt;CefFrame&gt; frame, <span class="type">const</span> CefString&amp; scheme_name, CefRefPtr&lt;CefRequest&gt; request)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">CEF_REQUIRE_IO_THREAD</span>();</span><br><span class="line"></span><br><span class="line">	std::string url = request-&gt;<span class="built_in">GetURL</span>().<span class="built_in">ToString</span>();</span><br><span class="line">	std::string urlPrefix = <span class="string">&quot;http://&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (url.<span class="built_in">substr</span>(<span class="number">0</span>, urlPrefix.<span class="built_in">size</span>()).<span class="built_in">compare</span>(urlPrefix) == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 删除前缀</span></span><br><span class="line">		url.<span class="built_in">erase</span>(<span class="number">0</span>, urlPrefix.<span class="built_in">size</span>());</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 处理接口调用请求</span></span><br><span class="line">		std::string apiPrefix = <span class="keyword">this</span>-&gt;_domain + <span class="string">&quot;/api&quot;</span>;</span><br><span class="line">		<span class="keyword">if</span> (url.<span class="built_in">substr</span>(<span class="number">0</span>, apiPrefix.<span class="built_in">size</span>()).<span class="built_in">compare</span>(apiPrefix) == <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			CefRequest::HeaderMap headers;</span><br><span class="line">			headers.<span class="built_in">insert</span>(std::<span class="built_in">make_pair</span>(<span class="string">&quot;Accept&quot;</span>, <span class="string">&quot;*/*&quot;</span>));</span><br><span class="line">			<span class="keyword">auto</span> req = CefRequest::<span class="built_in">Create</span>();</span><br><span class="line">			req-&gt;<span class="built_in">SetMethod</span>(<span class="string">&quot;GET&quot;</span>);</span><br><span class="line">			req-&gt;<span class="built_in">SetURL</span>(<span class="string">&quot;http://localhost:1234&quot;</span> + url.<span class="built_in">substr</span>(<span class="keyword">this</span>-&gt;_domain.<span class="built_in">size</span>()));  <span class="comment">// 代理</span></span><br><span class="line">			req-&gt;<span class="built_in">GetHeaderMap</span>(headers);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">HttpResourceHandler</span>(req);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 读取文件</span></span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">// 删除参数（可能存在）</span></span><br><span class="line">			<span class="keyword">auto</span> paramIdx = url.<span class="built_in">find_first_of</span>(<span class="string">&#x27;?&#x27;</span>);</span><br><span class="line">			<span class="keyword">if</span> (paramIdx != std::string::npos)</span><br><span class="line">			&#123;</span><br><span class="line">				url.<span class="built_in">erase</span>(paramIdx);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 获取exe路径</span></span><br><span class="line">			TCHAR buf[MAX_PATH] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">			<span class="built_in">GetModuleFileName</span>(<span class="literal">NULL</span>, buf, MAX_PATH);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 获取文件路径</span></span><br><span class="line">			std::<span class="function">filesystem::path <span class="title">targetPath</span><span class="params">(buf)</span></span>;</span><br><span class="line">			targetPath = targetPath.<span class="built_in">parent_path</span>().<span class="built_in">append</span>(<span class="string">&quot;Resources&quot;</span>).<span class="built_in">append</span>(url);</span><br><span class="line">			<span class="keyword">if</span> (!std::filesystem::<span class="built_in">exists</span>(targetPath))</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">DLOG</span>(ERROR) &lt;&lt; std::<span class="built_in">string</span>(<span class="string">&quot;文件不存在：&quot;</span>) &lt;&lt; targetPath.<span class="built_in">generic_wstring</span>();</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 创建文件读写流</span></span><br><span class="line">			std::string ext = targetPath.<span class="built_in">extension</span>().<span class="built_in">generic_string</span>();</span><br><span class="line">			std::string mime;</span><br><span class="line">			<span class="keyword">if</span> (ext == <span class="string">&quot;.html&quot;</span>)</span><br><span class="line">				mime = <span class="string">&quot;text/html&quot;</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (ext == <span class="string">&quot;.js&quot;</span>)</span><br><span class="line">				mime = <span class="string">&quot;application/javascript&quot;</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (ext == <span class="string">&quot;.css&quot;</span>)</span><br><span class="line">				mime = <span class="string">&quot;text/css&quot;</span>;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				mime = <span class="string">&quot;*/*&quot;</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">auto</span> stream = CefStreamReader::<span class="built_in">CreateForFile</span>(targetPath.<span class="built_in">generic_wstring</span>());</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">CefStreamResourceHandler</span>(mime, stream);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">CefRefPtr</span>&lt;CefResourceHandler&gt;();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当页面通过<code>协议://域名/路由?参数</code>的基本格式请求访问某个资源时，我们可以在<code>Create()</code>函数中进行截获并自定义内容；</li>
+<li>如果返回一个空指针，则表示不处理这个资源请求，Cef会采用默认方式继续读取资源；</li>
+</ul>
+<p>下面是两个用到的类的定义和实现：</p>
+<p><code>class UrlRequestClient</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 自定义网络请求事件处理</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">UrlRequestClient</span> : <span class="keyword">public</span> CefURLRequestClient</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">UrlRequestClient</span>(<span class="type">const</span> CefRefPtr&lt;CefCallback&gt; cb)</span><br><span class="line">		:<span class="built_in">m_status</span>(<span class="number">-1</span>), <span class="built_in">m_callback</span>(cb) &#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">OnDownloadData</span><span class="params">(CefRefPtr&lt;CefURLRequest&gt; request,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="type">const</span> <span class="type">void</span>* data,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="type">size_t</span> data_length)</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		m_data += std::<span class="built_in">string</span>(<span class="built_in">static_cast</span>&lt;<span class="type">const</span> <span class="type">char</span>*&gt;(data), data_length);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">GetAuthCredentials</span><span class="params">(<span class="type">bool</span> isProxy,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="type">const</span> CefString&amp; host,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="type">int</span> port,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="type">const</span> CefString&amp; realm,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="type">const</span> CefString&amp; scheme,</span></span></span><br><span class="line"><span class="params"><span class="function">		CefRefPtr&lt;CefAuthCallback&gt; callback)</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">OnDownloadProgress</span><span class="params">(CefRefPtr&lt;CefURLRequest&gt; request,</span></span></span><br><span class="line"><span class="params"><span class="function">		int64 current,</span></span></span><br><span class="line"><span class="params"><span class="function">		int64 total)</span> <span class="keyword">override</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">OnUploadProgress</span><span class="params">(CefRefPtr&lt;CefURLRequest&gt; request,</span></span></span><br><span class="line"><span class="params"><span class="function">		int64 current,</span></span></span><br><span class="line"><span class="params"><span class="function">		int64 total)</span> <span class="keyword">override</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">OnRequestComplete</span><span class="params">(CefRefPtr&lt;CefURLRequest&gt; request)</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;m_status = request-&gt;<span class="built_in">GetResponse</span>()-&gt;<span class="built_in">GetStatus</span>();</span><br><span class="line">		<span class="keyword">this</span>-&gt;m_callback-&gt;<span class="built_in">Continue</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">auto</span> <span class="title">data</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>-&gt;m_data; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	std::string m_data;</span><br><span class="line">	<span class="type">int</span> m_status;</span><br><span class="line">	CefRefPtr&lt;CefCallback&gt; m_callback;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">IMPLEMENT_REFCOUNTING</span>(UrlRequestClient);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>class HttpResourceHandler</code></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 自定义资源处理类</span></span><br><span class="line"><span class="comment">// 创建了通过某个协议访问某个资源的请求，返回值就是一个HttpResourceHandler</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HttpResourceHandler</span> :<span class="keyword">public</span> CefResourceHandler</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">HttpResourceHandler</span>(<span class="type">const</span> CefRefPtr&lt;CefRequest&gt; req)</span><br><span class="line">		:<span class="built_in">m_req</span>(req), <span class="built_in">m_dataOffset</span>(<span class="number">0</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">HttpResourceHandler</span>(<span class="type">const</span> HttpResourceHandler&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">	HttpResourceHandler&amp; <span class="keyword">operator</span>=(<span class="type">const</span> HttpResourceHandler&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 请求发生时。都设置成 false 则会开始执行ProcessRequest()（位于IO线程中，request请求只能在这类线程中发送）</span></span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">Open</span><span class="params">(CefRefPtr&lt;CefRequest&gt; request, <span class="type">bool</span>&amp; handle_request, CefRefPtr&lt;CefCallback&gt; callback)</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">DCHECK</span>(!<span class="built_in">CefCurrentlyOn</span>(TID_UI) &amp;&amp; !<span class="built_in">CefCurrentlyOn</span>(TID_IO));</span><br><span class="line"></span><br><span class="line">		handle_request = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 在 IO 线程中接管请求</span></span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">ProcessRequest</span><span class="params">(CefRefPtr&lt;CefRequest&gt; request, CefRefPtr&lt;CefCallback&gt; callback)</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">CEF_REQUIRE_IO_THREAD</span>();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">this</span>-&gt;m_client = <span class="built_in">CefRefPtr</span>&lt;UrlRequestClient&gt;(<span class="keyword">new</span> <span class="built_in">UrlRequestClient</span>(callback));</span><br><span class="line">		CefURLRequest::<span class="built_in">Create</span>(<span class="keyword">this</span>-&gt;m_req, <span class="keyword">this</span>-&gt;m_client, <span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 处理响应头</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">GetResponseHeaders</span><span class="params">(CefRefPtr&lt;CefResponse&gt; response, int64&amp; response_length, CefString&amp; redirectUrl)</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">CEF_REQUIRE_IO_THREAD</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 请求取消时</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">Cancel</span><span class="params">()</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">CEF_REQUIRE_IO_THREAD</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/// &lt;summary&gt;</span></span><br><span class="line">	<span class="comment">/// 读取数据时触发（可能多次调用，即持有这个类实例的地方，通过这个函数，读取相关数据）</span></span><br><span class="line">	<span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line">	<span class="comment">/// &lt;param name=&quot;data_out&quot;&gt;本次读取输出的数据&lt;/param&gt;</span></span><br><span class="line">	<span class="comment">/// &lt;param name=&quot;bytes_to_read&quot;&gt;期望读取的数据长度&lt;/param&gt;</span></span><br><span class="line">	<span class="comment">/// &lt;param name=&quot;bytes_read&quot;&gt;实际读取的数据长度&lt;/param&gt;</span></span><br><span class="line">	<span class="comment">/// &lt;param name=&quot;callback&quot;&gt;回调函数&lt;/param&gt;</span></span><br><span class="line">	<span class="comment">/// &lt;returns&gt;指示：是否读取数据。false则表明没有数据读取；true &amp;&amp; bytes_read&gt;0：完成读取，结束；true &amp;&amp; bytes_read==0：等待调用callback完成数据读取；&lt;/returns&gt;</span></span><br><span class="line">	<span class="function"><span class="type">bool</span> <span class="title">Read</span><span class="params">(<span class="type">void</span>* data_out, <span class="type">int</span> bytes_to_read, <span class="type">int</span>&amp; bytes_read, CefRefPtr&lt;CefResourceReadCallback&gt; callback)</span> <span class="keyword">override</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">DCHECK</span>(!<span class="built_in">CefCurrentlyOn</span>(TID_UI) &amp;&amp; !<span class="built_in">CefCurrentlyOn</span>(TID_IO));</span><br><span class="line"></span><br><span class="line">		<span class="type">bool</span> has_data = <span class="literal">false</span>;</span><br><span class="line">		bytes_read = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">auto</span> data = <span class="keyword">this</span>-&gt;m_client-&gt;<span class="built_in">data</span>();</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (m_dataOffset &lt; data.<span class="built_in">size</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">int</span> transferSize = std::<span class="built_in">min</span>(bytes_to_read, <span class="built_in">static_cast</span>&lt;<span class="type">int</span>&gt;(data.<span class="built_in">size</span>() - m_dataOffset));</span><br><span class="line">			<span class="built_in">memcpy</span>(data_out, data.<span class="built_in">c_str</span>() + m_dataOffset, transferSize);</span><br><span class="line">			</span><br><span class="line">			m_dataOffset += transferSize;</span><br><span class="line">			bytes_read = transferSize;</span><br><span class="line">			has_data = <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> has_data;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">size_t</span> m_dataOffset;  <span class="comment">// 读取数据的偏移量（可能一次没读完，记录一下读到哪了）</span></span><br><span class="line">	CefRefPtr&lt;CefRequest&gt; m_req;</span><br><span class="line">	CefRefPtr&lt;UrlRequestClient&gt; m_client;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">IMPLEMENT_REFCOUNTING</span>(HttpResourceHandler);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/Cef/" rel="tag"><i class="fa fa-tag"></i> Cef</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/11/Cef%E5%8F%91%E9%80%81HTTP%E8%AF%B7%E6%B1%82-CefURLRequest/" rel="prev" title="Cef发送HTTP请求(CefURLRequest)">
+      <i class="fa fa-chevron-left"></i> Cef发送HTTP请求(CefURLRequest)
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#App%E7%B1%BB"><span class="nav-text">App类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HttpSchemeFactory%E7%B1%BB"><span class="nav-text">HttpSchemeFactory类</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">164</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">124</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">661k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:01</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
