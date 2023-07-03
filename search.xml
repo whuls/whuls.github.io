@@ -10974,4 +10974,66 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
         <tag>C++</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Redis使用笔记（一）</title>
+    <url>/2023/07/03/Redis%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0-%E4%B8%80/</url>
+    <content><![CDATA[<blockquote>
+<p><a href="https://www.runoob.com/redis/redis-tutorial.html">Redis 教程 | 菜鸟教程 (runoob.com)</a></p>
+</blockquote>
+<h1 id="通过docker安装"><a href="#通过docker安装" class="headerlink" title="通过docker安装"></a>通过docker安装</h1><blockquote>
+<p>不同操作系统下的安装过程不相同，有需要再去研究</p>
+</blockquote>
+<h2 id="拉取镜像-启动容器"><a href="#拉取镜像-启动容器" class="headerlink" title="拉取镜像/启动容器"></a>拉取镜像/启动容器</h2><p>拉取镜像：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull redis:6.2</span><br></pre></td></tr></table></figure>
+<p>启动容器：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 6380:6379 --name redis_test redis:6.2 redis-server</span><br></pre></td></tr></table></figure>
+<ul>
+<li>映射<code>6379</code>端口到主机的<code>6380</code></li>
+<li>名称为<code>redis_test</code></li>
+<li>启动后执行命令行<code>redis-server</code></li>
+</ul>
+<h2 id="使用docker-compose"><a href="#使用docker-compose" class="headerlink" title="使用docker-compose"></a>使用docker-compose</h2><p>直接通过docker-compose.yml启动，配置参考如下：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">  	<span class="attr">name:</span> <span class="string">redis_test</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">redis:6.2</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">&quot;always&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;6379:6379&quot;</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">      <span class="string">redis-server</span></span><br></pre></td></tr></table></figure>
+<h2 id="运行容器，连接redis服务"><a href="#运行容器，连接redis服务" class="headerlink" title="运行容器，连接redis服务"></a>运行容器，连接redis服务</h2><p>进入容器命令行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker exec -it redis_test bash</span><br></pre></td></tr></table></figure>
+<p>连接服务</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">redis-cli</span><br><span class="line">redis-cli -h 127.0.0.1 -p 6379 -a &quot;password&quot;  # 完整命令</span><br><span class="line">redis-cli --raw  # 避免中文乱码</span><br></pre></td></tr></table></figure>
+<p>测试</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">redis-cli</span></span><br><span class="line">127.0.0.1:6379&gt; ping</span><br><span class="line">PONG</span><br></pre></td></tr></table></figure>
+<h1 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h1><blockquote>
+<p>进入<code>redis-cli</code>后</p>
+</blockquote>
+<h2 id="键"><a href="#键" class="headerlink" title="键"></a>键</h2><p>查找所有keys</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">KEYS &lt;pattern&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">keys *</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">&quot;live_capacity&quot;</span></span></span><br></pre></td></tr></table></figure>
+<p>查看key类型</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">TYPE &lt;key&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">type live_capacity</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">hash</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="String（一般数据全都当作string）"><a href="#String（一般数据全都当作string）" class="headerlink" title="String（一般数据全都当作string）"></a>String（一般数据全都当作string）</h2><p>设置key的值</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">SET &lt;key&gt; &lt;value&gt;</span><br></pre></td></tr></table></figure>
+<p>获取key的值</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">GET &lt;key&gt;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set key1 val1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set key2 1.2</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set key3 你好</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get key1</span><br><span class="line">val1</span><br><span class="line">127.0.0.1:6379&gt; get key2</span><br><span class="line">1.2</span><br><span class="line">127.0.0.1:6379&gt; get key3</span><br><span class="line">你好</span><br><span class="line">127.0.0.1:6379&gt; type key1</span><br><span class="line">string</span><br><span class="line">127.0.0.1:6379&gt; type key2</span><br><span class="line">string</span><br><span class="line">127.0.0.1:6379&gt; type key3</span><br><span class="line">string</span><br></pre></td></tr></table></figure>
+<h2 id="HASH类型数据查询"><a href="#HASH类型数据查询" class="headerlink" title="HASH类型数据查询"></a>HASH类型数据查询</h2><blockquote>
+<p><a href="https://www.runoob.com/redis/redis-hashes.html">Redis 哈希(Hash) | 菜鸟教程 (runoob.com)</a></p>
+<p>HASH是<code>string + value</code>的映射表，可以理解为“子键值对”，适合用于存储对象</p>
+</blockquote>
+<p>查看映射表所有的键</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">HKEYS &lt;key&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hkeys live_capacity</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">&quot;1581F5FHB228Q002027T&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">&quot;1581F5FHB228Q002028T&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">&quot;1581F5FHB228Q002029T&quot;</span></span></span><br></pre></td></tr></table></figure>
+<p>获取映射表键对应的值</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">HGET &lt;key&gt; &lt;field&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hget live_capacity 1581F5FHB228Q002027T</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">(一个JSON字符串)</span></span><br></pre></td></tr></table></figure>
+<p>一口气打印所有键值</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">HGETALL &lt;key&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hgetall live_capacity</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">&quot;1581F5FHB228Q002027T&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">(一个JSON字符串)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">&quot;1581F5FHB228Q002028T&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">(一个JSON字符串)</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">&quot;1581F5FHB228Q002029T&quot;</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">(一个JSON字符串)</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
 </search>
