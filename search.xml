@@ -7711,7 +7711,7 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
   <entry>
     <title>MySQL 8.x 命令行使用手记</title>
     <url>/2021/09/15/MySQL-8-x-%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8%E6%89%8B%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="定制命令行工具"><a href="#定制命令行工具" class="headerlink" title="定制命令行工具"></a>定制命令行工具</h1><p>安装MySQL Server 8.x版本后，会默认在开始菜单创建两个命令行工具，用于快速打开并使用其对应的命令行工具<code>mysql.exe</code>，这部分主要描述对这个命令进行额外的定制</p>
+    <content><![CDATA[<h1 id="连接数据库-amp-全局配置文件"><a href="#连接数据库-amp-全局配置文件" class="headerlink" title="连接数据库 &amp; 全局配置文件"></a>连接数据库 &amp; 全局配置文件</h1><p>安装MySQL Server 8.x版本后，会默认在开始菜单创建两个命令行工具，用于快速打开并使用其对应的命令行工具<code>mysql.exe</code>，这部分主要描述对这个命令进行额外的定制</p>
 <p>打开命令行直接输入<code>mysql</code>，即可启动该工具，如果提示无法找到命令，将其安装目录的<code>bin</code>文件夹添加到环境变量中即可：</p>
 <p><code>D:\Program Files\MySQL\MySQL Server 8.0\bin</code></p>
 <p>执行命令后，如果没指定任何参数，会在安装目录下搜索<code>my.ini</code>或<code>my.cnf</code>文件，根据这个文件中的配置进行初始化，如果找不到文件，则使用默认的参数进行初始化，具体的参数可以通过<code>mysql --help</code>查看。</p>
@@ -7722,16 +7722,14 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
 <p>然后在命令行中输入<code>mysql</code>，就会自动连接到主机<code>192.168.0.100</code>的<code>3306</code>端口（默认）下的MySQL数据库，通过账户<code>root</code>密码<code>123456</code>登录。</p>
 <p>如果不使用配置文件，可以通过在命令行输入命令进行连接（回车后输入密码）：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -h 192.168.0.100 -u root -p</span><br></pre></td></tr></table></figure>
-<h1 id="常用命令行操作"><a href="#常用命令行操作" class="headerlink" title="常用命令行操作"></a>常用命令行操作</h1><p>显示数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
-<p>选中（激活）数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use database_name;</span><br></pre></td></tr></table></figure>
-<p>显示表</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show tables;</span><br></pre></td></tr></table></figure>
-<p>执行SQL语句：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 选中数据库后直接输入SQL语句即可查询</span><br><span class="line">select * from user;</span><br></pre></td></tr></table></figure>
-<p>退出数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
+<h1 id="linux下配置文件的位置"><a href="#linux下配置文件的位置" class="headerlink" title="linux下配置文件的位置"></a>linux下配置文件的位置</h1><p><code>/etc/mysql/my.cnf</code></p>
+<p>内容与Windows下<code>my.ini</code>一致</p>
+<h1 id="常用命令行操作"><a href="#常用命令行操作" class="headerlink" title="常用命令行操作"></a>常用命令行操作</h1><h2 id="执行SQL文件"><a href="#执行SQL文件" class="headerlink" title="执行SQL文件"></a>执行SQL文件</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql &lt; my.sql</span><br></pre></td></tr></table></figure>
+<h2 id="显示所有数据库"><a href="#显示所有数据库" class="headerlink" title="显示所有数据库"></a>显示所有数据库</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+<h2 id="选中（激活）数据库"><a href="#选中（激活）数据库" class="headerlink" title="选中（激活）数据库"></a>选中（激活）数据库</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use &lt;database_name&gt;;</span><br></pre></td></tr></table></figure>
+<h2 id="显示所有表"><a href="#显示所有表" class="headerlink" title="显示所有表"></a>显示所有表</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show tables;</span><br></pre></td></tr></table></figure>
+<h2 id="执行SQL语句"><a href="#执行SQL语句" class="headerlink" title="执行SQL语句"></a>执行SQL语句</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 选中数据库后直接输入SQL语句即可查询</span><br><span class="line">select * from user;</span><br></pre></td></tr></table></figure>
+<h2 id="退出数据库"><a href="#退出数据库" class="headerlink" title="退出数据库"></a>退出数据库</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>MySQL</category>
@@ -11034,6 +11032,35 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
       </categories>
       <tags>
         <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux下使用crontab创建定时任务</title>
+    <url>/2023/07/04/linux%E4%B8%8B%E4%BD%BF%E7%94%A8crontab%E5%88%9B%E5%BB%BA%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</url>
+    <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt-get install cron</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>cron包括两部分，其中crond是一个守护进程，负责周期性的执行用户指定的任务。而<a href="https://so.csdn.net/so/search?q=crontab&amp;spm=1001.2101.3001.7020">crontab</a>是一个用户级别的工具，用户可以通过crontab来编写各种任务</p>
+</blockquote>
+<h1 id="添加定时任务"><a href="#添加定时任务" class="headerlink" title="添加定时任务"></a>添加定时任务</h1><p>进入编辑界面：<code>crontab -e</code></p>
+<p>定时任务格式：<code>m h dom mon dow command</code></p>
+<ul>
+<li>m 分钟 0-59</li>
+<li>h 小时 0-23</li>
+<li>dom 天 1-31</li>
+<li>mon 月 1-12</li>
+<li>dow 周 0-6（0是周日）</li>
+<li>command 命令</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">* * * * * date &gt;&gt; time.log  # 每分钟记录时间</span><br><span class="line">*/2 * * * * date &gt;&gt; time.log  # 每隔2分钟记录时间</span><br><span class="line">5 * * * * date &gt;&gt; time.log  # 每小时的第5分钟</span><br><span class="line">5,7 * * * * date &gt;&gt; time.log  # 每小时的第5和7分钟</span><br></pre></td></tr></table></figure>
+<h1 id="查看已创建的任务"><a href="#查看已创建的任务" class="headerlink" title="查看已创建的任务"></a>查看已创建的任务</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">crontab -l</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Edit this file to introduce tasks to be run by cron.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># Each task to run has to be defined through a single line</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">indicating with different fields when the task will be run</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">and what <span class="built_in">command</span> to run <span class="keyword">for</span> the task</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># To define the time you can provide concrete values for</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">minute (m), hour (h), day of month (dom), month (mon),</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">and day of week (dow) or use <span class="string">&#x27;*&#x27;</span> <span class="keyword">in</span> these fields (<span class="keyword">for</span> <span class="string">&#x27;any&#x27;</span>).<span class="comment">#</span></span> </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Notice that tasks will be started based on the cron<span class="string">&#x27;s system</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">daemon&#x27;</span>s notion of time and timezones.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># Output of the crontab jobs (including errors) is sent through</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">email to the user the crontab file belongs to (unless redirected).</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># For example, you can run a backup of all your user accounts</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">at 5 a.m every week with:</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">0 5 * * 1 tar -zcf /var/backups/home.tgz /home/</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># For more information see the manual pages of crontab(5) and cron(8)</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># m h  dom mon dow   command</span></span></span><br><span class="line">10 0 * * * sh -c &quot;a.sh&quot;</span><br><span class="line">10 0 * * * sh -c &quot;b.sh&quot;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Ubuntu</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>
