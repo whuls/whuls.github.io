@@ -11101,4 +11101,22 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
         <tag>C++</tag>
       </tags>
   </entry>
+  <entry>
+    <title>C++正则表达式分割字符串</title>
+    <url>/2023/11/10/C-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%86%E5%89%B2%E5%AD%97%E7%AC%A6%E4%B8%B2/</url>
+    <content><![CDATA[<p>输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">MACAddress         \r\r\n7E:4A:92:5B:48:BE  \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\nA2:0E:20:52:41:53  \r\r\nA4:59:20:52:41:53  \r\r\nA6:E0:20:52:41烫烫烫烫烫烫烫烫烫烫:53  \r\r\n                   \r\r\n                   \r\r\n00:FF:C6:2F:5F:AE  \r\r\n0A:61:12:13:05:A0  \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n50:EB:F6:5C:31:1E  \r\r\nE8:4E:06:9D:04:22  \r\r\nEA:4E:烫烫烫烫烫烫烫烫烫烫06:9D:04:22  \r\r\nEA:4E:06:9D:04:32  \r\r\n\r\r\n</span><br></pre></td></tr></table></figure>
+<p>处理</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">std::regex <span class="title">re</span><span class="params">(<span class="string">&quot;[\r\n ]+&quot;</span>)</span></span>;</span><br><span class="line">std::sregex_token_iterator first&#123; res.<span class="built_in">begin</span>(), res.<span class="built_in">end</span>(), re, <span class="number">-1</span> &#125;, last;</span><br><span class="line">std::vector&lt;std::string&gt; s&#123; first, last &#125;;</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">MACAddress</span><br><span class="line">7E:4A:92:5B:48:BE</span><br><span class="line">A2:0E:20:52:41:53</span><br><span class="line">A4:59:20:52:41:53</span><br><span class="line">A6:E0:20:52:41烫烫烫烫烫烫烫烫烫烫:53</span><br><span class="line">00:FF:C6:2F:5F:AE</span><br><span class="line">0A:61:12:13:05:A0</span><br><span class="line">50:EB:F6:5C:31:1E</span><br><span class="line">E8:4E:06:9D:04:22</span><br><span class="line">EA:4E:烫烫烫烫烫烫烫烫烫烫06:9D:04:22</span><br><span class="line">EA:4E:06:9D:04:32</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>正则表达式</tag>
+      </tags>
+  </entry>
 </search>
