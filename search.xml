@@ -11310,4 +11310,17 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
         <tag>Linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Docker导出镜像</title>
+    <url>/2024/11/19/Docker%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F/</url>
+    <content><![CDATA[<h1 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker save -o example.tar 镜像名1 镜像名2 ...</span><br></pre></td></tr></table></figure>
+<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker load &lt; example.tar</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
 </search>
