@@ -11401,9 +11401,50 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
       </tags>
   </entry>
   <entry>
-    <title>网站ssl证书自动更新</title>
-    <url>/2024/12/13/%E7%BD%91%E7%AB%99ssl%E8%AF%81%E4%B9%A6%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<h1 id="证书更新方法"><a href="#证书更新方法" class="headerlink" title="证书更新方法"></a>证书更新方法</h1><h2 id="所有证书更新"><a href="#所有证书更新" class="headerlink" title="所有证书更新"></a>所有证书更新</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot renew</span><br></pre></td></tr></table></figure>
+    <title>解决Debian下frpc自动启动失败</title>
+    <url>/2024/12/13/%E8%A7%A3%E5%86%B3Debian%E4%B8%8Bfrpc%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5/</url>
+    <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>设置了frpc.service自动启动frpc，但每次重启服务器之后，frpc都无法正常启动</p>
+<p><code>systemctl status frpc</code>日志信息如下</p>
+<p><img src="/images/image-20241213115305675.png" alt="image-20241213115305675"></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>运行frpc的时候尚未联网，且重复启动的频次太高，导致错误提示：<code>Start request repeated too quickly</code></p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>输入<code>systemctl cat frpc</code>查看frpc.service文件的位置和内容，进行修改：</p>
+<p>原先的脚本</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="comment"># 服务名称，可自定义</span></span><br><span class="line"><span class="attr">Description</span> = frpc server</span><br><span class="line"><span class="attr">After</span> = network.target syslog.target</span><br><span class="line"><span class="attr">Wants</span> = network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span> = simple</span><br><span class="line"><span class="comment"># 启动frps的命令，需修改为您的frps的安装路径</span></span><br><span class="line"><span class="attr">ExecStart</span> = /home/frp/frp_&lt;xxx&gt;_linux_amd64/frpc -c /home/frp/frp_&lt;xxx&gt;_linux_amd64/frpc.ini</span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span> = multi-user.target</span><br></pre></td></tr></table></figure>
+<p>修改后的脚本</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="comment"># 服务名称，可自定义</span></span><br><span class="line"><span class="attr">Description</span> = frpc server</span><br><span class="line"><span class="attr">After</span> = network.target syslog.target</span><br><span class="line"><span class="attr">Wants</span> = network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span> = simple</span><br><span class="line"><span class="comment"># 启动frps的命令，需修改为您的frps的安装路径</span></span><br><span class="line"><span class="attr">ExecStart</span> = /home/frp/frp_&lt;xxx&gt;_linux_amd64/frpc -c /home/frp/frp_&lt;xxx&gt;_linux_amd64/frpc.ini</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">5</span></span><br><span class="line"><span class="attr">StartLimitInterval</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span> = multi-user.target</span><br></pre></td></tr></table></figure>
+<p>重新应用服务</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable frpc</span><br><span class="line">systemctl enable frpc</span><br><span class="line">systemctl start frpc</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>frpc</category>
+      </categories>
+      <tags>
+        <tag>frpc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>创建网站ssl证书并自动更新</title>
+    <url>/2024/12/13/%E5%88%9B%E5%BB%BA%E7%BD%91%E7%AB%99ssl%E8%AF%81%E4%B9%A6%E5%B9%B6%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0/</url>
+    <content><![CDATA[<blockquote>
+<p>let’s encrypt网站：<a href="https://letsencrypt.org/">https://letsencrypt.org/</a></p>
+<p>certbot网站：<a href="https://certbot.eff.org/">https://certbot.eff.org/</a></p>
+</blockquote>
+<h1 id="certbot安装"><a href="#certbot安装" class="headerlink" title="certbot安装"></a>certbot安装</h1><blockquote>
+<p>如果已安装，可跳过</p>
+</blockquote>
+<p>安装certbot</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install snapd</span><br><span class="line">snap install --classic certbot</span><br></pre></td></tr></table></figure>
+<p>验证是否安装成功</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot renew --dry-run</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Saving debug log to /var/log/letsencrypt/letsencrypt.log</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">No simulated renewals were attempted.</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br></pre></td></tr></table></figure>
+<h1 id="创建证书"><a href="#创建证书" class="headerlink" title="创建证书"></a>创建证书</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot --nginx</span><br></pre></td></tr></table></figure>
+<p>该命令会直接搜索nginx有多少个域名，然后让你选要让哪些成为https的，然后自动配置nginx.conf文件，自动验证，最后自动填充https的字段。</p>
+<p>自动添加的字段：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">listen</span> <span class="string">443 ssl; # managed by Certbot</span></span><br><span class="line"><span class="attr">ssl_certificate</span> <span class="string">/etc/letsencrypt/live/whuls.cn/fullchain.pem; # managed by Certbot</span></span><br><span class="line"><span class="attr">ssl_certificate_key</span> <span class="string">/etc/letsencrypt/live/whuls.cn/privkey.pem; # managed by Certbot</span></span><br><span class="line"><span class="attr">include</span> <span class="string">/etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot</span></span><br><span class="line"><span class="attr">ssl_dhparam</span> <span class="string">/etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot</span></span><br></pre></td></tr></table></figure>
+<p>之后更新用如下命令即可。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot renew</span><br></pre></td></tr></table></figure>
+<h1 id="证书更新方法"><a href="#证书更新方法" class="headerlink" title="证书更新方法"></a>证书更新方法</h1><h2 id="所有证书更新"><a href="#所有证书更新" class="headerlink" title="所有证书更新"></a>所有证书更新</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot renew</span><br></pre></td></tr></table></figure>
 <p>若还未到期，则会跳过。例如今天是2024.12.13，执行renew，得到以下输出：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">The following certificates are not due for renewal yet:</span><br><span class="line">  /etc/letsencrypt/live/example1.com/fullchain.pem expires on 2025-01-16 (skipped)</span><br><span class="line">  /etc/letsencrypt/live/example2.com/fullchain.pem expires on 2025-01-15 (skipped)</span><br><span class="line">All renewals failed. The following certificates could not be renewed:</span><br><span class="line">  /etc/letsencrypt/live/example3.com/fullchain.pem (failure)</span><br><span class="line">  /etc/letsencrypt/live/example4.com/fullchain.pem (failure)</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">2 renew failure(s), 0 parse failure(s)</span><br><span class="line">Ask for help or search for solutions at https://community.letsencrypt.org. See the logfile /var/log/letsencrypt/letsencrypt.log or re-run Certbot with -v for more details</span><br></pre></td></tr></table></figure>
 <h2 id="指定域名"><a href="#指定域名" class="headerlink" title="指定域名"></a>指定域名</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot --nginx certonly -n -d example1.com,example2.com -d example3.com</span><br></pre></td></tr></table></figure>
@@ -11437,28 +11478,6 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
       <tags>
         <tag>ssl</tag>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决Debian下frpc自动启动失败</title>
-    <url>/2024/12/13/%E8%A7%A3%E5%86%B3Debian%E4%B8%8Bfrpc%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5/</url>
-    <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>设置了frpc.service自动启动frpc，但每次重启服务器之后，frpc都无法正常启动</p>
-<p><code>systemctl status frpc</code>日志信息如下</p>
-<p><img src="/images/image-20241213115305675.png" alt="image-20241213115305675"></p>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>运行frpc的时候尚未联网，且重复启动的频次太高，导致错误提示：<code>Start request repeated too quickly</code></p>
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>输入<code>systemctl cat frpc</code>查看frpc.service文件的位置和内容，进行修改：</p>
-<p>原先的脚本</p>
-<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="comment"># 服务名称，可自定义</span></span><br><span class="line"><span class="attr">Description</span> = frpc server</span><br><span class="line"><span class="attr">After</span> = network.target syslog.target</span><br><span class="line"><span class="attr">Wants</span> = network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span> = simple</span><br><span class="line"><span class="comment"># 启动frps的命令，需修改为您的frps的安装路径</span></span><br><span class="line"><span class="attr">ExecStart</span> = /home/frp/frp_&lt;xxx&gt;_linux_amd64/frpc -c /home/frp/frp_&lt;xxx&gt;_linux_amd64/frpc.ini</span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span> = multi-user.target</span><br></pre></td></tr></table></figure>
-<p>修改后的脚本</p>
-<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="comment"># 服务名称，可自定义</span></span><br><span class="line"><span class="attr">Description</span> = frpc server</span><br><span class="line"><span class="attr">After</span> = network.target syslog.target</span><br><span class="line"><span class="attr">Wants</span> = network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span> = simple</span><br><span class="line"><span class="comment"># 启动frps的命令，需修改为您的frps的安装路径</span></span><br><span class="line"><span class="attr">ExecStart</span> = /home/frp/frp_&lt;xxx&gt;_linux_amd64/frpc -c /home/frp/frp_&lt;xxx&gt;_linux_amd64/frpc.ini</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"><span class="attr">RestartSec</span>=<span class="number">5</span></span><br><span class="line"><span class="attr">StartLimitInterval</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span> = multi-user.target</span><br></pre></td></tr></table></figure>
-<p>重新应用服务</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl disable frpc</span><br><span class="line">systemctl enable frpc</span><br><span class="line">systemctl start frpc</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>frpc</category>
-      </categories>
-      <tags>
-        <tag>frpc</tag>
       </tags>
   </entry>
 </search>
