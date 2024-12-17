@@ -11480,4 +11480,42 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
         <tag>linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>移除Win11右键菜单恢复为Win10样式</title>
+    <url>/2024/12/17/%E7%A7%BB%E9%99%A4Win11%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E6%81%A2%E5%A4%8D%E4%B8%BAWin10%E6%A0%B7%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="通过添加注册表的方式实现"><a href="#通过添加注册表的方式实现" class="headerlink" title="通过添加注册表的方式实现"></a>通过添加注册表的方式实现</h1><p>移除win11菜单：新增注册表项</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reg.exe add “HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32” /f /ve</span><br></pre></td></tr></table></figure>
+<p>恢复win11菜单：移除注册表项</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reg.exe delete “HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32” /va /f</span><br></pre></td></tr></table></figure>
+<p>重启资源管理器（否则上面两个更改不会生效）：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">taskkill -f /im explorer.exe</span><br><span class="line">start explorer.exe</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>SVN</category>
+      </categories>
+      <tags>
+        <tag>SVN TortoiseSVN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SVN客户端TortoiseSVN安装</title>
+    <url>/2024/12/17/SVN%E5%AE%A2%E6%88%B7%E7%AB%AFTortoiseSVN%E5%AE%89%E8%A3%85/</url>
+    <content><![CDATA[<h1 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h1><p><a href="https://tortoisesvn.net/">https://tortoisesvn.net/</a></p>
+<p>在官网跳转到Downloads，选择对应系统版本的软件进行下载</p>
+<p><img src="/images/image-20241217161148704.png" alt="image-20241217161148704" style="zoom:50%;" /></p>
+<p>下面是语言包</p>
+<p><img src="/images/image-20241217161215262.png" alt="image-20241217161215262" style="zoom:50%;" /></p>
+<h1 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a>下载链接</h1><p>如果官网进不去，直接点击下面链接下载：</p>
+<p>软件安装包（64位系统）：</p>
+<p><a href="https://sourceforge.net/projects/tortoisesvn/files/1.14.9/Application/TortoiseSVN-1.14.9.29743-x64-svn-1.14.5.msi/download">Download TortoiseSVN-1.14.9.29743-x64-svn-1.14.5.msi (TortoiseSVN)</a></p>
+<p>简体中文语言包（64位系统）：</p>
+<p><a href="https://sourceforge.net/projects/tortoisesvn/files/1.14.9/Language Packs/LanguagePack_1.14.9.29743-x64-zh_CN.msi/download">Download LanguagePack_1.14.9.29743-x64-zh_CN.msi (TortoiseSVN)</a></p>
+]]></content>
+      <categories>
+        <category>SVN</category>
+      </categories>
+      <tags>
+        <tag>SVN TortoiseSVN</tag>
+      </tags>
+  </entry>
 </search>
