@@ -11524,4 +11524,29 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
         <tag>SVN TortoiseSVN</tag>
       </tags>
   </entry>
+  <entry>
+    <title>EMQX部署上线及配置WSS连接</title>
+    <url>/2025/01/06/EMQX%E9%83%A8%E7%BD%B2%E4%B8%8A%E7%BA%BF%E5%8F%8A%E9%85%8D%E7%BD%AEWSS%E8%BF%9E%E6%8E%A5/</url>
+    <content><![CDATA[<h1 id="申请ssl证书"><a href="#申请ssl证书" class="headerlink" title="申请ssl证书"></a>申请ssl证书</h1><ul>
+<li>首先申请域名 mqtt.nap3d.com.cn</li>
+<li>在 nginx 中配置该域名指向一个静态目录 /var/www/html</li>
+<li>用以下命令自动申请证书</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot certonly --webroot -w /var/www/html -d mqtt.nap3d.com.cn</span><br></pre></td></tr></table></figure>
+<h1 id="配置ssl证书及绑定端口"><a href="#配置ssl证书及绑定端口" class="headerlink" title="配置ssl证书及绑定端口"></a>配置ssl证书及绑定端口</h1><p>需要将mqtt容器的 /etc/emqx/etc 目录也挂载上</p>
+<p>这个目录怎么来呢？创建一个 emqx 容器，然后用<code>docker cp emqx:/etc/emqx/etc /home/emqx_etc</code> 命令复制过来</p>
+<p>把上一步的证书文件复制到 /home/emqx_etc/certs 目录下</p>
+<p>修改 /etc/emqx/etc/emqx.conf 文件，添加以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">listeners.wss.default &#123;</span><br><span class="line">    <span class="built_in">bind</span> = <span class="string">&quot;0.0.0.0:8084&quot;</span></span><br><span class="line">    max_connections = 512000</span><br><span class="line">    websocket.mqtt_path = <span class="string">&quot;/mqtt&quot;</span></span><br><span class="line">    ssl_options &#123;</span><br><span class="line">        keyfile = <span class="string">&quot;etc/certs/mqtt.nap3d.com.cn/privkey.pem&quot;</span></span><br><span class="line">        certfile = <span class="string">&quot;etc/certs/mqtt.nap3d.com.cn/fullchain.pem&quot;</span></span><br><span class="line">        cacertfile = <span class="string">&quot;etc/certs/cacert.pem&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="配置访问控制方式"><a href="#配置访问控制方式" class="headerlink" title="配置访问控制方式"></a>配置访问控制方式</h1><blockquote>
+<p>懒得搞了，貌似只要把data和etc挂载到宿主机上，删掉容器再创建，配置也不会丢，哈哈哈哈哈哈</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>EMQX</category>
+      </categories>
+      <tags>
+        <tag>EMQX</tag>
+      </tags>
+  </entry>
 </search>
