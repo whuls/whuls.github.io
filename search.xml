@@ -11438,12 +11438,18 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot renew --dry-run</span><br></pre></td></tr></table></figure>
 <p>输出</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Saving debug log to /var/log/letsencrypt/letsencrypt.log</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">No simulated renewals were attempted.</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br></pre></td></tr></table></figure>
-<h1 id="创建证书"><a href="#创建证书" class="headerlink" title="创建证书"></a>创建证书</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot --nginx</span><br></pre></td></tr></table></figure>
+<h1 id="创建证书"><a href="#创建证书" class="headerlink" title="创建证书"></a>创建证书</h1><h2 id="一键式操作"><a href="#一键式操作" class="headerlink" title="一键式操作"></a>一键式操作</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot --nginx</span><br></pre></td></tr></table></figure>
 <p>该命令会直接搜索nginx有多少个域名，然后让你选要让哪些成为https的，然后自动配置nginx.conf文件，自动验证，最后自动填充https的字段。</p>
 <p>自动添加的字段：</p>
 <figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">listen</span> <span class="string">443 ssl; # managed by Certbot</span></span><br><span class="line"><span class="attr">ssl_certificate</span> <span class="string">/etc/letsencrypt/live/whuls.cn/fullchain.pem; # managed by Certbot</span></span><br><span class="line"><span class="attr">ssl_certificate_key</span> <span class="string">/etc/letsencrypt/live/whuls.cn/privkey.pem; # managed by Certbot</span></span><br><span class="line"><span class="attr">include</span> <span class="string">/etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot</span></span><br><span class="line"><span class="attr">ssl_dhparam</span> <span class="string">/etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot</span></span><br></pre></td></tr></table></figure>
 <p>之后更新用如下命令即可。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot renew</span><br></pre></td></tr></table></figure>
+<h2 id="静态网站（已知文件目录）"><a href="#静态网站（已知文件目录）" class="headerlink" title="静态网站（已知文件目录）"></a>静态网站（已知文件目录）</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com</span><br></pre></td></tr></table></figure>
+<p>使用<a href="https://certbot.eff.org/instructions?ws=nginx&amp;os=ubuntubionic&amp;tab=standard">certbot</a>，创建后的目录会在命令行提示出来，在<code>nginx</code>中配置即可</p>
+<p><code>certonly</code> ：仅创建（刷新）证书，不安装</p>
+<p><code>--webroot</code> ：在服务器根目录创建<code>.well-known</code>文件夹，并通过域名访问这个文件夹，进行验证</p>
+<p><code>-w, --webroot-path</code> ：指定服务器根目录的本地路径</p>
+<p><code>-d</code> ：域名</p>
 <h1 id="证书更新方法"><a href="#证书更新方法" class="headerlink" title="证书更新方法"></a>证书更新方法</h1><h2 id="所有证书更新"><a href="#所有证书更新" class="headerlink" title="所有证书更新"></a>所有证书更新</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">certbot renew</span><br></pre></td></tr></table></figure>
 <p>若还未到期，则会跳过。例如今天是2024.12.13，执行renew，得到以下输出：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">The following certificates are not due for renewal yet:</span><br><span class="line">  /etc/letsencrypt/live/example1.com/fullchain.pem expires on 2025-01-16 (skipped)</span><br><span class="line">  /etc/letsencrypt/live/example2.com/fullchain.pem expires on 2025-01-15 (skipped)</span><br><span class="line">All renewals failed. The following certificates could not be renewed:</span><br><span class="line">  /etc/letsencrypt/live/example3.com/fullchain.pem (failure)</span><br><span class="line">  /etc/letsencrypt/live/example4.com/fullchain.pem (failure)</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">2 renew failure(s), 0 parse failure(s)</span><br><span class="line">Ask for help or search for solutions at https://community.letsencrypt.org. See the logfile /var/log/letsencrypt/letsencrypt.log or re-run Certbot with -v for more details</span><br></pre></td></tr></table></figure>
@@ -11481,23 +11487,6 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
       </tags>
   </entry>
   <entry>
-    <title>移除Win11右键菜单恢复为Win10样式</title>
-    <url>/2024/12/17/%E7%A7%BB%E9%99%A4Win11%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E6%81%A2%E5%A4%8D%E4%B8%BAWin10%E6%A0%B7%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="通过添加注册表的方式实现"><a href="#通过添加注册表的方式实现" class="headerlink" title="通过添加注册表的方式实现"></a>通过添加注册表的方式实现</h1><p>移除win11菜单：新增注册表项</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reg.exe add “HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32” /f /ve</span><br></pre></td></tr></table></figure>
-<p>恢复win11菜单：移除注册表项</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reg.exe delete “HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32” /va /f</span><br></pre></td></tr></table></figure>
-<p>重启资源管理器（否则上面两个更改不会生效）：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">taskkill -f /im explorer.exe</span><br><span class="line">start explorer.exe</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>SVN</category>
-      </categories>
-      <tags>
-        <tag>SVN TortoiseSVN</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>SVN客户端TortoiseSVN安装</title>
     <url>/2024/12/17/SVN%E5%AE%A2%E6%88%B7%E7%AB%AFTortoiseSVN%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h1 id="官网"><a href="#官网" class="headerlink" title="官网"></a>官网</h1><p><a href="https://tortoisesvn.net/">https://tortoisesvn.net/</a></p>
@@ -11510,6 +11499,23 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
 <p><a href="https://sourceforge.net/projects/tortoisesvn/files/1.14.9/Application/TortoiseSVN-1.14.9.29743-x64-svn-1.14.5.msi/download">Download TortoiseSVN-1.14.9.29743-x64-svn-1.14.5.msi (TortoiseSVN)</a></p>
 <p>简体中文语言包（64位系统）：</p>
 <p><a href="https://sourceforge.net/projects/tortoisesvn/files/1.14.9/Language Packs/LanguagePack_1.14.9.29743-x64-zh_CN.msi/download">Download LanguagePack_1.14.9.29743-x64-zh_CN.msi (TortoiseSVN)</a></p>
+]]></content>
+      <categories>
+        <category>SVN</category>
+      </categories>
+      <tags>
+        <tag>SVN TortoiseSVN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>移除Win11右键菜单恢复为Win10样式</title>
+    <url>/2024/12/17/%E7%A7%BB%E9%99%A4Win11%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E6%81%A2%E5%A4%8D%E4%B8%BAWin10%E6%A0%B7%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="通过添加注册表的方式实现"><a href="#通过添加注册表的方式实现" class="headerlink" title="通过添加注册表的方式实现"></a>通过添加注册表的方式实现</h1><p>移除win11菜单：新增注册表项</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reg.exe add “HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32” /f /ve</span><br></pre></td></tr></table></figure>
+<p>恢复win11菜单：移除注册表项</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">reg.exe delete “HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32” /va /f</span><br></pre></td></tr></table></figure>
+<p>重启资源管理器（否则上面两个更改不会生效）：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">taskkill -f /im explorer.exe</span><br><span class="line">start explorer.exe</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>SVN</category>
