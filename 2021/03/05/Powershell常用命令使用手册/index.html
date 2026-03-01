@@ -28,7 +28,7 @@
 <meta property="og:description" content="记录了一些Powershell常用命令的使用方法">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-05T14:55:59.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.045Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.967Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="Windows">
 <meta name="twitter:card" content="summary">
@@ -140,12 +140,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,8 +273,8 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#1-rm%E5%91%BD%E4%BB%A4"><span class="post-body-toc-text">1. rm命令</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#2-cp%E5%91%BD%E4%BB%A4"><span class="post-body-toc-text">2. cp命令</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#3-%E6%93%8D%E4%BD%9C%E6%BB%A1%E8%B6%B3%E6%9D%A1%E4%BB%B6%E7%9A%84%E6%96%87%E4%BB%B6"><span class="post-body-toc-text">3. 操作满足条件的文件</span></a></li></ol>
       
       
-        <h1 id="1-rm命令"><a href="#1-rm命令" class="headerlink" title="1. rm命令"></a>1. rm命令</h1><p><code>Remove-Item</code>，主要用于删除文件或文件夹，基本用法：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> example.exe  <span class="comment"># 删除example.exe文件</span></span><br></pre></td></tr></table></figure>
+        <html><head></head><body><h1 id="1-rm命令"><a href="#1-rm命令" class="headerlink" title="1. rm命令"></a>1. rm命令</h1><p><code>Remove-Item</code>，主要用于删除文件或文件夹，基本用法：</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> example.exe  <span class="comment"># 删除example.exe文件</span></span><br></pre></td></tr></tbody></table></figure>
 <ul>
 <li>删除所有文件：<code>rm *</code></li>
 <li>删除满足通配符条件的部分文件：<code>rm * -include *.doc</code>或<code>rm *.doc</code></li>
@@ -286,7 +286,7 @@
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/remove-item?view=powershell-7.1">https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/remove-item?view=powershell-7.1</a></p>
 </blockquote>
 <h1 id="2-cp命令"><a href="#2-cp命令" class="headerlink" title="2. cp命令"></a>2. cp命令</h1><p><code>Copy-item</code>，主要用于复制文件或文件夹：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> * C:/tmp  <span class="comment"># 将当前目录下所有文件复制到C:\tmp文件夹中</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> * C:/tmp  <span class="comment"># 将当前目录下所有文件复制到C:\tmp文件夹中</span></span><br></pre></td></tr></tbody></table></figure>
 <p>若目标文件夹不存在，则会将其作为文件处理，导致出错，因此在复制到文件夹时，应该保证文件夹存在。</p>
 <ul>
 <li>将一个文件复制为另一个文件：<code>cp C:/tmp/aaa.exe C:/tmp_1/bbb.exe</code></li>
@@ -297,7 +297,7 @@
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/copy-item?view=powershell-7.1">https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/copy-item?view=powershell-7.1</a></p>
 </blockquote>
-<h1 id="3-操作满足条件的文件"><a href="#3-操作满足条件的文件" class="headerlink" title="3. 操作满足条件的文件"></a>3. 操作满足条件的文件</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Childitem</span>  <span class="comment"># 查看所有文件，同 ls</span></span><br><span class="line"><span class="built_in">Get-Childitem</span> | <span class="built_in">Where</span> Length <span class="operator">-eq</span> <span class="number">140</span>  <span class="comment"># 查找长度等于140字节的文件</span></span><br><span class="line"><span class="built_in">Get-Childitem</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Length <span class="operator">-eq</span> <span class="number">140</span>&#125;</span><br><span class="line"><span class="built_in">Get-Childitem</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Name <span class="operator">-Match</span> <span class="string">&quot;^*321^*&quot;</span> <span class="operator">-and</span> <span class="variable">$_</span>.Length <span class="operator">-eq</span> <span class="number">140</span>&#125;  <span class="comment"># 多条件用-and连接</span></span><br><span class="line"><span class="built_in">Get-Childitem</span> | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Length <span class="operator">-eq</span> <span class="number">140</span>&#125; | <span class="built_in">ForEach-Object</span> &#123;<span class="built_in">Remove-Item</span> <span class="variable">$_</span>.Name&#125;  <span class="comment"># 删除长度等于140字节的文件</span></span><br></pre></td></tr></table></figure>
+<h1 id="3-操作满足条件的文件"><a href="#3-操作满足条件的文件" class="headerlink" title="3. 操作满足条件的文件"></a>3. 操作满足条件的文件</h1><figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-Childitem</span>  <span class="comment"># 查看所有文件，同 ls</span></span><br><span class="line"><span class="built_in">Get-Childitem</span> | <span class="built_in">Where</span> Length <span class="operator">-eq</span> <span class="number">140</span>  <span class="comment"># 查找长度等于140字节的文件</span></span><br><span class="line"><span class="built_in">Get-Childitem</span> | <span class="built_in">Where-Object</span> {<span class="variable">$_</span>.Length <span class="operator">-eq</span> <span class="number">140</span>}</span><br><span class="line"><span class="built_in">Get-Childitem</span> | <span class="built_in">Where-Object</span> {<span class="variable">$_</span>.Name <span class="operator">-Match</span> <span class="string">"^*321^*"</span> <span class="operator">-and</span> <span class="variable">$_</span>.Length <span class="operator">-eq</span> <span class="number">140</span>}  <span class="comment"># 多条件用-and连接</span></span><br><span class="line"><span class="built_in">Get-Childitem</span> | <span class="built_in">Where-Object</span> {<span class="variable">$_</span>.Length <span class="operator">-eq</span> <span class="number">140</span>} | <span class="built_in">ForEach-Object</span> {<span class="built_in">Remove-Item</span> <span class="variable">$_</span>.Name}  <span class="comment"># 删除长度等于140字节的文件</span></span><br></pre></td></tr></tbody></table></figure>
 <p><code>-eq</code> 等于</p>
 <p><code>-Match</code> 加正则表达式，全字匹配</p>
 <p><code>-gt, -ge</code> 大于，大于等于</p>
@@ -305,7 +305,7 @@
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/where-object?view=powershell-7.1">https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/where-object?view=powershell-7.1</a></p>
 </blockquote>
-
+</body></html>
     </div>
 
     
@@ -343,6 +343,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -405,14 +406,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -447,7 +448,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -457,13 +458,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -522,6 +523,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '638046ff8f3c0d8f61c5d23c664fd15f',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

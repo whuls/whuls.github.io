@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://whuls.cn/images/image-20220130034048317.png">
 <meta property="article:published_time" content="2022-01-29T18:34:08.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.228Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.966Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="Node.js">
 <meta property="article:tag" content="SSR">
@@ -143,12 +143,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -280,7 +280,7 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%B8%8A%E6%BA%90"><span class="post-body-toc-text">渊源</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="post-body-toc-text">服务端渲染的目的</span></a></li></ol>
       
       
-        <blockquote>
+        <html><head></head><body><blockquote>
 <p>服务端渲染不是服务端完全渲染，其本身的目的也不是为了让服务器完全承担渲染任务，它也需要生成和打包，也需要热更新支持，并不是pug那种形式的</p>
 </blockquote>
 <h1 id="渊源"><a href="#渊源" class="headerlink" title="渊源"></a>渊源</h1><p>刚开始接触Node.js和网页的时候，接手了一个Node.js的项目，一个完整的信息管理系统，从数据库到请求路由再到网页，都是基于服务器框架express，页面是用pug（当时叫jade）写的，express内部支持pug模板，可以直接渲染成html，其本身就是采用缩进区分层级的html，还没有MVC和MVVM的概念，常用的数据驱动视图在那项目中根本不存在，每个页面的导航栏菜单栏都是复制粘贴的。</p>
@@ -291,7 +291,7 @@
 <p>结论就是，现在的服务端渲染并不是完完全全地渲染出一个静态网页然后再发给浏览器，而是把渲染好一部分的网页内容作为静态网页发给浏览器，同时发送客户端渲染的要求，浏览器收到静态内容和渲染要求后，再进行二次的渲染。这样有啥好处呢？首先搜索引擎一下子就能看到自己想看的东西，登记好门牌号就走了，你家里母猪一胎生几个和我没关系；再者访客一下子就看到你们家大门酷炫，你主人慢慢出来我边欣赏沿途风景，也不失为一件美事，这难得两全其美的事情，现在的服务端渲染做到了。</p>
 <hr>
 <p>故事的背后是我本人认知的颠覆，不能算是破灭，勉强说是升华。一直以来认为的服务端大包特包的想法本以为是新颖的，却不想是更过时的，服务端渲染也不是那种直接把一整个Vue CLI工程变成一个静态文件发给浏览器的过程。</p>
-<p><img src="/images/image-20220130034048317.png" alt="image-20220130034048317" style="zoom:50%;" /></p>
+<p><img src="/images/image-20220130034048317.png" alt="image-20220130034048317" style="zoom:50%;"></p>
 <p>原本以为有了服务端渲染我就可以只写一个服务器代码，完了.vue文件只是其中的一部分，但后来仔细看了文档才发现，即便是服务端渲染，要用webpack还是跑不掉打包的过程，如上图所示，无非就是打包成客户端代码和服务端代码罢了，那既然如此，前后端完全分离还是《能用就行》。</p>
 <p>留个教程，万一以后用到了或许能帮点。</p>
 <blockquote>
@@ -300,7 +300,7 @@
 <p>还有个概念区别于服务端渲染（Server Side Rendering），就是预渲染（Prerendering），预渲染是在构建服务端的时候就把要呈现给用户的内容先渲染好了，一些首页导航页之类的，用户请求的时候直接发静态html就够了，服务端渲染是用户请求哪个页面的时候我还需要小小地渲染一次再发给用户，二者有所联系又有所区别：</p>
 <p>预渲染：用户请求 =&gt; 静态页面（预渲染后的） =&gt; 用户</p>
 <p>服务端渲染：用户请求 =&gt; 渲染 =&gt; 静态页面 =&gt; 用户</p>
-
+</body></html>
     </div>
 
     
@@ -339,6 +339,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -401,14 +402,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -443,7 +444,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -453,13 +454,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -518,6 +519,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : 'b43af655f4f0ff79cf0130e8d732185b',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

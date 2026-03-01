@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://whuls.cn/images/image-20220612235338175.png">
 <meta property="og:image" content="https://whuls.cn/images/image-20220613001342497.png">
 <meta property="article:published_time" content="2022-06-12T09:26:07.000Z">
-<meta property="article:modified_time" content="2022-06-12T17:39:47.835Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.966Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="Ubuntu">
 <meta property="article:tag" content="frp">
@@ -152,12 +152,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-13 01:39:47" itemprop="dateModified" datetime="2022-06-13T01:39:47+08:00">2022-06-13</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -297,76 +297,76 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E9%9C%80%E6%B1%82%E4%B8%8E%E8%AE%BE%E8%AE%A1"><span class="post-body-toc-text">需求与设计</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E4%B8%AD%E8%BD%AC%E6%9C%8D%E5%8A%A1%E5%99%A8frps%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="post-body-toc-text">中转服务器frps安装和配置</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E4%B8%8B%E8%BD%BDfrp"><span class="post-body-toc-text">下载frp</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E8%A7%A3%E5%8E%8B"><span class="post-body-toc-text">解压</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E4%B8%AD%E8%BD%AC%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE"><span class="post-body-toc-text">中转服务配置</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="post-body-toc-text">启动服务</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%88%B0%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1%E5%B9%B6%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%BF%90%E8%A1%8C"><span class="post-body-toc-text">添加到系统服务并设置开机运行</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%BC%80%E5%90%AF%E9%98%B2%E7%81%AB%E5%A2%99%E7%AB%AF%E5%8F%A3"><span class="post-body-toc-text">开启防火墙端口</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%A2%AB%E6%8E%A7%E7%AB%AFWindows%E9%85%8D%E7%BD%AE"><span class="post-body-toc-text">被控端Windows配置</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%BC%80%E5%90%AFOpenSSH%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="post-body-toc-text">开启OpenSSH服务端</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E8%A2%AB%E6%8E%A7%E7%AB%AF%E9%85%8D%E7%BD%AEfrpc"><span class="post-body-toc-text">被控端配置frpc</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%8E%A7%E5%88%B6%E7%AB%AF%E9%85%8D%E7%BD%AEfrpc"><span class="post-body-toc-text">控制端配置frpc</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#Windows-frpc%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8C%81%E4%B9%85%E5%8C%96%E8%BF%90%E8%A1%8C"><span class="post-body-toc-text">Windows frpc客户端持久化运行</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%8E%A7%E5%88%B6%E7%AB%AFVS-Code%E5%BC%80%E5%90%AF%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="post-body-toc-text">控制端VS Code开启免密登录</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E6%8E%A7%E5%88%B6%E7%AB%AF%E6%93%8D%E4%BD%9C"><span class="post-body-toc-text">控制端操作</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E8%A2%AB%E6%8E%A7%E7%AB%AF%E8%AE%BE%E7%BD%AE%E5%85%81%E8%AE%B8%E5%AF%86%E9%92%A5%E5%AF%B9%E7%99%BB%E5%BD%95"><span class="post-body-toc-text">被控端设置允许密钥对登录</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="post-body-toc-text">连接</span></a></li></ol></li></ol>
       
       
-        <h1 id="需求与设计"><a href="#需求与设计" class="headerlink" title="需求与设计"></a>需求与设计</h1><p>需求：在家通过ssh连接公司电脑（Windows系统）进行开发</p>
+        <html><head></head><body><h1 id="需求与设计"><a href="#需求与设计" class="headerlink" title="需求与设计"></a>需求与设计</h1><p>需求：在家通过ssh连接公司电脑（Windows系统）进行开发</p>
 <p>设计：使用公网服务器（Ubuntu）安装frps做中转，公司电脑（Windows）安装frpc客户端以及OpenSSH-server作为被访者，家里电脑（Windows）安装frpc客户端以及OpenSSH-client作为访客。</p>
 <h1 id="中转服务器frps安装和配置"><a href="#中转服务器frps安装和配置" class="headerlink" title="中转服务器frps安装和配置"></a>中转服务器frps安装和配置</h1><h2 id="下载frp"><a href="#下载frp" class="headerlink" title="下载frp"></a>下载frp</h2><p>下载页面：<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases">Releases · fatedier/frp (github.com)</a></p>
 <p>服务器操作系统是Ubuntu，选择linux amd64进行下载，下载链接：</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases/download/v0.43.0/frp_0.43.0_linux_amd64.tar.gz">https://github.com/fatedier/frp/releases/download/v0.43.0/frp_0.43.0_linux_amd64.tar.gz</a></p>
 <p>通过网络下载：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.43.0/frp_0.43.0_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.43.0/frp_0.43.0_linux_amd64.tar.gz</span><br></pre></td></tr></tbody></table></figure>
 <p>下载到本地再拷贝过去（<code>scp</code>命令：<code>scp [local_file] [remote_user]@[ssh_address]:[remote_path]</code>）：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp frp_0.<span class="number">43.0</span>_linux_amd64.tar.gz user@ip:/etc/frp</span><br></pre></td></tr></table></figure>
-<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -xf *.gz # 全部解压，省得输文件名</span><br><span class="line">tar -xf frp_0.43.0_linux_amd64.tar.gz  # 单独解压</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp frp_0.<span class="number">43.0</span>_linux_amd64.tar.gz user@ip:/etc/frp</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -xf *.gz # 全部解压，省得输文件名</span><br><span class="line">tar -xf frp_0.43.0_linux_amd64.tar.gz  # 单独解压</span><br></pre></td></tr></tbody></table></figure>
 <p><code>-x</code>取出文件</p>
 <p><code>-f</code>指定文件名</p>
 <p>两个参数缺一不可。解压后：</p>
-<p><img src="/images/image-20220612183927563.png" alt="image-20220612183927563" style="zoom:50%;" /></p>
-<h2 id="中转服务配置"><a href="#中转服务配置" class="headerlink" title="中转服务配置"></a>中转服务配置</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># frps.ini</span></span><br><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="string">12301</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dashboard_port</span> = <span class="string">12302</span></span><br><span class="line"><span class="attr">dashboard_user</span> = <span class="string">user</span></span><br><span class="line"><span class="attr">dashboard_pwd</span> = <span class="string">pwd</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/image-20220612183927563.png" alt="image-20220612183927563" style="zoom:50%;"></p>
+<h2 id="中转服务配置"><a href="#中转服务配置" class="headerlink" title="中转服务配置"></a>中转服务配置</h2><figure class="highlight properties"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># frps.ini</span></span><br><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="string">12301</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dashboard_port</span> = <span class="string">12302</span></span><br><span class="line"><span class="attr">dashboard_user</span> = <span class="string">user</span></span><br><span class="line"><span class="attr">dashboard_pwd</span> = <span class="string">pwd</span></span><br></pre></td></tr></tbody></table></figure>
 <p>其他客户端通过<code>bind_port</code>连接中转服务器</p>
 <p>dashboard是frp运行状态的检查面板，也可以在这里查看代理数据的统计，<code>dashboard_</code>配置了其运行的端口、用户名和密码</p>
 <p>完整配置在压缩包的”frps_full.ini”文件中，参考<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/blob/dev/conf/frps_full.ini">frp/frps_full.ini at dev · fatedier/frp (github.com)</a></p>
 <h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><p>打开命令行，进入解压后的目录执行以下命令即可启动。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frps -c ./frps.ini</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./frps -c ./frps.ini</span><br></pre></td></tr></tbody></table></figure>
 <h2 id="添加到系统服务并设置开机运行"><a href="#添加到系统服务并设置开机运行" class="headerlink" title="添加到系统服务并设置开机运行"></a>添加到系统服务并设置开机运行</h2><blockquote>
 <p><a target="_blank" rel="noopener" href="https://gofrp.org/docs/setup/systemd/">使用 systemd | frp (gofrp.org)</a></p>
 </blockquote>
 <p>在目录<code>/etc/systemd/system</code>中添加文件<code>frps.service</code>，写入：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">[Unit]</span></span><br><span class="line"><span class="comment"># 服务名称，可自定义</span></span><br><span class="line"><span class="attr">Description</span> = <span class="string">frp server</span></span><br><span class="line"><span class="attr">After</span> = <span class="string">network.target syslog.target</span></span><br><span class="line"><span class="attr">Wants</span> = <span class="string">network.target</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[Service]</span></span><br><span class="line"><span class="attr">Type</span> = <span class="string">simple</span></span><br><span class="line"><span class="comment"># 启动frps的命令，需修改为您的frps的安装路径</span></span><br><span class="line"><span class="attr">ExecStart</span> = <span class="string">/path/to/frps -c /path/to/frps.ini</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span> = <span class="string">multi-user.target</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">[Unit]</span></span><br><span class="line"><span class="comment"># 服务名称，可自定义</span></span><br><span class="line"><span class="attr">Description</span> = <span class="string">frp server</span></span><br><span class="line"><span class="attr">After</span> = <span class="string">network.target syslog.target</span></span><br><span class="line"><span class="attr">Wants</span> = <span class="string">network.target</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[Service]</span></span><br><span class="line"><span class="attr">Type</span> = <span class="string">simple</span></span><br><span class="line"><span class="comment"># 启动frps的命令，需修改为您的frps的安装路径</span></span><br><span class="line"><span class="attr">ExecStart</span> = <span class="string">/path/to/frps -c /path/to/frps.ini</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span> = <span class="string">multi-user.target</span></span><br></pre></td></tr></tbody></table></figure>
 <p>启动服务：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl start frps</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者</span></span><br><span class="line">service frps start</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl start frps</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者</span></span><br><span class="line">service frps start</span><br></pre></td></tr></tbody></table></figure>
 <p>查看并设置自动启动：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">systemctl is-enabled frps</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">disabled</span></span><br><span class="line">systemctl enable frps</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Created symlink /etc/systemd/system/multi-user.target.wants/frps.service → /etc/systemd/system/frps.service.</span></span><br><span class="line">systemctl is-enabled frps</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">enabled</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">systemctl is-enabled frps</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">disabled</span></span><br><span class="line">systemctl enable frps</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Created symlink /etc/systemd/system/multi-user.target.wants/frps.service → /etc/systemd/system/frps.service.</span></span><br><span class="line">systemctl is-enabled frps</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">enabled</span></span><br></pre></td></tr></tbody></table></figure>
 <p>输入<code>systemctl status frps</code>或<code>service frps status</code>，查看运行状态：</p>
-<p><img src="/images/image-20220612223652625.png" alt="image-20220612223652625" style="zoom:50%;" /></p>
-<h2 id="开启防火墙端口"><a href="#开启防火墙端口" class="headerlink" title="开启防火墙端口"></a>开启防火墙端口</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --add-port=[port]/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<p><img src="/images/image-20220612223652625.png" alt="image-20220612223652625" style="zoom:50%;"></p>
+<h2 id="开启防火墙端口"><a href="#开启防火墙端口" class="headerlink" title="开启防火墙端口"></a>开启防火墙端口</h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --add-port=[port]/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="被控端Windows配置"><a href="#被控端Windows配置" class="headerlink" title="被控端Windows配置"></a>被控端Windows配置</h1><h2 id="开启OpenSSH服务端"><a href="#开启OpenSSH服务端" class="headerlink" title="开启OpenSSH服务端"></a>开启OpenSSH服务端</h2><p>在Windows-设置-应用-可选功能，添加可选功能，选择OpenSSH服务器，安装：</p>
 <p><img src="/images/image-20220612224220732.png" alt="image-20220612224220732"></p>
 <p>右键“计算机”，管理，服务，找到“OpenSSH SSH Server”，启动并设置开机自动启动：</p>
-<p><img src="/images/image-20220612225714273.png" alt="image-20220612225714273" style="zoom:50%;" /></p>
+<p><img src="/images/image-20220612225714273.png" alt="image-20220612225714273" style="zoom:50%;"></p>
 <p>在命令行输入<code>ssh [用户名]@localhost</code>，并输入当前用户的密码，即可通过ssh登录当前用户：</p>
-<p><img src="/images/image-20220612225904597.png" alt="image-20220612225904597" style="zoom:50%;" /></p>
+<p><img src="/images/image-20220612225904597.png" alt="image-20220612225904597" style="zoom:50%;"></p>
 <h2 id="被控端配置frpc"><a href="#被控端配置frpc" class="headerlink" title="被控端配置frpc"></a>被控端配置frpc</h2><p>使用私有化连接方式，被控端frpc.ini配置：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># frpc.ini</span></span><br><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="string">中转服务器ip</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="string">中转服务器绑定的端口</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[secret_ssh]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">stcp</span></span><br><span class="line"><span class="attr">sk</span> = <span class="string">密钥</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="string">127.0.0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">22</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># frpc.ini</span></span><br><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="string">中转服务器ip</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="string">中转服务器绑定的端口</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[secret_ssh]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">stcp</span></span><br><span class="line"><span class="attr">sk</span> = <span class="string">密钥</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="string">127.0.0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">22</span></span><br></pre></td></tr></tbody></table></figure>
 <p>该项配置将被控端的22端口暴露给中转服务器，其他客户端通过中转服务器，认证通过密钥后，即可连接该被控端。</p>
 <p>运行<code>./frpc.exe -c ./frpc.ini</code>，即可启动。</p>
-<h2 id="控制端配置frpc"><a href="#控制端配置frpc" class="headerlink" title="控制端配置frpc"></a>控制端配置frpc</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># frpc.ini</span></span><br><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="string">中转服务器ip</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="string">中转服务器绑定的端口</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[secret_ssh_visitor]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">stcp</span></span><br><span class="line"><span class="attr">role</span> = <span class="string">visitor</span></span><br><span class="line"><span class="attr">server_name</span> = <span class="string">secret_ssh</span></span><br><span class="line"><span class="attr">sk</span> = <span class="string">密钥</span></span><br><span class="line"><span class="attr">bind_addr</span> = <span class="string">127.0.0.1</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="string">6000</span></span><br></pre></td></tr></table></figure>
+<h2 id="控制端配置frpc"><a href="#控制端配置frpc" class="headerlink" title="控制端配置frpc"></a>控制端配置frpc</h2><figure class="highlight properties"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># frpc.ini</span></span><br><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="string">中转服务器ip</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="string">中转服务器绑定的端口</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[secret_ssh_visitor]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">stcp</span></span><br><span class="line"><span class="attr">role</span> = <span class="string">visitor</span></span><br><span class="line"><span class="attr">server_name</span> = <span class="string">secret_ssh</span></span><br><span class="line"><span class="attr">sk</span> = <span class="string">密钥</span></span><br><span class="line"><span class="attr">bind_addr</span> = <span class="string">127.0.0.1</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="string">6000</span></span><br></pre></td></tr></tbody></table></figure>
 <p>运行<code>./frpc.exe -c ./frpc.ini</code>，在命令行输入<code>ssh -oPort [用户名]@127.0.0.1</code>，即可进行ssh连接。</p>
 <h2 id="Windows-frpc客户端持久化运行"><a href="#Windows-frpc客户端持久化运行" class="headerlink" title="Windows frpc客户端持久化运行"></a>Windows frpc客户端持久化运行</h2><p><a target="_blank" rel="noopener" href="https://nssm.cc/">NSSM - the Non-Sucking Service Manager</a></p>
 <p>下载后解压<code>nssm-2.24.zip</code>，打开命令行<code>cd</code>到该文件夹下的<code>win32</code>或<code>win64</code>文件夹中，执行以下命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nssm.exe install CustomService</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nssm.exe install CustomService</span><br></pre></td></tr></tbody></table></figure>
 <p>这句话的意思是将要在添加一个名为<code>CustomService</code>的系统服务，运行后会弹出一个对话框，选择程序目录、程序名称、输入命令行参数等，全都输入完毕再点击“确定”，即可添加服务。</p>
 <p>输入<code>frpc.exe</code>的程序目录以及配置文件参数：</p>
-<p><img src="/images/image-20220612233410906.png" alt="image-20220612233410906" style="zoom:50%;" /></p>
+<p><img src="/images/image-20220612233410906.png" alt="image-20220612233410906" style="zoom:50%;"></p>
 <p>然后打开计算机管理，找到服务nssmFrpc22，启动服务并设置开机自启动，被控端的配置就算完成。控制端的frpc配置与被控端的一致。</p>
 <h1 id="控制端VS-Code开启免密登录"><a href="#控制端VS-Code开启免密登录" class="headerlink" title="控制端VS Code开启免密登录"></a>控制端VS Code开启免密登录</h1><blockquote>
 <p>主要针对控制端，连接时省得输入密码</p>
 </blockquote>
 <h2 id="控制端操作"><a href="#控制端操作" class="headerlink" title="控制端操作"></a>控制端操作</h2><p>生成密钥对（使用git bash）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;example@abc.com&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C "example@abc.com"</span><br></pre></td></tr></tbody></table></figure>
 <p>命令执行期间需要输入密钥对的名称，假设为<code>id_rsa</code></p>
 <p>生成后，将得到<code>id_rsa</code>和<code>id_rsa.pub</code>，前者是私钥，后者是公钥。将私钥文件拷贝到用户文件夹的<code>.ssh</code>文件夹中</p>
 <p>打开VS Code，确保安装插件Remote - SSH（<code>ms-vscode-remote.remote-ssh</code>）后，点击左下角，并选择“Connect to Host…”，点击“Add New SSH Host…”，输入<code>ssh -oPort=6000 [被控端用户名]@127.0.0.1</code>，将该配置添加到<code>[用户文件夹]/.ssh/config</code>文件中，随后VS Code打开该文件，找到刚刚添加的条目，加上字段<code>IdentityFile</code>，将其设置为私钥文件的路径，如下图所示：</p>
-<p><img src="/images/image-20220612235338175.png" alt="image-20220612235338175" style="zoom:50%;" /></p>
+<p><img src="/images/image-20220612235338175.png" alt="image-20220612235338175" style="zoom:50%;"></p>
 <p>最后将<code>id_rsa.pub</code>文件中的公钥字符串拷贝到被控端<code>[用户文件夹]/.ssh/authorized_keys</code>文件中，没有就新建一个文本文件改后缀名，若已存在则换行添加。</p>
 <h2 id="被控端设置允许密钥对登录"><a href="#被控端设置允许密钥对登录" class="headerlink" title="被控端设置允许密钥对登录"></a>被控端设置允许密钥对登录</h2><p>接着需要对被控端的OpenSSH-server做进一步配置，使其允许密钥对连接。</p>
 <p>打开文件<code>C:\ProgramData\ssh\sshd_config</code>，确保以下几个选项的配置正确：</p>
-<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 允许使用公钥验证登录</span></span><br><span class="line"><span class="attr">PubkeyAuthentication</span> <span class="string">yes</span></span><br><span class="line"><span class="attr">AuthorizedKeysFile</span>	<span class="string">.ssh/authorized_keys</span></span><br><span class="line"><span class="comment"># 允许使用密码验证</span></span><br><span class="line"><span class="attr">PasswordAuthentication</span> <span class="string">yes</span></span><br><span class="line"><span class="comment"># Match Group administrators</span></span><br><span class="line"><span class="comment">#        AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 允许使用公钥验证登录</span></span><br><span class="line"><span class="attr">PubkeyAuthentication</span> <span class="string">yes</span></span><br><span class="line"><span class="attr">AuthorizedKeysFile</span>	<span class="string">.ssh/authorized_keys</span></span><br><span class="line"><span class="comment"># 允许使用密码验证</span></span><br><span class="line"><span class="attr">PasswordAuthentication</span> <span class="string">yes</span></span><br><span class="line"><span class="comment"># Match Group administrators</span></span><br><span class="line"><span class="comment">#        AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys</span></span><br></pre></td></tr></tbody></table></figure>
 <p>接着将OpenSSH SSH Server服务重启，即可完成配置。</p>
 <h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>在控制端，打开VS Code，使用Remote SSH连接到前几步添加的服务器，第一次连接需要选择服务器，选择“Windows”，若不需要输入密码直接连接，则说明密钥对配置成功。</p>
 <p>使用VS Code连接被控端时，会自动在被控端Windows用户文件夹下的<code>.vscode-server</code>文件夹安装Remote SSH的相关资源：</p>
-<p><img src="/images/image-20220613001342497.png" alt="image-20220613001342497" style="zoom:50%;" /></p>
+<p><img src="/images/image-20220613001342497.png" alt="image-20220613001342497" style="zoom:50%;"></p>
 <p>远程连接时安装的插件都会放在这个文件夹中，需要注意避免用户文件夹过大。</p>
-
+</body></html>
     </div>
 
     
@@ -407,6 +407,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -469,14 +470,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -511,7 +512,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -521,13 +522,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -586,6 +587,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '09423900abff20ab3dfe248ff54ead5c',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

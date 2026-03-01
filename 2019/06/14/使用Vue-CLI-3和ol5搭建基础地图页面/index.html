@@ -33,10 +33,10 @@
 <meta property="og:image" content="https://whuls.cn/images/20190614132225138.png">
 <meta property="og:image" content="https://whuls.cn/images/20190614133231923.png">
 <meta property="article:published_time" content="2019-06-14T05:32:46.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.035Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.968Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="OpenLayers">
-<meta property="article:tag" content="Vue.js">
+<meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://whuls.cn/images/20190614131223805.png">
 
@@ -147,12 +147,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -240,7 +240,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -280,14 +280,14 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="post-body-toc-text">设计目标</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="post-body-toc-text">创建项目</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84"><span class="post-body-toc-text">修改文件夹结构</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81"><span class="post-body-toc-text">修改代码</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="post-body-toc-text">运行</span></a></li></ol>
       
       
-        <h1 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h1><p>利用Vue的特性，结合Openlayers 5搭建一个单页地图应用。布局草图如图1所示，页面的主体为地图，在地图上添加查询框、工具栏、信息栏等内容。</p>
+        <html><head></head><body><h1 id="设计目标"><a href="#设计目标" class="headerlink" title="设计目标"></a>设计目标</h1><p>利用Vue的特性，结合Openlayers 5搭建一个单页地图应用。布局草图如图1所示，页面的主体为地图，在地图上添加查询框、工具栏、信息栏等内容。</p>
 <p><img src="/images/20190614131223805.png" alt="图1 布局草图"></p>
 <h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><p>安装Vue CLI 3</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm install -g @vue/cli</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm install -g @vue/cli</span></span><br></pre></td></tr></tbody></table></figure>
 <p>创建Vue项目，可以使用命令行创建，并在其中配置插件、依赖等</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">vue create hi-story</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">vue create hi-story</span></span><br></pre></td></tr></tbody></table></figure>
 <p>也可以使用GUI创建，按照提示来即可</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">vue ui</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">vue ui</span></span><br></pre></td></tr></tbody></table></figure>
 <h1 id="修改文件夹结构"><a href="#修改文件夹结构" class="headerlink" title="修改文件夹结构"></a>修改文件夹结构</h1><p>创建后的文档结构如图2所示，主要的代码位于<code>/src</code>文件夹中，该文件夹的格式如图3所示</p>
 <p><img src="/images/20190614130503628.png" alt="图2 文档结构"></p>
 <p><img src="/images/20190614130703557.png" alt="图3 src文件夹结构"></p>
@@ -295,17 +295,17 @@
 <p><img src="/images/20190614132225138.png" alt="图4 修改后的文件夹结构"></p>
 <h1 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h1><p>详细内容如代码所示。</p>
 <p>main.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">HiMap</span> <span class="keyword">from</span> <span class="string">&#x27;./HiMap.vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">&#x27;./store&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">productionTip</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  store,</span><br><span class="line">  <span class="attr">render</span>: <span class="keyword">function</span> (<span class="params">h</span>) &#123; <span class="keyword">return</span> <span class="title function_">h</span>(<span class="title class_">HiMap</span>) &#125;</span><br><span class="line">&#125;).$mount(<span class="string">&#x27;#app&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">HiMap</span> <span class="keyword">from</span> <span class="string">'./HiMap.vue'</span></span><br><span class="line"><span class="keyword">import</span> store <span class="keyword">from</span> <span class="string">'./store'</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">productionTip</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>({</span><br><span class="line">  store,</span><br><span class="line">  <span class="attr">render</span>: <span class="keyword">function</span> (<span class="params">h</span>) { <span class="keyword">return</span> <span class="title function_">h</span>(<span class="title class_">HiMap</span>) }</span><br><span class="line">}).$mount(<span class="string">'#app'</span>)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 <p>HiMap.vue</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;app&quot;&gt;</span><br><span class="line">    &lt;main-map&gt;&lt;/main-map&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// Map</span><br><span class="line">import MainMap from &#x27;./components/MainMap.vue&#x27;;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;HiMap&#x27;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    MainMap</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">#app &#123;</span><br><span class="line">  font-family: &#x27;Avenir&#x27;, Helvetica, Arial, sans-serif;</span><br><span class="line">  -webkit-font-smoothing: antialiased;</span><br><span class="line">  -moz-osx-font-smoothing: grayscale;</span><br><span class="line">  text-align: center;</span><br><span class="line">  color: #2c3e50;</span><br><span class="line">&#125;</span><br><span class="line">html, body, div &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id="app"&gt;</span><br><span class="line">    &lt;main-map&gt;&lt;/main-map&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// Map</span><br><span class="line">import MainMap from './components/MainMap.vue';</span><br><span class="line"></span><br><span class="line">export default {</span><br><span class="line">  name: 'HiMap',</span><br><span class="line">  components: {</span><br><span class="line">    MainMap</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">#app {</span><br><span class="line">  font-family: 'Avenir', Helvetica, Arial, sans-serif;</span><br><span class="line">  -webkit-font-smoothing: antialiased;</span><br><span class="line">  -moz-osx-font-smoothing: grayscale;</span><br><span class="line">  text-align: center;</span><br><span class="line">  color: #2c3e50;</span><br><span class="line">}</span><br><span class="line">html, body, div {</span><br><span class="line">  margin: 0;</span><br><span class="line">}</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></tbody></table></figure>
 <p>/components/MainMap.vue</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;map&quot; :style=&quot;MapStyle&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// Openlayers based modules</span><br><span class="line">import &#x27;ol/ol.css&#x27;;</span><br><span class="line">import &#123;Map, View&#125; from &#x27;ol&#x27;;</span><br><span class="line">import TileLayer from &#x27;ol/layer/Tile&#x27;;</span><br><span class="line">import OSM from &#x27;ol/source/OSM&#x27;;</span><br><span class="line"></span><br><span class="line">// Map Control</span><br><span class="line">import &#123;defaults&#125; from &#x27;ol/control&#x27;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;MainMap&#x27;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      Map: &#123;&#125;,</span><br><span class="line">      View: &#123;&#125;,</span><br><span class="line">      Layers: [],</span><br><span class="line">      MapStyle: &#123;</span><br><span class="line">        height: innerHeight + &#x27;px&#x27;,</span><br><span class="line">        width: innerWidth + &#x27;px&#x27;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  created() &#123;</span><br><span class="line">    const self = this;</span><br><span class="line"></span><br><span class="line">    onresize = e =&gt; &#123;</span><br><span class="line">      let win = e.currentTarget;</span><br><span class="line">      self.MapStyle.height = win.innerHeight + &#x27;px&#x27;;</span><br><span class="line">      self.MapStyle.width = win.innerWidth + &#x27;px&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  mounted() &#123;</span><br><span class="line">    const self = this;</span><br><span class="line">    // View</span><br><span class="line">    const center = [12175093.67465372, 4209022.808896985];</span><br><span class="line">    const zoom = 4;</span><br><span class="line">    const projecton = &#x27;EPSG:3857&#x27;;</span><br><span class="line"></span><br><span class="line">    self.View = new View(&#123;</span><br><span class="line">      center: center,</span><br><span class="line">      zoom: zoom,</span><br><span class="line">      projecton: projecton,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // Layers</span><br><span class="line">    const osmLayer = new TileLayer(&#123;</span><br><span class="line">      source: new OSM(),</span><br><span class="line">      opacity: 1</span><br><span class="line">    &#125;);</span><br><span class="line">    self.Layers.push(osmLayer);</span><br><span class="line"></span><br><span class="line">    // Map</span><br><span class="line">    self.Map = new Map(&#123;</span><br><span class="line">      target: &#x27;map&#x27;,</span><br><span class="line">      view: self.View,</span><br><span class="line">      layers: self.Layers,</span><br><span class="line">      controls: defaults(&#123;</span><br><span class="line">        attribution: false,</span><br><span class="line">        rotate: false,</span><br><span class="line">        zoom: false</span><br><span class="line">      &#125;),</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    self.map.on(&#x27;click&#x27;, event =&gt; &#123;</span><br><span class="line">      console.log(&#x27;(&#x27; + event.coordinate.toString() + &#x27;) &#x27; + event.map.getView().getZoom());</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id="map" :style="MapStyle"&gt;&lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// Openlayers based modules</span><br><span class="line">import 'ol/ol.css';</span><br><span class="line">import {Map, View} from 'ol';</span><br><span class="line">import TileLayer from 'ol/layer/Tile';</span><br><span class="line">import OSM from 'ol/source/OSM';</span><br><span class="line"></span><br><span class="line">// Map Control</span><br><span class="line">import {defaults} from 'ol/control'</span><br><span class="line"></span><br><span class="line">export default {</span><br><span class="line">  name: 'MainMap',</span><br><span class="line">  data() {</span><br><span class="line">    return {</span><br><span class="line">      Map: {},</span><br><span class="line">      View: {},</span><br><span class="line">      Layers: [],</span><br><span class="line">      MapStyle: {</span><br><span class="line">        height: innerHeight + 'px',</span><br><span class="line">        width: innerWidth + 'px'</span><br><span class="line">      }</span><br><span class="line">    }</span><br><span class="line">  },</span><br><span class="line"></span><br><span class="line">  created() {</span><br><span class="line">    const self = this;</span><br><span class="line"></span><br><span class="line">    onresize = e =&gt; {</span><br><span class="line">      let win = e.currentTarget;</span><br><span class="line">      self.MapStyle.height = win.innerHeight + 'px';</span><br><span class="line">      self.MapStyle.width = win.innerWidth + 'px';</span><br><span class="line">    }</span><br><span class="line">  },</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  mounted() {</span><br><span class="line">    const self = this;</span><br><span class="line">    // View</span><br><span class="line">    const center = [12175093.67465372, 4209022.808896985];</span><br><span class="line">    const zoom = 4;</span><br><span class="line">    const projecton = 'EPSG:3857';</span><br><span class="line"></span><br><span class="line">    self.View = new View({</span><br><span class="line">      center: center,</span><br><span class="line">      zoom: zoom,</span><br><span class="line">      projecton: projecton,</span><br><span class="line">    });</span><br><span class="line"></span><br><span class="line">    // Layers</span><br><span class="line">    const osmLayer = new TileLayer({</span><br><span class="line">      source: new OSM(),</span><br><span class="line">      opacity: 1</span><br><span class="line">    });</span><br><span class="line">    self.Layers.push(osmLayer);</span><br><span class="line"></span><br><span class="line">    // Map</span><br><span class="line">    self.Map = new Map({</span><br><span class="line">      target: 'map',</span><br><span class="line">      view: self.View,</span><br><span class="line">      layers: self.Layers,</span><br><span class="line">      controls: defaults({</span><br><span class="line">        attribution: false,</span><br><span class="line">        rotate: false,</span><br><span class="line">        zoom: false</span><br><span class="line">      }),</span><br><span class="line">    });</span><br><span class="line"></span><br><span class="line">    self.map.on('click', event =&gt; {</span><br><span class="line">      console.log('(' + event.coordinate.toString() + ') ' + event.map.getView().getZoom());</span><br><span class="line">    });</span><br><span class="line">  },</span><br><span class="line">}</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h1><p>在命令行输入如下命令，即可编译运行，之后在浏览器中打开即可。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd hi-story</span><br><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd hi-story</span><br><span class="line">npm run serve</span><br></pre></td></tr></tbody></table></figure>
 <p>或者使用<code>vue ui</code>命令在浏览器中打开GUI，运行项目。</p>
 <p>基本地图页面搭建完成：</p>
 <p><img src="/images/20190614133231923.png" alt="图5 基本地图页面"></p>
-
+</body></html>
     </div>
 
     
@@ -316,7 +316,7 @@
           
           <div class="post-tags">
               <a href="/tags/OpenLayers/" rel="tag"><i class="fa fa-tag"></i> OpenLayers</a>
-              <a href="/tags/Vue-js/" rel="tag"><i class="fa fa-tag"></i> Vue.js</a>
+              <a href="/tags/Vue/" rel="tag"><i class="fa fa-tag"></i> Vue</a>
           </div>
 
         
@@ -344,6 +344,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -406,14 +407,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -448,7 +449,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -458,13 +459,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -523,6 +524,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '8f909d5834a7c084d355bc78b2964cd6',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

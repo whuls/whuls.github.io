@@ -28,7 +28,7 @@
 <meta property="og:description" content="介绍了Node.js安装的简要过程和一些细节配置；使用express包创建了静态页面服务器，并写了一个自动获取IPv4的函数">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-07-14T04:18:36.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.031Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.968Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="Node.js">
@@ -142,12 +142,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,7 +275,7 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#1-%E5%AE%89%E8%A3%85"><span class="post-body-toc-text">1 安装</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-1-%E4%B8%8B%E8%BD%BD%E5%92%8C%E5%AE%89%E8%A3%85"><span class="post-body-toc-text">1.1 下载和安装</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-2-%E4%BB%80%E4%B9%88%E6%98%AFREPL%EF%BC%9F%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="post-body-toc-text">1.2 什么是REPL？如何使用？</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-3-npm-%E5%A4%96%E9%83%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%A0%E9%99%A4"><span class="post-body-toc-text">1.3 npm 外部模块的安装和删除</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#1-4-%E8%AE%BE%E7%BD%AE%E5%85%A8%E5%B1%80%E7%9B%AE%E5%BD%95"><span class="post-body-toc-text">1.4 设置全局目录</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#2-%E9%83%A8%E7%BD%B2%E7%BD%91%E7%AB%99"><span class="post-body-toc-text">2 部署网站</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-1-%E5%AE%89%E8%A3%85express%E6%A8%A1%E5%9D%97"><span class="post-body-toc-text">2.1 安装express模块</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-2-%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%85%A5%E5%8F%A3"><span class="post-body-toc-text">2.2 创建服务入口</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#2-3-%E8%AE%BF%E9%97%AE"><span class="post-body-toc-text">2.3 访问</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#3-%E8%8E%B7%E5%8F%96%E6%9C%AC%E5%9C%B0IP%E5%9C%B0%E5%9D%80"><span class="post-body-toc-text">3 获取本地IP地址</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-1-%E7%BC%96%E5%86%99%E8%8E%B7%E5%8F%96IPv4%E7%9A%84%E5%87%BD%E6%95%B0"><span class="post-body-toc-text">3.1 编写获取IPv4的函数</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-2-%E5%87%BD%E6%95%B0%E6%80%9D%E8%B7%AF%E8%A7%A3%E6%9E%90"><span class="post-body-toc-text">3.2 函数思路解析</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#3-3-%E5%AE%98%E6%96%B9API%E5%AF%B9networkInterfaces-%E7%9A%84%E8%A7%A3%E9%87%8A"><span class="post-body-toc-text">3.3 官方API对networkInterfaces()的解释</span></a></li></ol></li></ol>
       
       
-        <p>先简介一下nodejs和NPM。Nodejs是2009年末Ryan Dahl在柏林的JavaScript大会上宣布的一项新技术，这项技术是关于在<strong>服务器端</strong>运行JavaScript的（是对JavaScript只能在<strong>浏览器端</strong>运行的一种颠覆）。Nodejs是一个基于Chrome V8引擎的JavaScript运行环境，而NPM则是用Nodejs开发的JavaScript包管理工具（作为Nodejs的一个扩展模块）。</p>
+        <html><head></head><body><p>先简介一下nodejs和NPM。Nodejs是2009年末Ryan Dahl在柏林的JavaScript大会上宣布的一项新技术，这项技术是关于在<strong>服务器端</strong>运行JavaScript的（是对JavaScript只能在<strong>浏览器端</strong>运行的一种颠覆）。Nodejs是一个基于Chrome V8引擎的JavaScript运行环境，而NPM则是用Nodejs开发的JavaScript包管理工具（作为Nodejs的一个扩展模块）。</p>
 <p>有了Nodejs，无需再将书写好的代码部署到<strong>独立安装</strong>的Web服务器中去运行（Nodejs此时轻蔑地看了一眼NetBeans）。</p>
 <h1 id="1-安装"><a href="#1-安装" class="headerlink" title="1 安装"></a>1 安装</h1><h2 id="1-1-下载和安装"><a href="#1-1-下载和安装" class="headerlink" title="1.1 下载和安装"></a>1.1 下载和安装</h2><p>在 <a target="_blank" rel="noopener" href="https://nodejs.org">https://nodejs.org</a> 下载Windows版的msi安装包。有两种版本的（LTS和Current），LTS可以满足大多数用户需求的，Current版本则包含了更多的新特征；</p>
 <p>安装过程相当简单，打开安装包一路next就行了，唯一需要注意的是要记住安装的目录，之后<strong>设置模块全局目录</strong>需要用到（如果以后使用时发现安装中遗漏了哪些功能也可以再次打开安装包进行修复，nodejs的设计理念是之一就是只维护少量的依赖，因此其编译和安装变得非常简单）；</p>
@@ -300,43 +300,43 @@
 </blockquote>
 <p>使用 npm 命令，可以安装、删除外部的模块（ <a target="_blank" rel="noopener" href="https://www.npmjs.com/">https://www.npmjs.com/</a> ）</p>
 <p>安装命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm i xxx <span class="comment"># 等同于 npm install xxx</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm i xxx -g <span class="comment"># 全局安装</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm i xxx -S <span class="comment"># 或 npm i xxx --save，安装并保存到package.json的&quot;dependencies&quot;中</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm i xxx --save-dev <span class="comment"># 安装并保存到package.json的&quot;devDependencies&quot;中</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm i xxx <span class="comment"># 等同于 npm install xxx</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm i xxx -g <span class="comment"># 全局安装</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm i xxx -S <span class="comment"># 或 npm i xxx --save，安装并保存到package.json的"dependencies"中</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm i xxx --save-dev <span class="comment"># 安装并保存到package.json的"devDependencies"中</span></span></span><br></pre></td></tr></tbody></table></figure>
 <p>删除命令（怎么安装的就怎么删除）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm uninstall xxx</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm uninstall xxx -g</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm uninstall xxx --save</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm uninstall xxx --save-dev</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm uninstall xxx</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm uninstall xxx -g</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm uninstall xxx --save</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm uninstall xxx --save-dev</span></span><br></pre></td></tr></tbody></table></figure>
 <p>安装时如果下载速度太慢，可以使用淘宝提供的镜像安装方式，其安装方法为：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$npm</span> install <span class="literal">-g</span> cnpm <span class="literal">--registry</span>=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$npm</span> install <span class="literal">-g</span> cnpm <span class="literal">--registry</span>=https://registry.npm.taobao.org</span><br></pre></td></tr></tbody></table></figure>
 <p>使用方法与npm完全一致，唯一区别就是命令由<code>npm</code>改为<code>cnpm</code></p>
 <h2 id="1-4-设置全局目录"><a href="#1-4-设置全局目录" class="headerlink" title="1.4 设置全局目录"></a>1.4 设置全局目录</h2><p>全局目录包含两部分：cache（缓存）和global（模块包），默认安放在C盘的User\Administrator下，可以通过命令<code>npm config get cache</code>和<code>npm config get prefix</code>查看当前cache目录和global目录。</p>
-<p>为了方便管理，我们在nodejs的安装目录下新建两个文件夹：<code>node_cache</code>、<code>node_global</code>，然后在终端使用<code>$ npm config set cache &quot;&#123;global_path&#125;/node_cache&quot;</code>和<code>$ npm config set prefix &quot;&#123;global_path&#125;/node_global&quot;</code>命令设置全局目录。</p>
+<p>为了方便管理，我们在nodejs的安装目录下新建两个文件夹：<code>node_cache</code>、<code>node_global</code>，然后在终端使用<code>$ npm config set cache "{global_path}/node_cache"</code>和<code>$ npm config set prefix "{global_path}/node_global"</code>命令设置全局目录。</p>
 <p>设置完<code>node_global</code>，来到环境变量，把<code>Path</code>里面的<code>.../AppData/Roaming/npm</code>改成<code>node_global</code>的绝对路径。</p>
 <p>设置完成后，安装和删除单个模块时在后方加上<code>-g</code>就可以对该目录下的模块操作了。</p>
-<h1 id="2-部署网站"><a href="#2-部署网站" class="headerlink" title="2 部署网站"></a>2 部署网站</h1><h2 id="2-1-安装express模块"><a href="#2-1-安装express模块" class="headerlink" title="2.1 安装express模块"></a>2.1 安装express模块</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm install express -g</span></span><br></pre></td></tr></table></figure>
+<h1 id="2-部署网站"><a href="#2-部署网站" class="headerlink" title="2 部署网站"></a>2 部署网站</h1><h2 id="2-1-安装express模块"><a href="#2-1-安装express模块" class="headerlink" title="2.1 安装express模块"></a>2.1 安装express模块</h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">npm install express -g</span></span><br></pre></td></tr></tbody></table></figure>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://www.expressjs.com.cn/4x/api.html">Express 4.x API 中文手册</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.expressjs.com.cn/">Express:基于 Node.js 平台，快速、开放、极简的 web 开发框架</a></li>
 </ul>
 <h2 id="2-2-创建服务入口"><a href="#2-2-创建服务入口" class="headerlink" title="2.2 创建服务入口"></a>2.2 创建服务入口</h2><p>首先创建一个<code>js文件</code>，在里面输入代码段：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&quot;express&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//部署服务器</span></span><br><span class="line"><span class="keyword">var</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">static</span>(<span class="string">&quot;G:/MyWebs&quot;</span>)).<span class="title function_">listen</span>(<span class="number">3333</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//部署服务器</span></span><br><span class="line"><span class="keyword">var</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">static</span>(<span class="string">"G:/MyWebs"</span>)).<span class="title function_">listen</span>(<span class="number">3333</span>);</span><br></pre></td></tr></tbody></table></figure>
 <p>代码的意思是将文件夹 G:/MyWebs 作为静态目录部署在端口3333下。</p>
 <ul>
 <li><code>static()</code>函数里面的字符串是网站的路径名</li>
 <li><code>listen()</code>函数里面是端口号</li>
 </ul>
 <h2 id="2-3-访问"><a href="#2-3-访问" class="headerlink" title="2.3 访问"></a>2.3 访问</h2><p>然后就可以通过REPL打开js文件来部署服务器啦，部署在本地服务器上，域名为<code>localhost</code>或者<code>127.0.0.1</code>，在后面加上端口号就可以访问啦。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://localhost:3333/</span><br><span class="line">https://127.0.0.1:3333/</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://localhost:3333/</span><br><span class="line">https://127.0.0.1:3333/</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="3-获取本地IP地址"><a href="#3-获取本地IP地址" class="headerlink" title="3 获取本地IP地址"></a>3 获取本地IP地址</h1><blockquote>
 <p>参考资料：<br><a target="_blank" rel="noopener" href="https://nodejs.org/dist/latest-v8.x/docs/api/os.html#os_os_networkinterfaces">nodejs官方API的os.networkInterfaces()</a><br><a target="_blank" rel="noopener" href="http://zhangyaochun.iteye.com/blog/2028335">iteye用户zhangyaochun的博客</a></p>
 </blockquote>
 <p>在局域网内供他人访问，首先要获取自己的IP地址，除了传统的ipconfig命令手动获取添加外，我们有必要考虑如何让nodejs自动获取主机的IP地址。</p>
 <p>这里借用nodejs自带的<code>os</code>模块里面的<code>os.networkInterfaces()</code>方法来获取本地连接接口，os就是operation system操作系统模块。</p>
 <h2 id="3-1-编写获取IPv4的函数"><a href="#3-1-编写获取IPv4的函数" class="headerlink" title="3.1 编写获取IPv4的函数"></a>3.1 编写获取IPv4的函数</h2><p>编写函数<code>getLocalIPv4()</code>函数，返回当前主机在网络连接中的IPv4地址：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取IPv4地址</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getLocalIPv4</span>(<span class="params"></span>)&#123;</span><br><span class="line">    interfaces = <span class="built_in">require</span>(<span class="string">&quot;os&quot;</span>).<span class="title function_">networkInterfaces</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> devName <span class="keyword">in</span> interfaces)&#123;<span class="comment">//遍历所有连接</span></span><br><span class="line">        <span class="keyword">var</span> iface = interfaces[devName];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;iface.<span class="property">length</span>; i++)&#123;<span class="comment">//遍历每个连接中的不同地址(family为标识)</span></span><br><span class="line">            <span class="keyword">var</span> alias = iface[i];</span><br><span class="line">            <span class="keyword">if</span>(alias.<span class="property">family</span> == <span class="string">&#x27;IPv4&#x27;</span>&amp;&amp;alias.<span class="property">address</span> != <span class="string">&#x27;127.0.0.1&#x27;</span>&amp;&amp;!alias.<span class="property">internal</span>)<span class="comment">//该判断保证为有效的IPv4地址（排除了内部地址和本地地址）</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> alias.<span class="property">address</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> ipv4 = <span class="title function_">getLocalIPv4</span>();</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取IPv4地址</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getLocalIPv4</span>(<span class="params"></span>){</span><br><span class="line">    interfaces = <span class="built_in">require</span>(<span class="string">"os"</span>).<span class="title function_">networkInterfaces</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> devName <span class="keyword">in</span> interfaces){<span class="comment">//遍历所有连接</span></span><br><span class="line">        <span class="keyword">var</span> iface = interfaces[devName];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;iface.<span class="property">length</span>; i++){<span class="comment">//遍历每个连接中的不同地址(family为标识)</span></span><br><span class="line">            <span class="keyword">var</span> alias = iface[i];</span><br><span class="line">            <span class="keyword">if</span>(alias.<span class="property">family</span> == <span class="string">'IPv4'</span>&amp;&amp;alias.<span class="property">address</span> != <span class="string">'127.0.0.1'</span>&amp;&amp;!alias.<span class="property">internal</span>)<span class="comment">//该判断保证为有效的IPv4地址（排除了内部地址和本地地址）</span></span><br><span class="line">            {</span><br><span class="line">                <span class="keyword">return</span> alias.<span class="property">address</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">}</span><br><span class="line"><span class="keyword">var</span> ipv4 = <span class="title function_">getLocalIPv4</span>();</span><br></pre></td></tr></tbody></table></figure>
 <h2 id="3-2-函数思路解析"><a href="#3-2-函数思路解析" class="headerlink" title="3.2 函数思路解析"></a>3.2 函数思路解析</h2><p>函数的思路如下：</p>
 <ol>
 <li>首先我们用<code>os.networkInterfaces()</code>获取对象，这个对象具体是啥我也不知道（直接输出<code>devName</code>的话是“无线网络连接”、“Loopback Pseudo-Interface 1”这种鬼东西，好像后者即使没有联网也可以获取，类似于主机对外接口之类的东西吧），所以用<code>devName</code>对其进行遍历，然后通过<code>devName</code>作为索引来反向访问获取到的东西（聪明）；</li>
 <li>通过连接名获取连接后，类似于ipconfig得到的连接样式，一个连接下面有IPv4、IPv6等各种各样的连接，这时候就要遍历这些IPv4、IPv6……通过<code>family</code>这个关键字来判断，然后排除掉内部连接和本地连接后，能进入if条件句的就是货真价实的IPv4了。</li>
 </ol>
-<h2 id="3-3-官方API对networkInterfaces-的解释"><a href="#3-3-官方API对networkInterfaces-的解释" class="headerlink" title="3.3 官方API对networkInterfaces()的解释"></a>3.3 官方API对networkInterfaces()的解释</h2><p>最后我们明确一下<code>os.networkInterfaces()</code>获取到的究竟是个什么东西（<strong>前方大量抄袭！</strong>），官方API告诉我们，获取到的是一个对象(Object)，其数据结构如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">lo</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">      <span class="attr">netmask</span>: <span class="string">&#x27;255.0.0.0&#x27;</span>,</span><br><span class="line">      <span class="attr">family</span>: <span class="string">&#x27;IPv4&#x27;</span>,</span><br><span class="line">      <span class="attr">mac</span>: <span class="string">&#x27;00:00:00:00:00:00&#x27;</span>,</span><br><span class="line">      <span class="attr">internal</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">cidr</span>: <span class="string">&#x27;127.0.0.1/8&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;::1&#x27;</span>,</span><br><span class="line">      <span class="attr">netmask</span>: <span class="string">&#x27;ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff&#x27;</span>,</span><br><span class="line">      <span class="attr">family</span>: <span class="string">&#x27;IPv6&#x27;</span>,</span><br><span class="line">      <span class="attr">mac</span>: <span class="string">&#x27;00:00:00:00:00:00&#x27;</span>,</span><br><span class="line">      <span class="attr">internal</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">cidr</span>: <span class="string">&#x27;::1/128&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">eth0</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;192.168.1.108&#x27;</span>,</span><br><span class="line">      <span class="attr">netmask</span>: <span class="string">&#x27;255.255.255.0&#x27;</span>,</span><br><span class="line">      <span class="attr">family</span>: <span class="string">&#x27;IPv4&#x27;</span>,</span><br><span class="line">      <span class="attr">mac</span>: <span class="string">&#x27;01:02:03:0a:0b:0c&#x27;</span>,</span><br><span class="line">      <span class="attr">internal</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">cidr</span>: <span class="string">&#x27;192.168.1.108/24&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">address</span>: <span class="string">&#x27;fe80::a00:27ff:fe4e:66a1&#x27;</span>,</span><br><span class="line">      <span class="attr">netmask</span>: <span class="string">&#x27;ffff:ffff:ffff:ffff::&#x27;</span>,</span><br><span class="line">      <span class="attr">family</span>: <span class="string">&#x27;IPv6&#x27;</span>,</span><br><span class="line">      <span class="attr">mac</span>: <span class="string">&#x27;01:02:03:0a:0b:0c&#x27;</span>,</span><br><span class="line">      <span class="attr">internal</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">cidr</span>: <span class="string">&#x27;fe80::a00:27ff:fe4e:66a1/64&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>lo是内部地址，eth0是外部地址。</p>
+<h2 id="3-3-官方API对networkInterfaces-的解释"><a href="#3-3-官方API对networkInterfaces-的解释" class="headerlink" title="3.3 官方API对networkInterfaces()的解释"></a>3.3 官方API对networkInterfaces()的解释</h2><p>最后我们明确一下<code>os.networkInterfaces()</code>获取到的究竟是个什么东西（<strong>前方大量抄袭！</strong>），官方API告诉我们，获取到的是一个对象(Object)，其数据结构如下：<br></p><figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">  <span class="attr">lo</span>: [</span><br><span class="line">    {</span><br><span class="line">      <span class="attr">address</span>: <span class="string">'127.0.0.1'</span>,</span><br><span class="line">      <span class="attr">netmask</span>: <span class="string">'255.0.0.0'</span>,</span><br><span class="line">      <span class="attr">family</span>: <span class="string">'IPv4'</span>,</span><br><span class="line">      <span class="attr">mac</span>: <span class="string">'00:00:00:00:00:00'</span>,</span><br><span class="line">      <span class="attr">internal</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">cidr</span>: <span class="string">'127.0.0.1/8'</span></span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">      <span class="attr">address</span>: <span class="string">'::1'</span>,</span><br><span class="line">      <span class="attr">netmask</span>: <span class="string">'ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff'</span>,</span><br><span class="line">      <span class="attr">family</span>: <span class="string">'IPv6'</span>,</span><br><span class="line">      <span class="attr">mac</span>: <span class="string">'00:00:00:00:00:00'</span>,</span><br><span class="line">      <span class="attr">internal</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">cidr</span>: <span class="string">'::1/128'</span></span><br><span class="line">    }</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">eth0</span>: [</span><br><span class="line">    {</span><br><span class="line">      <span class="attr">address</span>: <span class="string">'192.168.1.108'</span>,</span><br><span class="line">      <span class="attr">netmask</span>: <span class="string">'255.255.255.0'</span>,</span><br><span class="line">      <span class="attr">family</span>: <span class="string">'IPv4'</span>,</span><br><span class="line">      <span class="attr">mac</span>: <span class="string">'01:02:03:0a:0b:0c'</span>,</span><br><span class="line">      <span class="attr">internal</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">cidr</span>: <span class="string">'192.168.1.108/24'</span></span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">      <span class="attr">address</span>: <span class="string">'fe80::a00:27ff:fe4e:66a1'</span>,</span><br><span class="line">      <span class="attr">netmask</span>: <span class="string">'ffff:ffff:ffff:ffff::'</span>,</span><br><span class="line">      <span class="attr">family</span>: <span class="string">'IPv6'</span>,</span><br><span class="line">      <span class="attr">mac</span>: <span class="string">'01:02:03:0a:0b:0c'</span>,</span><br><span class="line">      <span class="attr">internal</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">cidr</span>: <span class="string">'fe80::a00:27ff:fe4e:66a1/64'</span></span><br><span class="line">    }</span><br><span class="line">  ]</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure><br>lo是内部地址，eth0是外部地址。<p></p>
 <ul>
 <li><code>address</code> 
   <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a> The assigned IPv4 or IPv6 address</li>
@@ -356,7 +356,7 @@ is <code>IPv6</code>)</li>
   <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type" class="type">&lt;string&gt;</a> The assigned IPv4 or IPv6 address with the routing prefix
 in CIDR notation. If the <code>netmask</code> is invalid, this property is set
 to <code>null</code></li>
-</ul>
+</ul></body></html>
     </div>
 
     
@@ -396,6 +396,7 @@ to <code>null</code></li>
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -458,14 +459,14 @@ to <code>null</code></li>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -500,7 +501,7 @@ to <code>null</code></li>
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -510,13 +511,13 @@ to <code>null</code></li>
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -575,6 +576,26 @@ to <code>null</code></li>
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '9b8d2d02b2fb1802e904078b16bdbf90',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

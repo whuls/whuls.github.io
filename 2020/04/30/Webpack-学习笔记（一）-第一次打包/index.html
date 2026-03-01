@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://whuls.cn/images/image-20200501134553632.png">
 <meta property="og:image" content="https://whuls.cn/images/image-20200501134828646.png">
 <meta property="article:published_time" content="2020-04-30T01:57:23.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.035Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.968Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="Webpack">
 <meta name="twitter:card" content="summary">
@@ -146,12 +146,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -239,7 +239,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -279,7 +279,7 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="post-body-toc-text">参考资料</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%AE%89%E8%A3%85"><span class="post-body-toc-text">安装</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="post-body-toc-text">目录结构</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%BC%95%E7%94%A8-npm-%E5%8C%85%EF%BC%8C%E7%BC%96%E5%86%99%E9%A1%B5%E9%9D%A2%E4%BB%A3%E7%A0%81"><span class="post-body-toc-text">引用 npm 包，编写页面代码</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#webpack-%E9%85%8D%E7%BD%AE"><span class="post-body-toc-text">webpack 配置</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E3%80%90%E9%99%84%E3%80%91%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83%E7%9A%84%E6%90%AD%E5%BB%BA"><span class="post-body-toc-text">【附】学习环境的搭建</span></a></li></ol>
       
       
-        <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+        <html><head></head><body><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li><p>中文指南: <a target="_blank" rel="noopener" href="https://webpack.docschina.org/guides/installation/">https://webpack.docschina.org/guides/installation/</a></p>
 </li>
 <li><p>English Guide: <a target="_blank" rel="noopener" href="https://webpack.js.org/guides/getting-started/">https://webpack.js.org/guides/getting-started/</a></p>
@@ -288,25 +288,25 @@
 </li>
 </ul>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装在项目目录中：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="literal">--save-dev</span> webpack</span><br><span class="line">or</span><br><span class="line">npm install <span class="literal">--save-dev</span> webpack<span class="selector-tag">@</span>&lt;version&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="literal">--save-dev</span> webpack</span><br><span class="line">or</span><br><span class="line">npm install <span class="literal">--save-dev</span> webpack<span class="selector-tag">@</span>&lt;version&gt;</span><br></pre></td></tr></tbody></table></figure>
 <p>对于 webpack v4+ 版本，需要安装 CLI</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="literal">--save-dev</span> webpack<span class="literal">-cli</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="literal">--save-dev</span> webpack<span class="literal">-cli</span></span><br></pre></td></tr></tbody></table></figure>
 <h1 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h1><p>构造一个 npm 项目，使用：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init <span class="literal">-y</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init <span class="literal">-y</span></span><br></pre></td></tr></tbody></table></figure>
 <p>安装 webpack</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack webpack<span class="literal">-cli</span> <span class="literal">--save-dev</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack webpack<span class="literal">-cli</span> <span class="literal">--save-dev</span></span><br></pre></td></tr></tbody></table></figure>
 <p>在根目录下创建 <code>src/index.js</code> 和 <code>dist/index.html</code>，此时的目录结构如下所示：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hello<span class="literal">-world</span></span><br><span class="line">|- dist</span><br><span class="line">  |- index.html</span><br><span class="line">|- src</span><br><span class="line">  |- index.js</span><br><span class="line">|- package.json</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hello<span class="literal">-world</span></span><br><span class="line">|- dist</span><br><span class="line">  |- index.html</span><br><span class="line">|- src</span><br><span class="line">  |- index.js</span><br><span class="line">|- package.json</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="引用-npm-包，编写页面代码"><a href="#引用-npm-包，编写页面代码" class="headerlink" title="引用 npm 包，编写页面代码"></a>引用 npm 包，编写页面代码</h1><p>这里用到 lodash 作为示例（<a target="_blank" rel="noopener" href="https://lodash.com/">lodash，一个 JavaScript 工具库</a>）</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install lodash <span class="literal">--save</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install lodash <span class="literal">--save</span></span><br></pre></td></tr></tbody></table></figure>
 <p>src/index.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> _ <span class="keyword">from</span> <span class="string">&#x27;lodash&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createBody</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> el = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;div&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 lodash 工具库搭建页面</span></span><br><span class="line">    el.<span class="property">innerHTML</span> = _.<span class="title function_">join</span>([<span class="string">&#x27;Hello&#x27;</span>, <span class="string">&#x27;Webpack&#x27;</span>], <span class="string">&#x27;, &#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> el;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 插入到文档的 body 中</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(<span class="title function_">createBody</span>());</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> _ <span class="keyword">from</span> <span class="string">'lodash'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createBody</span>(<span class="params"></span>) {</span><br><span class="line">    <span class="keyword">let</span> el = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">'div'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 lodash 工具库搭建页面</span></span><br><span class="line">    el.<span class="property">innerHTML</span> = _.<span class="title function_">join</span>([<span class="string">'Hello'</span>, <span class="string">'Webpack'</span>], <span class="string">', '</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> el;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// 插入到文档的 body 中</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(<span class="title function_">createBody</span>());</span><br></pre></td></tr></tbody></table></figure>
 <p>dist/index.html</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello Webpack<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello Webpack<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"main.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
 <p>这样，基本的文件目录和页面就构建完毕，此时，执行</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx webpack</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx webpack</span><br></pre></td></tr></tbody></table></figure>
 <p>可以看到</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> E:\codes\used<span class="literal">-for-learning-and-testing</span>\webpack\Hello<span class="literal">-World</span>&gt; npx webpack</span><br><span class="line">Hash: <span class="number">5</span>dd32432e8cefa8f46b5</span><br><span class="line">Version: webpack <span class="number">4.43</span>.<span class="number">0</span></span><br><span class="line">Time: <span class="number">3084</span>ms</span><br><span class="line">Built at: <span class="number">2020</span><span class="literal">-05-01</span> <span class="number">9</span>:<span class="number">13</span>:<span class="number">31</span></span><br><span class="line">  Asset      Size  Chunks             Chunk Names</span><br><span class="line">main.js  <span class="number">71.8</span> KiB       <span class="number">0</span>  [<span class="type">emitted</span>]  main</span><br><span class="line">Entrypoint main = main.js</span><br><span class="line">[<span class="number">1</span>] ./src/index.js <span class="number">296</span> bytes &#123;<span class="number">0</span>&#125; [<span class="type">built</span>]</span><br><span class="line">[<span class="number">2</span>] (webpack)/buildin/global.js <span class="number">472</span> bytes &#123;<span class="number">0</span>&#125; [<span class="type">built</span>]</span><br><span class="line">[<span class="number">3</span>] (webpack)/buildin/module.js <span class="number">497</span> bytes &#123;<span class="number">0</span>&#125; [<span class="type">built</span>]</span><br><span class="line">    + <span class="number">1</span> <span class="keyword">hidden</span> module</span><br><span class="line"></span><br><span class="line">WARNING <span class="keyword">in</span> configuration</span><br><span class="line">The <span class="string">&#x27;mode&#x27;</span> option has not been <span class="built_in">set</span>, webpack will fallback to <span class="string">&#x27;production&#x27;</span> <span class="keyword">for</span> this value. <span class="built_in">Set</span> <span class="string">&#x27;mode&#x27;</span> option to <span class="string">&#x27;development&#x27;</span> or <span class="string">&#x27;production&#x27;</span> to </span><br><span class="line">enable defaults <span class="keyword">for</span> each environment.                                                                                                           enable defaults <span class="keyword">for</span> each environment.</span><br><span class="line">You can also <span class="built_in">set</span> it to <span class="string">&#x27;none&#x27;</span> to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PS</span> E:\codes\used<span class="literal">-for-learning-and-testing</span>\webpack\Hello<span class="literal">-World</span>&gt; npx webpack</span><br><span class="line">Hash: <span class="number">5</span>dd32432e8cefa8f46b5</span><br><span class="line">Version: webpack <span class="number">4.43</span>.<span class="number">0</span></span><br><span class="line">Time: <span class="number">3084</span>ms</span><br><span class="line">Built at: <span class="number">2020</span><span class="literal">-05-01</span> <span class="number">9</span>:<span class="number">13</span>:<span class="number">31</span></span><br><span class="line">  Asset      Size  Chunks             Chunk Names</span><br><span class="line">main.js  <span class="number">71.8</span> KiB       <span class="number">0</span>  [<span class="type">emitted</span>]  main</span><br><span class="line">Entrypoint main = main.js</span><br><span class="line">[<span class="number">1</span>] ./src/index.js <span class="number">296</span> bytes {<span class="number">0</span>} [<span class="type">built</span>]</span><br><span class="line">[<span class="number">2</span>] (webpack)/buildin/global.js <span class="number">472</span> bytes {<span class="number">0</span>} [<span class="type">built</span>]</span><br><span class="line">[<span class="number">3</span>] (webpack)/buildin/module.js <span class="number">497</span> bytes {<span class="number">0</span>} [<span class="type">built</span>]</span><br><span class="line">    + <span class="number">1</span> <span class="keyword">hidden</span> module</span><br><span class="line"></span><br><span class="line">WARNING <span class="keyword">in</span> configuration</span><br><span class="line">The <span class="string">'mode'</span> option has not been <span class="built_in">set</span>, webpack will fallback to <span class="string">'production'</span> <span class="keyword">for</span> this value. <span class="built_in">Set</span> <span class="string">'mode'</span> option to <span class="string">'development'</span> or <span class="string">'production'</span> to </span><br><span class="line">enable defaults <span class="keyword">for</span> each environment.                                                                                                           enable defaults <span class="keyword">for</span> each environment.</span><br><span class="line">You can also <span class="built_in">set</span> it to <span class="string">'none'</span> to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/</span><br></pre></td></tr></tbody></table></figure>
 <p>在 dist 目录下生成了一个 main.js</p>
 <p><img src="/images/image-20200501110510540.png" alt="image-20200501110510540"></p>
 <p>点击 index.html，可以看到页面的效果</p>
@@ -315,16 +315,16 @@
 <h1 id="webpack-配置"><a href="#webpack-配置" class="headerlink" title="webpack 配置"></a>webpack 配置</h1><p>在根目录下创建 webpack.config.js</p>
 <p><img src="/images/image-20200501110544611.png" alt="image-20200501110544611"></p>
 <p>webpack.config.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span>,</span><br><span class="line">        <span class="attr">path</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&#x27;dist&#x27;</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = {</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">'./src/index.js'</span>,</span><br><span class="line">    <span class="attr">output</span>: {</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">'main.js'</span>,</span><br><span class="line">        <span class="attr">path</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">'dist'</span>)</span><br><span class="line">    },</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
 <p>这边指定了该 webpack 项目的入口文件为 src/index.js，输出的文件名为 main.js，输出路径为根目录下的 dist 文件夹。（这些是 webpack 的默认设置，<a target="_blank" rel="noopener" href="https://webpack.docschina.org/concepts/configuration">配置参考</a>）</p>
 <h1 id="【附】学习环境的搭建"><a href="#【附】学习环境的搭建" class="headerlink" title="【附】学习环境的搭建"></a>【附】学习环境的搭建</h1><p>在学习 webpack 的过程中，我创建了一个单独的文件夹存放 webpack 工程</p>
 <p><img src="/images/image-20200501134553632.png" alt="image-20200501134553632"></p>
 <p>如果每次创建一个工程都要创建一次 npm 项目并安装 webpack，将会造成资源浪费，因此直接将所需的所有资源安装在每个测试工程的<strong>上级目录</strong>，不影响使用</p>
 <p><img src="/images/image-20200501134828646.png" alt="image-20200501134828646"></p>
-<p>并且在 package.json 文件中，把<code>&quot;main&quot;: &quot;index.js&quot;</code>去掉，并加上<code>&quot;private&quot;: true</code>，避免意外发布项目。</p>
+<p>并且在 package.json 文件中，把<code>"main": "index.js"</code>去掉，并加上<code>"private": true</code>，避免意外发布项目。</p>
 <p>要安装外部包时，统一装在<strong>父目录</strong>下，装好后回到子目录运行 webpack</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cnpm i lodash <span class="literal">-S</span></span><br><span class="line"><span class="built_in">cd</span> Hello<span class="literal">-World</span></span><br><span class="line">npx webpack</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cnpm i lodash <span class="literal">-S</span></span><br><span class="line"><span class="built_in">cd</span> Hello<span class="literal">-World</span></span><br><span class="line">npx webpack</span><br></pre></td></tr></tbody></table></figure>
+</body></html>
     </div>
 
     
@@ -362,6 +362,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -424,14 +425,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -466,7 +467,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -476,13 +477,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -541,6 +542,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '90c0ba29a7479153d135b3039df0c114',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

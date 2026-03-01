@@ -28,7 +28,7 @@
 <meta property="og:description" content="C++解析命令行参数">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-08-30T08:19:46.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.053Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.967Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -140,12 +140,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,12 +273,12 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="post-body-toc-text">头文件</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%9C%A8MFC%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="post-body-toc-text">在MFC中使用</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BD%BF%E7%94%A8"><span class="post-body-toc-text">在控制台程序中使用</span></a></li></ol>
       
       
-        <h1 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;regex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
+        <html><head></head><body><h1 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h1><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;regex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="在MFC中使用"><a href="#在MFC中使用" class="headerlink" title="在MFC中使用"></a>在MFC中使用</h1><p>通过<code>__argc</code>获取参数数量，通过<code>__targv</code>获取宽字符串，并转为<code>std::string</code>。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ParseCommandLine</span><span class="params">(map&lt;string, string&gt;&amp; cmds)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; __argc; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		string para = <span class="built_in">ws2s</span>(__targv[i]);</span><br><span class="line">		smatch base_match;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">regex_match</span>(para, base_match, <span class="built_in">regex</span>(<span class="string">&quot;(--|-)([a-z]|[A-Z])*&quot;</span>)))</span><br><span class="line">		&#123;</span><br><span class="line">			string key = &amp;*base_match[<span class="number">1</span>].second;</span><br><span class="line">			cmds[key] = <span class="built_in">ws2s</span>(__targv[++i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">ws2s</span><span class="params">(<span class="type">const</span> std::wstring&amp; ws)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> len;</span><br><span class="line">	<span class="type">int</span> slen = (<span class="type">int</span>)ws.<span class="built_in">length</span>() + <span class="number">1</span>;</span><br><span class="line">	len = <span class="built_in">WideCharToMultiByte</span>(CP_ACP, <span class="number">0</span>, ws.<span class="built_in">c_str</span>(), slen, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="type">char</span>* buf = <span class="keyword">new</span> <span class="type">char</span>[len];</span><br><span class="line">	<span class="built_in">WideCharToMultiByte</span>(CP_ACP, <span class="number">0</span>, ws.<span class="built_in">c_str</span>(), slen, buf, len, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="function">std::string <span class="title">r</span><span class="params">(buf)</span></span>;</span><br><span class="line">	<span class="keyword">delete</span>[] buf;</span><br><span class="line">	<span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="在控制台程序中使用"><a href="#在控制台程序中使用" class="headerlink" title="在控制台程序中使用"></a>在控制台程序中使用</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CDlgSpatialRefSysDlg::ParseCommandLine</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[], map&lt;string, string&gt;&amp; cmds)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; argc; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		string para = argv[i];</span><br><span class="line">		smatch base_match;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">regex_match</span>(para, base_match, <span class="built_in">regex</span>(<span class="string">&quot;(--|-)([a-z]|[A-Z])*&quot;</span>)))</span><br><span class="line">		&#123;</span><br><span class="line">			string key = &amp;*base_match[<span class="number">1</span>].second;</span><br><span class="line">			cmds[key] = argv[++i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    map&lt;string, string&gt; params;</span><br><span class="line">    <span class="built_in">ParseCommandLine</span>(argc, argv, params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ParseCommandLine</span><span class="params">(map&lt;string, string&gt;&amp; cmds)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; __argc; i++)</span><br><span class="line">	{</span><br><span class="line">		string para = <span class="built_in">ws2s</span>(__targv[i]);</span><br><span class="line">		smatch base_match;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">regex_match</span>(para, base_match, <span class="built_in">regex</span>(<span class="string">"(--|-)([a-z]|[A-Z])*"</span>)))</span><br><span class="line">		{</span><br><span class="line">			string key = &amp;*base_match[<span class="number">1</span>].second;</span><br><span class="line">			cmds[key] = <span class="built_in">ws2s</span>(__targv[++i]);</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::string <span class="title">ws2s</span><span class="params">(<span class="type">const</span> std::wstring&amp; ws)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="type">int</span> len;</span><br><span class="line">	<span class="type">int</span> slen = (<span class="type">int</span>)ws.<span class="built_in">length</span>() + <span class="number">1</span>;</span><br><span class="line">	len = <span class="built_in">WideCharToMultiByte</span>(CP_ACP, <span class="number">0</span>, ws.<span class="built_in">c_str</span>(), slen, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="type">char</span>* buf = <span class="keyword">new</span> <span class="type">char</span>[len];</span><br><span class="line">	<span class="built_in">WideCharToMultiByte</span>(CP_ACP, <span class="number">0</span>, ws.<span class="built_in">c_str</span>(), slen, buf, len, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="function">std::string <span class="title">r</span><span class="params">(buf)</span></span>;</span><br><span class="line">	<span class="keyword">delete</span>[] buf;</span><br><span class="line">	<span class="keyword">return</span> r;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="在控制台程序中使用"><a href="#在控制台程序中使用" class="headerlink" title="在控制台程序中使用"></a>在控制台程序中使用</h1><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CDlgSpatialRefSysDlg::ParseCommandLine</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[], map&lt;string, string&gt;&amp; cmds)</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; argc; i++)</span><br><span class="line">	{</span><br><span class="line">		string para = argv[i];</span><br><span class="line">		smatch base_match;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">regex_match</span>(para, base_match, <span class="built_in">regex</span>(<span class="string">"(--|-)([a-z]|[A-Z])*"</span>)))</span><br><span class="line">		{</span><br><span class="line">			string key = &amp;*base_match[<span class="number">1</span>].second;</span><br><span class="line">			cmds[key] = argv[++i];</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    map&lt;string, string&gt; params;</span><br><span class="line">    <span class="built_in">ParseCommandLine</span>(argc, argv, params);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</body></html>
     </div>
 
     
@@ -316,6 +316,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -378,14 +379,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -420,7 +421,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -430,13 +431,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -495,6 +496,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '98596099f7bb35bf47053972b0977e89',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

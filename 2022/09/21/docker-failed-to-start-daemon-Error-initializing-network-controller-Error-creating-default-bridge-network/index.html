@@ -28,7 +28,7 @@
 <meta property="og:description" content="解决Ubuntu Docker启动失败：failed to start daemon: Error initializing network controller: Error creating default &quot;bridge&quot; network">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-21T10:18:17.000Z">
-<meta property="article:modified_time" content="2022-09-21T12:37:24.100Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.966Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="Ubuntu">
 <meta property="article:tag" content="Docker">
@@ -141,12 +141,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -226,10 +226,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-09-21 18:18:17 / 修改时间：20:37:24" itemprop="dateCreated datePublished" datetime="2022-09-21T18:18:17+08:00">2022-09-21</time>
+              <time title="创建时间：2022-09-21 18:18:17" itemprop="dateCreated datePublished" datetime="2022-09-21T18:18:17+08:00">2022-09-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -268,21 +274,21 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0"><span class="post-body-toc-text">问题复现</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="post-body-toc-text">解决方法</span></a></li></ol>
       
       
-        <blockquote>
+        <html><head></head><body><blockquote>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/65213831/failed-to-start-daemon-error-initializing-network-controller-error-creating-de">docker - failed to start daemon: Error initializing network controller: Error creating default “bridge” network - Stack Overflow</a></p>
 </blockquote>
 <h1 id="问题复现"><a href="#问题复现" class="headerlink" title="问题复现"></a>问题复现</h1><p>系统启动时发现Docker并没有开启，手动启动Docker时（<code>systemctl start docker</code>），出现如下错误：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Job for docker.service failed because the control process exited with error code.</span><br><span class="line">See &quot;systemctl status docker.service&quot; and &quot;journalctl -xe&quot; for details.</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Job for docker.service failed because the control process exited with error code.</span><br><span class="line">See "systemctl status docker.service" and "journalctl -xe" for details.</span><br></pre></td></tr></tbody></table></figure>
 <p>输入<code>journalctl -fu docker</code>，发现如下报错信息：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: Error creating default &quot;bridge&quot; network: Failed to program NAT chain: INVALID_ZONE: docker</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">failed to start daemon: Error initializing network controller: Error creating default "bridge" network: Failed to program NAT chain: INVALID_ZONE: docker</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><p>大致原因是docker网络接口（interface）设置失败，后来发现是<code>firewall-cmd</code>引起的</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --get-active-zones</span></span><br><span class="line">public</span><br><span class="line">  interfaces: enp4s0</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --get-active-zones</span></span><br><span class="line">public</span><br><span class="line">  interfaces: enp4s0</span><br></pre></td></tr></tbody></table></figure>
 <p>可以看到缺少网络接口<code>docker0</code>，执行以下命令添加：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --permanent --new-zone=docker  <span class="comment"># 添加新的zone（如果存在可不添加）</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --permanent --zone=docker --change-interface=docker0  <span class="comment"># 添加接口</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --reload  <span class="comment"># 保存更改</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --permanent --new-zone=docker  <span class="comment"># 添加新的zone（如果存在可不添加）</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --permanent --zone=docker --change-interface=docker0  <span class="comment"># 添加接口</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --reload  <span class="comment"># 保存更改</span></span></span><br></pre></td></tr></tbody></table></figure>
 <p>修改后：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --get-active-zones</span></span><br><span class="line">docker</span><br><span class="line">  interfaces: docker0</span><br><span class="line">public</span><br><span class="line">  interfaces: enp4s0</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">firewall-cmd --get-active-zones</span></span><br><span class="line">docker</span><br><span class="line">  interfaces: docker0</span><br><span class="line">public</span><br><span class="line">  interfaces: enp4s0</span><br></pre></td></tr></tbody></table></figure>
 <p>重新启动docker，搞定！</p>
-
+</body></html>
     </div>
 
     
@@ -321,6 +327,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -383,14 +390,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -425,7 +432,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -435,13 +442,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -500,6 +507,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '0fa1c44942d7fac96b98b165c5447fa2',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

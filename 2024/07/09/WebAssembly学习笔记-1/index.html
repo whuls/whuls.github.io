@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://whuls.cn/images/image-20240710122103919.png">
 <meta property="article:published_time" content="2024-07-09T08:27:54.000Z">
-<meta property="article:modified_time" content="2024-07-11T08:41:40.307Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.531Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="WebAssembly">
 <meta name="twitter:card" content="summary">
@@ -142,12 +142,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-07-11 16:41:40" itemprop="dateModified" datetime="2024-07-11T16:41:40+08:00">2024-07-11</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,40 +275,40 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%AE%89%E8%A3%85"><span class="post-body-toc-text">安装</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%AE%89%E8%A3%85Emscripten-SDK"><span class="post-body-toc-text">安装Emscripten SDK</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E7%BC%96%E8%AF%91C-%E4%BB%A3%E7%A0%81"><span class="post-body-toc-text">编译C++代码</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E8%BF%90%E8%A1%8C%E9%9D%99%E6%80%81%E7%9B%AE%E5%BD%95"><span class="post-body-toc-text">运行静态目录</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%BF%AB%E6%8D%B7%E6%BF%80%E6%B4%BBemsdk%E7%8E%AF%E5%A2%83"><span class="post-body-toc-text">快捷激活emsdk环境</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#Hello-World"><span class="post-body-toc-text">Hello World</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%97%A0%E6%B3%95%E5%BC%95%E7%94%A8windows-h"><span class="post-body-toc-text">无法引用windows.h</span></a></li></ol>
       
       
-        <blockquote>
+        <html><head></head><body><blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.cainiaoya.com/webassembly/webassembly-install.html">WebAssembly - 安装 - 菜鸟教程 (cainiaoya.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.wasm.com.cn/getting-started/developers-guide/">开发者引导 - WebAssembly 中文网|Wasm 中文文档</a></p>
 </blockquote>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>目标：将C++代码编译为WebAssembly</p>
 <h2 id="安装Emscripten-SDK"><a href="#安装Emscripten-SDK" class="headerlink" title="安装Emscripten SDK"></a>安装Emscripten SDK</h2><p>拷贝仓库：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/emscripten-core/emsdk.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/emscripten-core/emsdk.git</span><br></pre></td></tr></tbody></table></figure>
 <p>下载安装：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">PS D:\codes\wasm\emsdk&gt; cd emsdk</span><br><span class="line">PS D:\codes\wasm\emsdk&gt; .\emsdk install latest</span><br><span class="line">Resolving SDK alias &#x27;latest&#x27; to &#x27;3.1.62&#x27;</span><br><span class="line">Resolving SDK version &#x27;3.1.62&#x27; to &#x27;sdk-releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit&#x27;</span><br><span class="line">Installing SDK &#x27;sdk-releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit&#x27;..</span><br><span class="line">Installing tool &#x27;node-18.20.3-64bit&#x27;..</span><br><span class="line">Downloading: D:/codes/wasm/emsdk/downloads/node-v18.20.3-win-x64.zip from https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v18.20.3-win-x64.zip, 30476796 Bytes</span><br><span class="line">Unpacking &#x27;D:/codes/wasm/emsdk/downloads/node-v18.20.3-win-x64.zip&#x27; to &#x27;D:/codes/wasm/emsdk/node/18.20.3_64bit&#x27;</span><br><span class="line">Done installing tool &#x27;node-18.20.3-64bit&#x27;.</span><br><span class="line">Installing tool &#x27;python-3.9.2-nuget-64bit&#x27;..</span><br><span class="line">Downloading: D:/codes/wasm/emsdk/downloads/python-3.9.2-4-amd64+pywin32.zip from https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/python-3.9.2-4-amd64+pywin32.zip, 14413267 Bytes</span><br><span class="line">Unpacking &#x27;D:/codes/wasm/emsdk/downloads/python-3.9.2-4-amd64+pywin32.zip&#x27; to &#x27;D:/codes/wasm/emsdk/python/3.9.2-nuget_64bit&#x27;</span><br><span class="line">Done installing tool &#x27;python-3.9.2-nuget-64bit&#x27;.</span><br><span class="line">Installing tool &#x27;java-8.152-64bit&#x27;..</span><br><span class="line">Downloading: D:/codes/wasm/emsdk/downloads/portable_jre_8_update_152_64bit.zip from https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/portable_jre_8_update_152_64bit.zip, 69241499 Bytes</span><br><span class="line">Unpacking &#x27;D:/codes/wasm/emsdk/downloads/portable_jre_8_update_152_64bit.zip&#x27; to &#x27;D:/codes/wasm/emsdk/java/8.152_64bit&#x27;</span><br><span class="line">Done installing tool &#x27;java-8.152-64bit&#x27;.</span><br><span class="line">Installing tool &#x27;releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit&#x27;..</span><br><span class="line">Downloading: D:/codes/wasm/emsdk/downloads/d52176ac8e07c47c1773bb2776ebd91e3886c3af-wasm-binaries.zip from https://storage.googleapis.com/webassembly/emscripten-releases-builds/win/d52176ac8e07c47c1773bb2776ebd91e3886c3af/wasm-binaries.zip, 513762888 Bytes</span><br><span class="line">Unpacking &#x27;D:/codes/wasm/emsdk/downloads/d52176ac8e07c47c1773bb2776ebd91e3886c3af-wasm-binaries.zip&#x27; to &#x27;D:/codes/wasm/emsdk/upstream&#x27;</span><br><span class="line">Done installing tool &#x27;releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit&#x27;.</span><br><span class="line">Done installing SDK &#x27;sdk-releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit&#x27;.</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">PS D:\codes\wasm\emsdk&gt; cd emsdk</span><br><span class="line">PS D:\codes\wasm\emsdk&gt; .\emsdk install latest</span><br><span class="line">Resolving SDK alias 'latest' to '3.1.62'</span><br><span class="line">Resolving SDK version '3.1.62' to 'sdk-releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit'</span><br><span class="line">Installing SDK 'sdk-releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit'..</span><br><span class="line">Installing tool 'node-18.20.3-64bit'..</span><br><span class="line">Downloading: D:/codes/wasm/emsdk/downloads/node-v18.20.3-win-x64.zip from https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/node-v18.20.3-win-x64.zip, 30476796 Bytes</span><br><span class="line">Unpacking 'D:/codes/wasm/emsdk/downloads/node-v18.20.3-win-x64.zip' to 'D:/codes/wasm/emsdk/node/18.20.3_64bit'</span><br><span class="line">Done installing tool 'node-18.20.3-64bit'.</span><br><span class="line">Installing tool 'python-3.9.2-nuget-64bit'..</span><br><span class="line">Downloading: D:/codes/wasm/emsdk/downloads/python-3.9.2-4-amd64+pywin32.zip from https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/python-3.9.2-4-amd64+pywin32.zip, 14413267 Bytes</span><br><span class="line">Unpacking 'D:/codes/wasm/emsdk/downloads/python-3.9.2-4-amd64+pywin32.zip' to 'D:/codes/wasm/emsdk/python/3.9.2-nuget_64bit'</span><br><span class="line">Done installing tool 'python-3.9.2-nuget-64bit'.</span><br><span class="line">Installing tool 'java-8.152-64bit'..</span><br><span class="line">Downloading: D:/codes/wasm/emsdk/downloads/portable_jre_8_update_152_64bit.zip from https://storage.googleapis.com/webassembly/emscripten-releases-builds/deps/portable_jre_8_update_152_64bit.zip, 69241499 Bytes</span><br><span class="line">Unpacking 'D:/codes/wasm/emsdk/downloads/portable_jre_8_update_152_64bit.zip' to 'D:/codes/wasm/emsdk/java/8.152_64bit'</span><br><span class="line">Done installing tool 'java-8.152-64bit'.</span><br><span class="line">Installing tool 'releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit'..</span><br><span class="line">Downloading: D:/codes/wasm/emsdk/downloads/d52176ac8e07c47c1773bb2776ebd91e3886c3af-wasm-binaries.zip from https://storage.googleapis.com/webassembly/emscripten-releases-builds/win/d52176ac8e07c47c1773bb2776ebd91e3886c3af/wasm-binaries.zip, 513762888 Bytes</span><br><span class="line">Unpacking 'D:/codes/wasm/emsdk/downloads/d52176ac8e07c47c1773bb2776ebd91e3886c3af-wasm-binaries.zip' to 'D:/codes/wasm/emsdk/upstream'</span><br><span class="line">Done installing tool 'releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit'.</span><br><span class="line">Done installing SDK 'sdk-releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit'.</span><br></pre></td></tr></tbody></table></figure>
 <p>会把相关的依赖（node、python、java等）安装到wasm目录下</p>
 <p>然后执行以下命令激活：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">PS D:\codes\wasm\emsdk&gt; .\emsdk activate latest</span><br><span class="line">Resolving SDK alias &#x27;latest&#x27; to &#x27;3.1.62&#x27;</span><br><span class="line">Resolving SDK version &#x27;3.1.62&#x27; to &#x27;sdk-releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit&#x27;</span><br><span class="line">Setting the following tools as active:</span><br><span class="line">   node-18.20.3-64bit</span><br><span class="line">   python-3.9.2-nuget-64bit</span><br><span class="line">   java-8.152-64bit</span><br><span class="line">   releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit</span><br><span class="line"></span><br><span class="line">Next steps:</span><br><span class="line">- Consider running `emsdk activate` with --permanent or --system</span><br><span class="line">  to have emsdk settings available on startup.</span><br><span class="line">Adding directories to PATH:</span><br><span class="line">PATH += D:\codes\wasm\emsdk</span><br><span class="line">PATH += D:\codes\wasm\emsdk\upstream\emscripten</span><br><span class="line"></span><br><span class="line">Setting environment variables:</span><br><span class="line">PATH = D:\codes\wasm\emsdk;D:\codes\wasm\emsdk\upstream\emscripten; // ......省略一大串已有的系统环境变量</span><br><span class="line">EMSDK = D:/codes/wasm/emsdk</span><br><span class="line">EMSDK_NODE = D:\codes\wasm\emsdk\node\18.20.3_64bit\bin\node.exe</span><br><span class="line">EMSDK_PYTHON = D:\codes\wasm\emsdk\python\3.9.2-nuget_64bit\python.exe</span><br><span class="line">JAVA_HOME = D:\codes\wasm\emsdk\java\8.152_64bit</span><br><span class="line">The changes made to environment variables only apply to the currently running shell instance. Use the &#x27;emsdk_env.bat&#x27; to re-enter this environment later, or if you&#x27;d like to register this environment permanently, rerun this command with the option --permanent.</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">PS D:\codes\wasm\emsdk&gt; .\emsdk activate latest</span><br><span class="line">Resolving SDK alias 'latest' to '3.1.62'</span><br><span class="line">Resolving SDK version '3.1.62' to 'sdk-releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit'</span><br><span class="line">Setting the following tools as active:</span><br><span class="line">   node-18.20.3-64bit</span><br><span class="line">   python-3.9.2-nuget-64bit</span><br><span class="line">   java-8.152-64bit</span><br><span class="line">   releases-d52176ac8e07c47c1773bb2776ebd91e3886c3af-64bit</span><br><span class="line"></span><br><span class="line">Next steps:</span><br><span class="line">- Consider running `emsdk activate` with --permanent or --system</span><br><span class="line">  to have emsdk settings available on startup.</span><br><span class="line">Adding directories to PATH:</span><br><span class="line">PATH += D:\codes\wasm\emsdk</span><br><span class="line">PATH += D:\codes\wasm\emsdk\upstream\emscripten</span><br><span class="line"></span><br><span class="line">Setting environment variables:</span><br><span class="line">PATH = D:\codes\wasm\emsdk;D:\codes\wasm\emsdk\upstream\emscripten; // ......省略一大串已有的系统环境变量</span><br><span class="line">EMSDK = D:/codes/wasm/emsdk</span><br><span class="line">EMSDK_NODE = D:\codes\wasm\emsdk\node\18.20.3_64bit\bin\node.exe</span><br><span class="line">EMSDK_PYTHON = D:\codes\wasm\emsdk\python\3.9.2-nuget_64bit\python.exe</span><br><span class="line">JAVA_HOME = D:\codes\wasm\emsdk\java\8.152_64bit</span><br><span class="line">The changes made to environment variables only apply to the currently running shell instance. Use the 'emsdk_env.bat' to re-enter this environment later, or if you'd like to register this environment permanently, rerun this command with the option --permanent.</span><br></pre></td></tr></tbody></table></figure>
 <p>（这里环境变量设置是在当前命令行，不是全局的。如果要全局生效，请执行<code>emsdk_env.bat</code>）</p>
-<h2 id="编译C-代码"><a href="#编译C-代码" class="headerlink" title="编译C++代码"></a>编译C++代码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc source.cpp -s WASM=1 -o source.html</span><br></pre></td></tr></table></figure>
+<h2 id="编译C-代码"><a href="#编译C-代码" class="headerlink" title="编译C++代码"></a>编译C++代码</h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc source.cpp -s WASM=1 -o source.html</span><br></pre></td></tr></tbody></table></figure>
 <p>将输出：<code>source.html</code>, <code>source.js</code>, <code>source.wasm</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc source.cpp -s STANDALONE_WASM</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc source.cpp -s STANDALONE_WASM</span><br></pre></td></tr></tbody></table></figure>
 <p>仅输出：<code>source.wasm</code></p>
-<h2 id="运行静态目录"><a href="#运行静态目录" class="headerlink" title="运行静态目录"></a>运行静态目录</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emrun --port 8080 .</span><br></pre></td></tr></table></figure>
-<h2 id="快捷激活emsdk环境"><a href="#快捷激活emsdk环境" class="headerlink" title="快捷激活emsdk环境"></a>快捷激活emsdk环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set curpath=%~dp0</span><br><span class="line">cd D:\codes\wasm\emsdk\</span><br><span class="line">.\emsdk activate latest</span><br><span class="line">cd %curpath%</span><br></pre></td></tr></table></figure>
+<h2 id="运行静态目录"><a href="#运行静态目录" class="headerlink" title="运行静态目录"></a>运行静态目录</h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emrun --port 8080 .</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="快捷激活emsdk环境"><a href="#快捷激活emsdk环境" class="headerlink" title="快捷激活emsdk环境"></a>快捷激活emsdk环境</h2><figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set curpath=%~dp0</span><br><span class="line">cd D:\codes\wasm\emsdk\</span><br><span class="line">.\emsdk activate latest</span><br><span class="line">cd %curpath%</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h1><p>新建<code>main.cpp</code></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Hello World&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">    std::cout &lt;&lt; <span class="string">"Hello World"</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 <p>编译：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc main.cpp -s WASM=1 -o index.html</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc main.cpp -s WASM=1 -o index.html</span><br></pre></td></tr></tbody></table></figure>
 <p>运行：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emrun .</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emrun .</span><br></pre></td></tr></tbody></table></figure>
 <p>效果：</p>
 <p><img src="/images/image-20240710122103919.png" alt="image-20240710122103919"></p>
 <h1 id="无法引用windows-h"><a href="#无法引用windows-h" class="headerlink" title="无法引用windows.h"></a>无法引用windows.h</h1><p>结果发现，要读取注册表，需要引用<code>Windows.h</code>，然后编译的时候，产生如下报错：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PS D:\codes\wasm\emsdk\upstream\emscripten&gt; .\emcc &#x27;d:\codes\wasm\Hello World\main.cpp&#x27; -s WASM=1 -o &#x27;d:\codes\wasm\Hello World\index.html&#x27;</span><br><span class="line">d:\codes\wasm\Hello World\main.cpp:2:10: fatal error: &#x27;windows.h&#x27; file not found</span><br><span class="line">    2 | #include &lt;windows.h&gt;</span><br><span class="line">      |          ^~~~~~~~~~~</span><br><span class="line">1 error generated.</span><br><span class="line">emcc: error: &#x27;D:/codes/wasm/emsdk/upstream/bin\clang.exe -target wasm32-unknown-emscripten -fignore-exceptions -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=D:\codes\wasm\emsdk\upstream\emscripten\cache\sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include\fakesdl -Xclang -iwithsysroot/include\compat &quot;d:\codes\wasm\Hello World\main.cpp&quot; -c -o C:\Users\whuls\AppData\Local\Temp\emscripten_temp_ee29c2ed\main_0.o&#x27; failed (returned 1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PS D:\codes\wasm\emsdk\upstream\emscripten&gt; .\emcc 'd:\codes\wasm\Hello World\main.cpp' -s WASM=1 -o 'd:\codes\wasm\Hello World\index.html'</span><br><span class="line">d:\codes\wasm\Hello World\main.cpp:2:10: fatal error: 'windows.h' file not found</span><br><span class="line">    2 | #include &lt;windows.h&gt;</span><br><span class="line">      |          ^~~~~~~~~~~</span><br><span class="line">1 error generated.</span><br><span class="line">emcc: error: 'D:/codes/wasm/emsdk/upstream/bin\clang.exe -target wasm32-unknown-emscripten -fignore-exceptions -mllvm -combiner-global-alias-analysis=false -mllvm -enable-emscripten-sjlj -mllvm -disable-lsr --sysroot=D:\codes\wasm\emsdk\upstream\emscripten\cache\sysroot -DEMSCRIPTEN -Werror=implicit-function-declaration -Xclang -iwithsysroot/include\fakesdl -Xclang -iwithsysroot/include\compat "d:\codes\wasm\Hello World\main.cpp" -c -o C:\Users\whuls\AppData\Local\Temp\emscripten_temp_ee29c2ed\main_0.o' failed (returned 1)</span><br></pre></td></tr></tbody></table></figure>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://github.com/emscripten-core/emsdk/issues/153">can not build C with  · Issue #153 · emscripten-core/emsdk · GitHub</a></p>
 </blockquote>
 <p>究其原因是，WebAssembly编译的是跨平台的代码，无法编译成平台特定的代码，因此失败了……</p>
-
+</body></html>
     </div>
 
     
@@ -346,6 +346,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -408,14 +409,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -450,7 +451,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -460,13 +461,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -525,6 +526,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '38f8a4cd93b099156d5cec9bf84e6e36',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

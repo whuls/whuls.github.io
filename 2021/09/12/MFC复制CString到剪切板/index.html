@@ -28,10 +28,10 @@
 <meta property="og:description" content="MFC复制CString到剪切板">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-11T16:24:51.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.055Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.967Z">
 <meta property="article:author" content="林杉">
-<meta property="article:tag" content="MFC">
 <meta property="article:tag" content="C++">
+<meta property="article:tag" content="MFC">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://whuls.cn/2021/09/12/MFC%E5%A4%8D%E5%88%B6CString%E5%88%B0%E5%89%AA%E5%88%87%E6%9D%BF/">
@@ -141,12 +141,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,8 +273,8 @@
       
       
       
-        <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">CString str = <span class="string">&quot;这是一段字符串&quot;</span>;</span><br><span class="line"><span class="comment">// AfxMessageBox(str);</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">OpenClipboard</span>())</span><br><span class="line">&#123;</span><br><span class="line">    HGLOBAL clipBuf;</span><br><span class="line">    <span class="type">char</span>* buf;</span><br><span class="line">    <span class="built_in">EmptyClipboard</span>();</span><br><span class="line">    </span><br><span class="line">    clipBuf = <span class="built_in">GlobalAlloc</span>(GMEM_DDESHARE, str.<span class="built_in">GetLength</span>() + <span class="number">1</span>);</span><br><span class="line">    buf = (<span class="type">char</span>*)<span class="built_in">GlobalLock</span>(clipBuf);</span><br><span class="line">    <span class="built_in">strcpy</span>(buf, str.<span class="built_in">GetString</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">GlobalUnlock</span>(clipBuf);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">SetClipboardData</span>(CF_TEXT, clipBuf);</span><br><span class="line">    <span class="built_in">CloseClipboard</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        <html><head></head><body><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">CString str = <span class="string">"这是一段字符串"</span>;</span><br><span class="line"><span class="comment">// AfxMessageBox(str);</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">OpenClipboard</span>())</span><br><span class="line">{</span><br><span class="line">    HGLOBAL clipBuf;</span><br><span class="line">    <span class="type">char</span>* buf;</span><br><span class="line">    <span class="built_in">EmptyClipboard</span>();</span><br><span class="line">    </span><br><span class="line">    clipBuf = <span class="built_in">GlobalAlloc</span>(GMEM_DDESHARE, str.<span class="built_in">GetLength</span>() + <span class="number">1</span>);</span><br><span class="line">    buf = (<span class="type">char</span>*)<span class="built_in">GlobalLock</span>(clipBuf);</span><br><span class="line">    <span class="built_in">strcpy</span>(buf, str.<span class="built_in">GetString</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">GlobalUnlock</span>(clipBuf);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">SetClipboardData</span>(CF_TEXT, clipBuf);</span><br><span class="line">    <span class="built_in">CloseClipboard</span>();</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</body></html>
     </div>
 
     
@@ -284,8 +284,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/MFC/" rel="tag"><i class="fa fa-tag"></i> MFC</a>
               <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/MFC/" rel="tag"><i class="fa fa-tag"></i> MFC</a>
           </div>
 
         
@@ -313,6 +313,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -374,14 +375,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -416,7 +417,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -426,13 +427,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -491,6 +492,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : 'c2b47406e63f18d08ca3703845d62955',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

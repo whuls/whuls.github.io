@@ -137,12 +137,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -199,6 +199,200 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2021/01/22/%E4%BB%8Efscanf-fprintf%E5%88%B0fstream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/22/%E4%BB%8Efscanf-fprintf%E5%88%B0fstream/" class="post-title-link" itemprop="url">从fscanf/fprintf到fstream</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-22 17:23:23" itemprop="dateCreated datePublished" datetime="2021-01-22T17:23:23+08:00">2021-01-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+      
+          在C语言中，使用fscanf和fprintf操作文件指针，进行文件读写，其格式化读写方式使用起来相当便利。但是在C++中，文件读写通常使用fstream方式，对于C里面的两个函数以及fopen开始强调安全性问题，推荐使用fopen_s，fscanf_s和fprintf_s代替，在最新的编译器立面通常需要在预编译头中加入_CRT_SECURE_NO_WARNINGS才能保证不报错。那么如何使文件流的方式用起来和格式化读写一样便利呢？本文进行探究。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/22/%E4%BB%8Efscanf-fprintf%E5%88%B0fstream/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2021/01/20/%E5%9F%BA%E4%BA%8EOpenCV%E7%9A%84%E5%AE%9E%E7%94%A8%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/20/%E5%9F%BA%E4%BA%8EOpenCV%E7%9A%84%E5%AE%9E%E7%94%A8%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">基于OpenCV的实用函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-20 08:35:19" itemprop="dateCreated datePublished" datetime="2021-01-20T08:35:19+08:00">2021-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OpenCV/" itemprop="url" rel="index"><span itemprop="name">OpenCV</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+      
+          记录了一些自己实现的基于OpenCV的实用函数，虽然有些OpenCV已经封装得不错，但还是喜欢用自己写的。包括图像显示、卷积操作等。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/20/%E5%9F%BA%E4%BA%8EOpenCV%E7%9A%84%E5%AE%9E%E7%94%A8%E5%87%BD%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://whuls.cn/2021/01/16/Ubuntu%E4%BD%BF%E7%94%A8%E6%89%8B%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -230,7 +424,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-18 16:49:31" itemprop="dateModified" datetime="2022-06-18T16:49:31+08:00">2022-06-18</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -327,7 +521,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -424,7 +618,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -521,7 +715,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -618,7 +812,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -715,7 +909,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -812,7 +1006,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-09-25 15:24:11" itemprop="dateModified" datetime="2024-09-25T15:24:11+08:00">2024-09-25</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -909,7 +1103,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -952,200 +1146,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/05/%E8%A7%A3%E5%86%B3Excel-2016%E6%89%93%E5%BC%80%E5%90%8E%E7%A9%BA%E7%99%BD%E7%9A%84%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2020/10/31/%E4%BD%BF%E7%94%A8youtube-dl%E4%BB%8EB%E7%AB%99%E4%B8%8B%E8%BD%BD%E8%A7%86%E9%A2%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
-      <meta itemprop="name" content="林杉">
-      <meta itemprop="description" content="开发记录 & 思考笔记">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="03的开发日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/31/%E4%BD%BF%E7%94%A8youtube-dl%E4%BB%8EB%E7%AB%99%E4%B8%8B%E8%BD%BD%E8%A7%86%E9%A2%91/" class="post-title-link" itemprop="url">使用youtube-dl从B站下载视频</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-31 18:34:07" itemprop="dateCreated datePublished" datetime="2020-10-31T18:34:07+08:00">2020-10-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/youtube-dl/" itemprop="url" rel="index"><span itemprop="name">youtube-dl</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>15k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>14 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-      
-          使用youtube-dl从B站下载视频，使用ffmpeg完成flv转mp4，调用CUDA进行硬件加速。附有youtube-dl备份地址、youtube-dl参数说明文档。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/31/%E4%BD%BF%E7%94%A8youtube-dl%E4%BB%8EB%E7%AB%99%E4%B8%8B%E8%BD%BD%E8%A7%86%E9%A2%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2020/10/30/find%E5%87%BD%E6%95%B0%E7%94%A8%E4%BA%8Ec-%E4%B8%ADvector%E7%9A%84%E6%9F%A5%E6%89%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
-      <meta itemprop="name" content="林杉">
-      <meta itemprop="description" content="开发记录 & 思考笔记">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="03的开发日志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/30/find%E5%87%BD%E6%95%B0%E7%94%A8%E4%BA%8Ec-%E4%B8%ADvector%E7%9A%84%E6%9F%A5%E6%89%BE/" class="post-title-link" itemprop="url">【转】find函数用于c++中vector的查找</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-30 19:30:38" itemprop="dateCreated datePublished" datetime="2020-10-30T19:30:38+08:00">2020-10-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-      
-          转载自CSDN博客《实战c++中的vector系列--对vector<自定义类>使用std::find 和 std::find_if 算法》
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/30/find%E5%87%BD%E6%95%B0%E7%94%A8%E4%BA%8Ec-%E4%B8%ADvector%E7%9A%84%E6%9F%A5%E6%89%BE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1236,14 +1236,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1278,7 +1278,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1288,13 +1288,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -1353,6 +1353,7 @@
   
 
   
+
 
 </body>
 </html>

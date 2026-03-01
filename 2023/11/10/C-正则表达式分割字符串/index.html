@@ -28,7 +28,7 @@
 <meta property="og:description" content="C++正则表达式分割字符串">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-10T10:55:05.000Z">
-<meta property="article:modified_time" content="2023-11-10T11:03:02.013Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:28.535Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="正则表达式">
@@ -141,12 +141,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -226,10 +226,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-11-10 18:55:05 / 修改时间：19:03:02" itemprop="dateCreated datePublished" datetime="2023-11-10T18:55:05+08:00">2023-11-10</time>
+              <time title="创建时间：2023-11-10 18:55:05" itemprop="dateCreated datePublished" datetime="2023-11-10T18:55:05+08:00">2023-11-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2026-03-02 07:00:28" itemprop="dateModified" datetime="2026-03-02T07:00:28+08:00">2026-03-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -267,13 +273,13 @@
       
       
       
-        <p>输入</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MACAddress         \r\r\n7E:4A:92:5B:48:BE  \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\nA2:0E:20:52:41:53  \r\r\nA4:59:20:52:41:53  \r\r\nA6:E0:20:52:41烫烫烫烫烫烫烫烫烫烫:53  \r\r\n                   \r\r\n                   \r\r\n00:FF:C6:2F:5F:AE  \r\r\n0A:61:12:13:05:A0  \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n50:EB:F6:5C:31:1E  \r\r\nE8:4E:06:9D:04:22  \r\r\nEA:4E:烫烫烫烫烫烫烫烫烫烫06:9D:04:22  \r\r\nEA:4E:06:9D:04:32  \r\r\n\r\r\n</span><br></pre></td></tr></table></figure>
+        <html><head></head><body><p>输入</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MACAddress         \r\r\n7E:4A:92:5B:48:BE  \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\nA2:0E:20:52:41:53  \r\r\nA4:59:20:52:41:53  \r\r\nA6:E0:20:52:41烫烫烫烫烫烫烫烫烫烫:53  \r\r\n                   \r\r\n                   \r\r\n00:FF:C6:2F:5F:AE  \r\r\n0A:61:12:13:05:A0  \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n                   \r\r\n50:EB:F6:5C:31:1E  \r\r\nE8:4E:06:9D:04:22  \r\r\nEA:4E:烫烫烫烫烫烫烫烫烫烫06:9D:04:22  \r\r\nEA:4E:06:9D:04:32  \r\r\n\r\r\n</span><br></pre></td></tr></tbody></table></figure>
 <p>处理</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::regex <span class="title">re</span><span class="params">(<span class="string">&quot;[\r\n ]+&quot;</span>)</span></span>;</span><br><span class="line">std::sregex_token_iterator first&#123; res.<span class="built_in">begin</span>(), res.<span class="built_in">end</span>(), re, <span class="number">-1</span> &#125;, last;</span><br><span class="line">std::vector&lt;std::string&gt; s&#123; first, last &#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::regex <span class="title">re</span><span class="params">(<span class="string">"[\r\n ]+"</span>)</span></span>;</span><br><span class="line">std::sregex_token_iterator first{ res.<span class="built_in">begin</span>(), res.<span class="built_in">end</span>(), re, <span class="number">-1</span> }, last;</span><br><span class="line">std::vector&lt;std::string&gt; s{ first, last };</span><br></pre></td></tr></tbody></table></figure>
 <p>输出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MACAddress</span><br><span class="line">7E:4A:92:5B:48:BE</span><br><span class="line">A2:0E:20:52:41:53</span><br><span class="line">A4:59:20:52:41:53</span><br><span class="line">A6:E0:20:52:41烫烫烫烫烫烫烫烫烫烫:53</span><br><span class="line">00:FF:C6:2F:5F:AE</span><br><span class="line">0A:61:12:13:05:A0</span><br><span class="line">50:EB:F6:5C:31:1E</span><br><span class="line">E8:4E:06:9D:04:22</span><br><span class="line">EA:4E:烫烫烫烫烫烫烫烫烫烫06:9D:04:22</span><br><span class="line">EA:4E:06:9D:04:32</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MACAddress</span><br><span class="line">7E:4A:92:5B:48:BE</span><br><span class="line">A2:0E:20:52:41:53</span><br><span class="line">A4:59:20:52:41:53</span><br><span class="line">A6:E0:20:52:41烫烫烫烫烫烫烫烫烫烫:53</span><br><span class="line">00:FF:C6:2F:5F:AE</span><br><span class="line">0A:61:12:13:05:A0</span><br><span class="line">50:EB:F6:5C:31:1E</span><br><span class="line">E8:4E:06:9D:04:22</span><br><span class="line">EA:4E:烫烫烫烫烫烫烫烫烫烫06:9D:04:22</span><br><span class="line">EA:4E:06:9D:04:32</span><br></pre></td></tr></tbody></table></figure>
+</body></html>
     </div>
 
     
@@ -312,6 +318,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -373,14 +380,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -415,7 +422,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -425,13 +432,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -490,6 +497,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : 'd34774ce3bd5e8507810ea136b691647',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

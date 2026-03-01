@@ -28,7 +28,7 @@
 <meta property="og:description" content="【转】nvcc和nvidia-smi显示的版本不一致?">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-16T03:28:11.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.058Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.966Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="NVIDIA">
@@ -141,12 +141,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,7 +273,7 @@
       
       
       
-        <blockquote>
+        <html><head></head><body><blockquote>
 <p>原文地址：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/eb5335708f2a">https://www.jianshu.com/p/eb5335708f2a</a></p>
 <p>作者：<a target="_blank" rel="noopener" href="https://www.jianshu.com/u/ad1e462f0e63">https://www.jianshu.com/u/ad1e462f0e63</a></p>
 </blockquote>
@@ -282,7 +282,7 @@
 <p>用于支持driver api的必要文件由 <strong>GPU driver installer</strong> 安装，nvidia-smi就属于这一类API；而用于支持runtime api的必要文件是由 <strong>CUDA Toolkit installer</strong> 安装的。nvcc是与CUDA Toolkit一起安装的CUDA compiler-driver tool， <strong>它只知道它自身构建时的CUDA runtime版本，并不知道安装了什么版本的GPU driver，甚至不知道是否安装了GPU driver。</strong></p>
 <p>CUDA Toolkit Installer通常会集成了GPU driver Installer，如果你的CUDA均通过CUDA Tooklkit Installer来安装，那么runtime api 和 driver api的版本应该是一致的，也就是说， nvcc —version 和 nvidia-smi 显示的版本应该一样。否则，你可能使用了单独的GPU driver installer来安装GPU dirver，这样就会导致 nvidia-smi 和 nvcc —version 显示的版本不一致了。</p>
 <p>通常，<strong>driver api的版本能向下兼容runtime api的版本</strong>，即 <strong>nvidia-smi 显示的版本大于nvcc —version 的版本通常不会出现大问题。</strong></p>
-
+</body></html>
     </div>
 
     
@@ -321,6 +321,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -382,14 +383,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -424,7 +425,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -434,13 +435,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -499,6 +500,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '5b2eb35fcadc292d40b56e3c2770cf7d',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

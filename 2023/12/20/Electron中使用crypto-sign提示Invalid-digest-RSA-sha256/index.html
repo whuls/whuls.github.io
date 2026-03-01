@@ -28,7 +28,7 @@
 <meta property="og:description" content="Electron中使用crypto.sign提示Invalid digest: RSA-sha256">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-12-20T08:47:21.000Z">
-<meta property="article:modified_time" content="2023-12-22T04:12:46.749Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.531Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="Node.js">
 <meta property="article:tag" content="Electron">
@@ -141,12 +141,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-22 12:12:46" itemprop="dateModified" datetime="2023-12-22T12:12:46+08:00">2023-12-22</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,22 +278,22 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="post-body-toc-text">问题描述</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%8E%9F%E5%9B%A0"><span class="post-body-toc-text">原因</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="post-body-toc-text">验证</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="post-body-toc-text">问题解决</span></a></li></ol>
       
       
-        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>以下这段代码，写在<code>a.js</code>文件中，通过node运行没问题：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> crypto <span class="keyword">from</span> <span class="string">&#x27;crypto&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> result = crypto.<span class="title function_">sign</span>(<span class="string">&#x27;RSA-SHA256&#x27;</span>, <span class="title class_">Buffer</span>.<span class="title function_">from</span>(str, <span class="string">&#x27;utf8&#x27;</span>), &#123;</span><br><span class="line">    <span class="attr">key</span>: crypto.<span class="title function_">createPrivateKey</span>(&#123;</span><br><span class="line">        <span class="attr">key</span>: <span class="string">&#x27;-----BEGIN PRIVATE KEY-----&lt;私钥字符串&gt;-----END PRIVATE KEY-----&#x27;</span>,</span><br><span class="line">        <span class="attr">format</span>: <span class="string">&#x27;pem&#x27;</span>,</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;pkcs8&#x27;</span></span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="attr">padding</span>: crypto.<span class="property">constants</span>.<span class="property">RSA_PKCS1_PADDING</span></span><br><span class="line">&#125;).<span class="title function_">toString</span>(<span class="string">&#x27;base64&#x27;</span>);</span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+        <html><head></head><body><h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>以下这段代码，写在<code>a.js</code>文件中，通过node运行没问题：</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> crypto <span class="keyword">from</span> <span class="string">'crypto'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> result = crypto.<span class="title function_">sign</span>(<span class="string">'RSA-SHA256'</span>, <span class="title class_">Buffer</span>.<span class="title function_">from</span>(str, <span class="string">'utf8'</span>), {</span><br><span class="line">    <span class="attr">key</span>: crypto.<span class="title function_">createPrivateKey</span>({</span><br><span class="line">        <span class="attr">key</span>: <span class="string">'-----BEGIN PRIVATE KEY-----&lt;私钥字符串&gt;-----END PRIVATE KEY-----'</span>,</span><br><span class="line">        <span class="attr">format</span>: <span class="string">'pem'</span>,</span><br><span class="line">        <span class="attr">type</span>: <span class="string">'pkcs8'</span></span><br><span class="line">    }),</span><br><span class="line">    <span class="attr">padding</span>: crypto.<span class="property">constants</span>.<span class="property">RSA_PKCS1_PADDING</span></span><br><span class="line">}).<span class="title function_">toString</span>(<span class="string">'base64'</span>);</span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></tbody></table></figure>
 <p>但是搬到electron下面，报如下错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TypeError: Invalid digest: RSA-sha256</span><br><span class="line">    at Module.signOneShot (node:internal/crypto/sig:167:15)</span><br><span class="line">    ......</span><br><span class="line">    at WebContents.&lt;anonymous&gt; (node:electron/js2c/browser_init:2:89026)</span><br><span class="line">    at WebContents.emit (node:events:513:28) &#123;</span><br><span class="line">  code: &#x27;ERR_CRYPTO_INVALID_DIGEST&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TypeError: Invalid digest: RSA-sha256</span><br><span class="line">    at Module.signOneShot (node:internal/crypto/sig:167:15)</span><br><span class="line">    ......</span><br><span class="line">    at WebContents.&lt;anonymous&gt; (node:electron/js2c/browser_init:2:89026)</span><br><span class="line">    at WebContents.emit (node:events:513:28) {</span><br><span class="line">  code: 'ERR_CRYPTO_INVALID_DIGEST'</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><blockquote>
 <p><a target="_blank" rel="noopener" href="https://github.com/electron/electron/issues/31874#issuecomment-971638852">https://github.com/electron/electron/issues/31874#issuecomment-971638852</a></p>
 </blockquote>
 <p>Node.js使用OpenSSL实现<code>crypto</code>模块，而Chromium使用BoringSSL（OpenSSL的一个fork）来实现，因此实现上存在差异</p>
 <h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><p>查看支持的HASH函数，验证代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">&#x27;crypto&#x27;</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(crypto.<span class="title function_">getHashes</span>());</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">'crypto'</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(crypto.<span class="title function_">getHashes</span>());</span><br></pre></td></tr></tbody></table></figure>
 <p>在Electron中的结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#x27;md4&#x27;,        &#x27;md5&#x27;,</span><br><span class="line">  &#x27;ripemd160&#x27;,  &#x27;sha1&#x27;,</span><br><span class="line">  &#x27;sha224&#x27;,     &#x27;sha256&#x27;,</span><br><span class="line">  &#x27;sha384&#x27;,     &#x27;sha512&#x27;,</span><br><span class="line">  &#x27;sha512-256&#x27;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  'md4',        'md5',</span><br><span class="line">  'ripemd160',  'sha1',</span><br><span class="line">  'sha224',     'sha256',</span><br><span class="line">  'sha384',     'sha512',</span><br><span class="line">  'sha512-256'</span><br><span class="line">]</span><br></pre></td></tr></tbody></table></figure>
 <p>在Node.js中的结果：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#x27;RSA-MD4&#x27;,</span><br><span class="line">  &#x27;RSA-MD5&#x27;,</span><br><span class="line">  &#x27;RSA-MDC2&#x27;,</span><br><span class="line">  &#x27;RSA-RIPEMD160&#x27;,</span><br><span class="line">  &#x27;RSA-SHA1&#x27;,</span><br><span class="line">  &#x27;RSA-SHA1-2&#x27;,</span><br><span class="line">  &#x27;RSA-SHA224&#x27;,</span><br><span class="line">  &#x27;RSA-SHA256&#x27;,</span><br><span class="line">  &#x27;RSA-SHA3-224&#x27;,</span><br><span class="line">  &#x27;RSA-SHA3-256&#x27;,</span><br><span class="line">  &#x27;RSA-SHA3-384&#x27;,</span><br><span class="line">  &#x27;RSA-SHA3-512&#x27;,</span><br><span class="line">  &#x27;RSA-SHA384&#x27;,</span><br><span class="line">  &#x27;RSA-SHA512&#x27;,</span><br><span class="line">  &#x27;RSA-SHA512/224&#x27;,</span><br><span class="line">  &#x27;RSA-SHA512/256&#x27;,</span><br><span class="line">  &#x27;RSA-SM3&#x27;,</span><br><span class="line">  &#x27;blake2b512&#x27;,</span><br><span class="line">  &#x27;blake2s256&#x27;,</span><br><span class="line">  &#x27;id-rsassa-pkcs1-v1_5-with-sha3-224&#x27;,</span><br><span class="line">  &#x27;id-rsassa-pkcs1-v1_5-with-sha3-256&#x27;,</span><br><span class="line">  &#x27;id-rsassa-pkcs1-v1_5-with-sha3-384&#x27;,</span><br><span class="line">  &#x27;id-rsassa-pkcs1-v1_5-with-sha3-512&#x27;,</span><br><span class="line">  &#x27;md4&#x27;,</span><br><span class="line">  &#x27;md4WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;md5&#x27;,</span><br><span class="line">  &#x27;md5-sha1&#x27;,</span><br><span class="line">  &#x27;md5WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;mdc2&#x27;,</span><br><span class="line">  &#x27;mdc2WithRSA&#x27;,</span><br><span class="line">  &#x27;ripemd&#x27;,</span><br><span class="line">  &#x27;ripemd160&#x27;,</span><br><span class="line">  &#x27;ripemd160WithRSA&#x27;,</span><br><span class="line">  &#x27;rmd160&#x27;,</span><br><span class="line">  &#x27;sha1&#x27;,</span><br><span class="line">  &#x27;sha1WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;sha224&#x27;,</span><br><span class="line">  &#x27;sha224WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;sha256&#x27;,</span><br><span class="line">  &#x27;sha256WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;sha3-224&#x27;,</span><br><span class="line">  &#x27;sha3-256&#x27;,</span><br><span class="line">  &#x27;sha3-384&#x27;,</span><br><span class="line">  &#x27;sha3-512&#x27;,</span><br><span class="line">  &#x27;sha384&#x27;,</span><br><span class="line">  &#x27;sha384WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;sha512&#x27;,</span><br><span class="line">  &#x27;sha512-224&#x27;,</span><br><span class="line">  &#x27;sha512-224WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;sha512-256&#x27;,</span><br><span class="line">  &#x27;sha512-256WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;sha512WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;shake128&#x27;,</span><br><span class="line">  &#x27;shake256&#x27;,</span><br><span class="line">  &#x27;sm3&#x27;,</span><br><span class="line">  &#x27;sm3WithRSAEncryption&#x27;,</span><br><span class="line">  &#x27;ssl3-md5&#x27;,</span><br><span class="line">  &#x27;ssl3-sha1&#x27;,</span><br><span class="line">  &#x27;whirlpool&#x27;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  'RSA-MD4',</span><br><span class="line">  'RSA-MD5',</span><br><span class="line">  'RSA-MDC2',</span><br><span class="line">  'RSA-RIPEMD160',</span><br><span class="line">  'RSA-SHA1',</span><br><span class="line">  'RSA-SHA1-2',</span><br><span class="line">  'RSA-SHA224',</span><br><span class="line">  'RSA-SHA256',</span><br><span class="line">  'RSA-SHA3-224',</span><br><span class="line">  'RSA-SHA3-256',</span><br><span class="line">  'RSA-SHA3-384',</span><br><span class="line">  'RSA-SHA3-512',</span><br><span class="line">  'RSA-SHA384',</span><br><span class="line">  'RSA-SHA512',</span><br><span class="line">  'RSA-SHA512/224',</span><br><span class="line">  'RSA-SHA512/256',</span><br><span class="line">  'RSA-SM3',</span><br><span class="line">  'blake2b512',</span><br><span class="line">  'blake2s256',</span><br><span class="line">  'id-rsassa-pkcs1-v1_5-with-sha3-224',</span><br><span class="line">  'id-rsassa-pkcs1-v1_5-with-sha3-256',</span><br><span class="line">  'id-rsassa-pkcs1-v1_5-with-sha3-384',</span><br><span class="line">  'id-rsassa-pkcs1-v1_5-with-sha3-512',</span><br><span class="line">  'md4',</span><br><span class="line">  'md4WithRSAEncryption',</span><br><span class="line">  'md5',</span><br><span class="line">  'md5-sha1',</span><br><span class="line">  'md5WithRSAEncryption',</span><br><span class="line">  'mdc2',</span><br><span class="line">  'mdc2WithRSA',</span><br><span class="line">  'ripemd',</span><br><span class="line">  'ripemd160',</span><br><span class="line">  'ripemd160WithRSA',</span><br><span class="line">  'rmd160',</span><br><span class="line">  'sha1',</span><br><span class="line">  'sha1WithRSAEncryption',</span><br><span class="line">  'sha224',</span><br><span class="line">  'sha224WithRSAEncryption',</span><br><span class="line">  'sha256',</span><br><span class="line">  'sha256WithRSAEncryption',</span><br><span class="line">  'sha3-224',</span><br><span class="line">  'sha3-256',</span><br><span class="line">  'sha3-384',</span><br><span class="line">  'sha3-512',</span><br><span class="line">  'sha384',</span><br><span class="line">  'sha384WithRSAEncryption',</span><br><span class="line">  'sha512',</span><br><span class="line">  'sha512-224',</span><br><span class="line">  'sha512-224WithRSAEncryption',</span><br><span class="line">  'sha512-256',</span><br><span class="line">  'sha512-256WithRSAEncryption',</span><br><span class="line">  'sha512WithRSAEncryption',</span><br><span class="line">  'shake128',</span><br><span class="line">  'shake256',</span><br><span class="line">  'sm3',</span><br><span class="line">  'sm3WithRSAEncryption',</span><br><span class="line">  'ssl3-md5',</span><br><span class="line">  'ssl3-sha1',</span><br><span class="line">  'whirlpool'</span><br><span class="line">]</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h1><p>把<code>RSA-SHA256</code>改成<code>SHA256</code>，即可。</p>
-
+</body></html>
     </div>
 
     
@@ -332,6 +332,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -394,14 +395,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -436,7 +437,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -446,13 +447,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -511,6 +512,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '97865044510d3a089a909f6bce3337e8',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

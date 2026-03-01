@@ -28,10 +28,10 @@
 <meta property="og:description" content="MFC关闭模态对话框">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-02T15:34:20.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.053Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.967Z">
 <meta property="article:author" content="林杉">
-<meta property="article:tag" content="MFC">
 <meta property="article:tag" content="C++">
+<meta property="article:tag" content="MFC">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://whuls.cn/2021/09/02/MFC%E5%85%B3%E9%97%AD%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D%E6%A1%86/">
@@ -141,12 +141,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,33 +274,33 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%96%B9%E6%B3%951"><span class="post-body-toc-text">方法1</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%96%B9%E6%B3%952"><span class="post-body-toc-text">方法2</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%96%B9%E6%B3%953"><span class="post-body-toc-text">方法3</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%96%B9%E6%B3%954"><span class="post-body-toc-text">方法4</span></a></li></ol>
       
       
-        <ul>
+        <html><head></head><body><ul>
 <li>VS2010</li>
 <li>对话框继承自<code>CDialogEx</code></li>
 <li>添加按钮，为按钮的点击事件添加处理函数</li>
 </ul>
 <p>调用：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CTestDlg dlg;</span><br><span class="line">INT_PTR nResponse = dlg.<span class="built_in">DoModal</span>();</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CTestDlg dlg;</span><br><span class="line">INT_PTR nResponse = dlg.<span class="built_in">DoModal</span>();</span><br></pre></td></tr></tbody></table></figure>
 <p>通过<code>DoModal()</code>函数打开并显示模态对话框，通过返回值<code>nResponse</code>对比不同的退出方法。</p>
 <h1 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h1><p>定义</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CDialog::EndDialog</span><span class="params">(<span class="type">int</span> nResult)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">CDialog::EndDialog</span><span class="params">(<span class="type">int</span> nResult)</span></span></span><br></pre></td></tr></tbody></table></figure>
 <p>调用</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">EndDialog</span>(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">EndDialog</span>(<span class="number">0</span>);</span><br></pre></td></tr></tbody></table></figure>
 <p><code>nResponse</code>的值为参数<code>nResult</code>的值。</p>
 <h1 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h1><p>调用</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">AfxGetMainWnd</span>()-&gt;<span class="built_in">SendMessage</span>(WM_CLOSE);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">AfxGetMainWnd</span>()-&gt;<span class="built_in">SendMessage</span>(WM_CLOSE);</span><br></pre></td></tr></tbody></table></figure>
 <p>宏<code>WM_CLOSE</code>的值为2，因此<code>nResponse</code>的值为2（相当于<code>IDCANCEL</code>）</p>
 <h1 id="方法3"><a href="#方法3" class="headerlink" title="方法3"></a>方法3</h1><p>定义</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> __stdcall <span class="title">PostQuitMessage</span><span class="params">(<span class="type">int</span> nExitCode)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> __stdcall <span class="title">PostQuitMessage</span><span class="params">(<span class="type">int</span> nExitCode)</span></span></span><br></pre></td></tr></tbody></table></figure>
 <p>调用</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PostQuitMessage</span>(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">PostQuitMessage</span>(<span class="number">0</span>);</span><br></pre></td></tr></tbody></table></figure>
 <p>不管<code>nExitCode</code>的值是多少，<code>nResponse</code>的值都为-1</p>
 <h1 id="方法4"><a href="#方法4" class="headerlink" title="方法4"></a>方法4</h1><p>定义</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">CWnd::DestroyWindow</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BOOL <span class="title">CWnd::DestroyWindow</span><span class="params">()</span></span></span><br></pre></td></tr></tbody></table></figure>
 <p>调用</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DestroyWindow</span>();</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">DestroyWindow</span>();</span><br></pre></td></tr></tbody></table></figure>
 <p><code>nResponse</code>的值为-1</p>
-
+</body></html>
     </div>
 
     
@@ -310,8 +310,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/MFC/" rel="tag"><i class="fa fa-tag"></i> MFC</a>
               <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/MFC/" rel="tag"><i class="fa fa-tag"></i> MFC</a>
           </div>
 
         
@@ -339,6 +339,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -401,14 +402,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -443,7 +444,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -453,13 +454,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -518,6 +519,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : 'a4565c67ea7d32e729a67d6ae3a5a346',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

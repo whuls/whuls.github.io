@@ -28,7 +28,7 @@
 <meta property="og:description" content="注意到使用CryptoJS.AES.encrypt进行加密时，第二个参数key可以为wordarray，也可以为string，如果是前者，每次加密的结果都一样，如果是后者，每次加密结果都不一致，这是为什么呢？本文对这一问题进行探究，解决两个问题：密钥的位数如何计算，以指定加密算法；使用string作为密钥加密的原理。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-11T01:58:27.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.050Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.967Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="Crypto.js">
 <meta property="article:tag" content="AES">
@@ -142,12 +142,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -275,12 +275,12 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%AF%86%E9%92%A5%E7%9A%84%E4%BD%8D%E6%95%B0"><span class="post-body-toc-text">密钥的位数</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BD%9C%E4%B8%BA%E5%AF%86%E9%92%A5%EF%BC%9APBKDF2%E7%AE%97%E6%B3%95"><span class="post-body-toc-text">使用字符串作为密钥：PBKDF2算法</span></a></li></ol>
       
       
-        <blockquote>
+        <html><head></head><body><blockquote>
 <p>注意到使用<code>CryptoJS.AES.encrypt</code>进行加密时，第二个参数<code>key</code>可以为<code>CryptoJS.lib.wordarray</code>，也可以为<code>string</code>，如果是前者，每次加密的结果都一样，如果是后者，每次加密结果都不一致，这是为什么呢？</p>
 </blockquote>
 <p>在CryptoJS的<a target="_blank" rel="noopener" href="https://cryptojs.gitbook.io/docs">官方文档</a>有这么一句话：</p>
 <blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> encrypted = <span class="title class_">CryptoJS</span>.<span class="property">AES</span>.<span class="title function_">encrypt</span>(<span class="string">&quot;Message&quot;</span>, <span class="string">&quot;Secret Passphrase&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> decrypted = <span class="title class_">CryptoJS</span>.<span class="property">AES</span>.<span class="title function_">decrypt</span>(encrypted, <span class="string">&quot;Secret Passphrase&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> encrypted = <span class="title class_">CryptoJS</span>.<span class="property">AES</span>.<span class="title function_">encrypt</span>(<span class="string">"Message"</span>, <span class="string">"Secret Passphrase"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> decrypted = <span class="title class_">CryptoJS</span>.<span class="property">AES</span>.<span class="title function_">decrypt</span>(encrypted, <span class="string">"Secret Passphrase"</span>);</span><br></pre></td></tr></tbody></table></figure>
 <p>CryptoJS supports AES-128, AES-192, and AES-256. It will pick the variant by the size of the key you pass in. If you use a passphrase, then it will generate a 256-bit key.</p>
 </blockquote>
 <p>意思是如果传入的为一个wordarray，那么会根据位数执行<code>AES-128</code>/<code>AES-192</code>/<code>AES-256</code>的加密算法；如果传入的是一个短语，也就是字符串，那么会根据这个字符串，生成一个256位的密钥。</p>
@@ -288,9 +288,9 @@
 <p>AES加密算法中的128/192/256指的是位数，即<code>bit</code>。将其转换为字节，分别对应16字节、24字节、32字节（分别除以8）。</p>
 <p>一个字节能存储的数据长度为<code>2^8 = 256</code>，取值范围为<code>0-255</code>，换算成16进制就是<code>00-FF</code>，这样就提供了一个思路，可以通过<strong>构建16进制字符串来指定密钥的位数</strong>。在16进制字符串中，2个字符表示1个字节。</p>
 <p><code>crypto-js</code>提供了一个函数：<code>CryptoJS.enc.Hex.parse()</code>，可以将16进制字符串转成<code>wordarray</code>，由此来指定密钥的位数：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">CryptoJS</span> = <span class="built_in">require</span>(<span class="string">&#x27;crypto-js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 长度为16字节的密钥，2个字符表示1字节的16进制数</span></span><br><span class="line"><span class="keyword">const</span> hexKeyStr = <span class="string">&quot;AA00BB11CC22DD33EE44FF5566778899&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> hexIvStr = <span class="string">&quot;00112233445566778899aabbccddeeff&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AES-128 加密</span></span><br><span class="line"><span class="keyword">const</span> data = &#123; <span class="attr">name</span>: <span class="string">&#x27;test&#x27;</span>, <span class="attr">pwd</span>: <span class="string">&#x27;123456&#x27;</span> &#125;;</span><br><span class="line"><span class="keyword">const</span> enc = <span class="title class_">CryptoJS</span>.<span class="property">AES</span>.<span class="title function_">encrypt</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data), <span class="title class_">CryptoJS</span>.<span class="property">enc</span>.<span class="property">Hex</span>.<span class="title function_">parse</span>(hexKeyStr), &#123;</span><br><span class="line">    <span class="attr">iv</span>: <span class="title class_">CryptoJS</span>.<span class="property">enc</span>.<span class="property">Hex</span>.<span class="title function_">parse</span>(hexIvStr),</span><br><span class="line">    <span class="attr">mode</span>: <span class="title class_">CryptoJS</span>.<span class="property">mode</span>.<span class="property">CBC</span>,</span><br><span class="line">    <span class="attr">padding</span>: <span class="title class_">CryptoJS</span>.<span class="property">pad</span>.<span class="property">Pkcs7</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(enc.<span class="property">ciphertext</span>.<span class="title function_">toString</span>());</span><br><span class="line"><span class="comment">// 314a0c0af60bf916e1ca49f2d0dcb4cfe2c31a92937ef25e4e12ce9d0951c8f6</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(enc.<span class="title function_">toString</span>());</span><br><span class="line"><span class="comment">// MUoMCvYL+Rbhykny0Ny0z+LDGpKTfvJeThLOnQlRyPY=</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">CryptoJS</span> = <span class="built_in">require</span>(<span class="string">'crypto-js'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 长度为16字节的密钥，2个字符表示1字节的16进制数</span></span><br><span class="line"><span class="keyword">const</span> hexKeyStr = <span class="string">"AA00BB11CC22DD33EE44FF5566778899"</span>;</span><br><span class="line"><span class="keyword">const</span> hexIvStr = <span class="string">"00112233445566778899aabbccddeeff"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AES-128 加密</span></span><br><span class="line"><span class="keyword">const</span> data = { <span class="attr">name</span>: <span class="string">'test'</span>, <span class="attr">pwd</span>: <span class="string">'123456'</span> };</span><br><span class="line"><span class="keyword">const</span> enc = <span class="title class_">CryptoJS</span>.<span class="property">AES</span>.<span class="title function_">encrypt</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data), <span class="title class_">CryptoJS</span>.<span class="property">enc</span>.<span class="property">Hex</span>.<span class="title function_">parse</span>(hexKeyStr), {</span><br><span class="line">    <span class="attr">iv</span>: <span class="title class_">CryptoJS</span>.<span class="property">enc</span>.<span class="property">Hex</span>.<span class="title function_">parse</span>(hexIvStr),</span><br><span class="line">    <span class="attr">mode</span>: <span class="title class_">CryptoJS</span>.<span class="property">mode</span>.<span class="property">CBC</span>,</span><br><span class="line">    <span class="attr">padding</span>: <span class="title class_">CryptoJS</span>.<span class="property">pad</span>.<span class="property">Pkcs7</span></span><br><span class="line">});</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(enc.<span class="property">ciphertext</span>.<span class="title function_">toString</span>());</span><br><span class="line"><span class="comment">// 314a0c0af60bf916e1ca49f2d0dcb4cfe2c31a92937ef25e4e12ce9d0951c8f6</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(enc.<span class="title function_">toString</span>());</span><br><span class="line"><span class="comment">// MUoMCvYL+Rbhykny0Ny0z+LDGpKTfvJeThLOnQlRyPY=</span></span><br></pre></td></tr></tbody></table></figure>
 <p>生成16进制字符串可以使用<code>crypto-js</code>自带的函数：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成16字节的word array</span></span><br><span class="line"><span class="keyword">const</span> hexWordArray = <span class="title class_">CryptoJS</span>.<span class="property">lib</span>.<span class="property">WordArray</span>.<span class="title function_">random</span>(<span class="number">128</span> / <span class="number">8</span>);</span><br><span class="line"><span class="comment">// 将word array转为16进制字符串</span></span><br><span class="line"><span class="keyword">const</span> hexStr = hexWordArray.<span class="title function_">toString</span>();</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成16字节的word array</span></span><br><span class="line"><span class="keyword">const</span> hexWordArray = <span class="title class_">CryptoJS</span>.<span class="property">lib</span>.<span class="property">WordArray</span>.<span class="title function_">random</span>(<span class="number">128</span> / <span class="number">8</span>);</span><br><span class="line"><span class="comment">// 将word array转为16进制字符串</span></span><br><span class="line"><span class="keyword">const</span> hexStr = hexWordArray.<span class="title function_">toString</span>();</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="使用字符串作为密钥：PBKDF2算法"><a href="#使用字符串作为密钥：PBKDF2算法" class="headerlink" title="使用字符串作为密钥：PBKDF2算法"></a>使用字符串作为密钥：PBKDF2算法</h1><blockquote>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/22875419/cryptojs-how-to-generate-aes-passphrase">cryptojs: How to generate AES passphrase</a></p>
 <p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000004261009">【笔记】PBKDF2算法</a></p>
@@ -300,7 +300,7 @@
 <p>它的基本原理是通过一个伪随机函数（例如HMAC函数），把明文和一个盐值作为输入参数，然后重复进行运算，并最终产生密钥。</p>
 <p>如果重复的次数足够大，破解的成本就会变得很高。而盐值的添加也会增加“彩虹表”攻击的难度。</p>
 <p>在CryptoJS中封装了PBKDF2算法（<a target="_blank" rel="noopener" href="https://cryptojs.gitbook.io/docs/#pbkdf2">官方文档 # pbkdf2</a>），使用方法如下所示：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> salt = <span class="title class_">CryptoJS</span>.<span class="property">lib</span>.<span class="property">WordArray</span>.<span class="title function_">random</span>(<span class="number">128</span> / <span class="number">8</span>);</span><br><span class="line"><span class="keyword">var</span> key128Bits = <span class="title class_">CryptoJS</span>.<span class="title class_">PBKDF2</span>(<span class="string">&quot;abcdefg123++&quot;</span>, salt, &#123;</span><br><span class="line">    <span class="attr">keySize</span>: <span class="number">128</span> / <span class="number">32</span></span><br><span class="line">&#125;).<span class="title function_">toString</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(key128Bits.<span class="property">length</span>, key128Bits);</span><br><span class="line"><span class="comment">// 32 a53fbb9fd7616c8312a16865499170e9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> key256Bits = <span class="title class_">CryptoJS</span>.<span class="title class_">PBKDF2</span>(<span class="string">&quot;abcdefg123++&quot;</span>, salt, &#123;</span><br><span class="line">    <span class="attr">keySize</span>: <span class="number">256</span> / <span class="number">32</span></span><br><span class="line">&#125;).<span class="title function_">toString</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(key256Bits.<span class="property">length</span>, key256Bits);</span><br><span class="line"><span class="comment">// 64 a53fbb9fd7616c8312a16865499170e96c2c1eb126641c4a4b540f29d453f56f</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> key512Bits = <span class="title class_">CryptoJS</span>.<span class="title class_">PBKDF2</span>(<span class="string">&quot;abcdefg123++&quot;</span>, salt, &#123;</span><br><span class="line">    <span class="attr">keySize</span>: <span class="number">512</span> / <span class="number">32</span></span><br><span class="line">&#125;).<span class="title function_">toString</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(key512Bits.<span class="property">length</span>, key512Bits);</span><br><span class="line"><span class="comment">// 128 a53fbb9fd7616c8312a16865499170e96c2c1eb126641c4a4b540f29d453f56f6024b91f301da2e660849f48ce9cad7ddae340bc7b5bcef1944a742cb771e3fb</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> key512Bits1000Iterations = <span class="title class_">CryptoJS</span>.<span class="title class_">PBKDF2</span>(<span class="string">&quot;abcdefg123++&quot;</span>, salt, &#123;</span><br><span class="line">    <span class="attr">keySize</span>: <span class="number">512</span> / <span class="number">32</span>,</span><br><span class="line">    <span class="attr">iterations</span>: <span class="number">1000</span></span><br><span class="line">&#125;).<span class="title function_">toString</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(key512Bits1000Iterations.<span class="property">length</span>, key512Bits1000Iterations);</span><br><span class="line"><span class="comment">// 128 520465b48238dce46d228a9114d9e731e4cae83bab0623dfce4a213fa4d772ad6365cf18f2e71001b432b16b4ab4e2f2c1f417801dcfe168e1226d540167beec</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> salt = <span class="title class_">CryptoJS</span>.<span class="property">lib</span>.<span class="property">WordArray</span>.<span class="title function_">random</span>(<span class="number">128</span> / <span class="number">8</span>);</span><br><span class="line"><span class="keyword">var</span> key128Bits = <span class="title class_">CryptoJS</span>.<span class="title class_">PBKDF2</span>(<span class="string">"abcdefg123++"</span>, salt, {</span><br><span class="line">    <span class="attr">keySize</span>: <span class="number">128</span> / <span class="number">32</span></span><br><span class="line">}).<span class="title function_">toString</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(key128Bits.<span class="property">length</span>, key128Bits);</span><br><span class="line"><span class="comment">// 32 a53fbb9fd7616c8312a16865499170e9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> key256Bits = <span class="title class_">CryptoJS</span>.<span class="title class_">PBKDF2</span>(<span class="string">"abcdefg123++"</span>, salt, {</span><br><span class="line">    <span class="attr">keySize</span>: <span class="number">256</span> / <span class="number">32</span></span><br><span class="line">}).<span class="title function_">toString</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(key256Bits.<span class="property">length</span>, key256Bits);</span><br><span class="line"><span class="comment">// 64 a53fbb9fd7616c8312a16865499170e96c2c1eb126641c4a4b540f29d453f56f</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> key512Bits = <span class="title class_">CryptoJS</span>.<span class="title class_">PBKDF2</span>(<span class="string">"abcdefg123++"</span>, salt, {</span><br><span class="line">    <span class="attr">keySize</span>: <span class="number">512</span> / <span class="number">32</span></span><br><span class="line">}).<span class="title function_">toString</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(key512Bits.<span class="property">length</span>, key512Bits);</span><br><span class="line"><span class="comment">// 128 a53fbb9fd7616c8312a16865499170e96c2c1eb126641c4a4b540f29d453f56f6024b91f301da2e660849f48ce9cad7ddae340bc7b5bcef1944a742cb771e3fb</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> key512Bits1000Iterations = <span class="title class_">CryptoJS</span>.<span class="title class_">PBKDF2</span>(<span class="string">"abcdefg123++"</span>, salt, {</span><br><span class="line">    <span class="attr">keySize</span>: <span class="number">512</span> / <span class="number">32</span>,</span><br><span class="line">    <span class="attr">iterations</span>: <span class="number">1000</span></span><br><span class="line">}).<span class="title function_">toString</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(key512Bits1000Iterations.<span class="property">length</span>, key512Bits1000Iterations);</span><br><span class="line"><span class="comment">// 128 520465b48238dce46d228a9114d9e731e4cae83bab0623dfce4a213fa4d772ad6365cf18f2e71001b432b16b4ab4e2f2c1f417801dcfe168e1226d540167beec</span></span><br></pre></td></tr></tbody></table></figure>
 <p>代码解释：</p>
 <ul>
 <li>使用<code>CryptoJS.lib.WordArray.random(128 / 8);</code>生成了一个<code>128/8</code>字节长度的椒盐噪声；</li>
@@ -308,7 +308,7 @@
 <li><code>keySize</code>的设定为“密钥位数/32”，猜测是因为算法中用于运算的数字是32位整型数字；</li>
 <li>使用<code>toString()</code>转为16进制字符串，该字符串长度除以2等于字节数，再乘以8得到位数。</li>
 </ul>
-
+</body></html>
     </div>
 
     
@@ -348,6 +348,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -410,14 +411,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -452,7 +453,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -462,13 +463,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -527,6 +528,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '32e976853fe7f53f1073aa913277c689',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

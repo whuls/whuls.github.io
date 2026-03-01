@@ -28,7 +28,7 @@
 <meta property="og:description" content="不要在Promise中使用throw">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-22T05:29:54.000Z">
-<meta property="article:modified_time" content="2022-05-20T14:35:59.227Z">
+<meta property="article:modified_time" content="2026-03-01T23:00:29.966Z">
 <meta property="article:author" content="林杉">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
@@ -140,12 +140,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">78</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">80</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-20 22:35:59" itemprop="dateModified" datetime="2022-05-20T22:35:59+08:00">2022-05-20</time>
+                <time title="修改时间：2026-03-02 07:00:29" itemprop="dateModified" datetime="2026-03-02T07:00:29+08:00">2026-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,18 +273,18 @@
         <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%9C%A8Promise%E4%B8%AD%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="post-body-toc-text">在Promise中抛出异常的方式</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E7%9B%B4%E6%8E%A5%E6%8A%9B%E5%87%BA"><span class="post-body-toc-text">直接抛出</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#%E5%9C%A8%E5%9B%9E%E8%B0%83%E4%B8%AD%E6%8A%9B%E5%87%BA"><span class="post-body-toc-text">在回调中抛出</span></a></li></ol></li></ol>
       
       
-        <h1 id="在Promise中抛出异常的方式"><a href="#在Promise中抛出异常的方式" class="headerlink" title="在Promise中抛出异常的方式"></a>在Promise中抛出异常的方式</h1><h2 id="直接抛出"><a href="#直接抛出" class="headerlink" title="直接抛出"></a>直接抛出</h2><p>例如要创建一个同步函数，在该函数中抛出一个异常，可以这么写：</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> func = (): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span>&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;123&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title function_">func</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(e <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? e.<span class="property">stack</span> : e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;hello&#x27;</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+        <html><head></head><body><h1 id="在Promise中抛出异常的方式"><a href="#在Promise中抛出异常的方式" class="headerlink" title="在Promise中抛出异常的方式"></a>在Promise中抛出异常的方式</h1><h2 id="直接抛出"><a href="#直接抛出" class="headerlink" title="直接抛出"></a>直接抛出</h2><p>例如要创建一个同步函数，在该函数中抛出一个异常，可以这么写：</p>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> func = (): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span>&gt; =&gt; {</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">'123'</span>);</span><br><span class="line">    })</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; {</span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">        <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title function_">func</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">    } <span class="keyword">catch</span> (e) {</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(e <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? e.<span class="property">stack</span> : e);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">'hello'</span>);</span><br><span class="line">})();</span><br></pre></td></tr></tbody></table></figure>
 <p>输出结果为：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Error: 123</span><br><span class="line">    at D:\codes\node\test\a.ts:3:15</span><br><span class="line">    at new Promise (&lt;anonymous&gt;)</span><br><span class="line">    at func (D:\codes\node\test\a.ts:2:12)</span><br><span class="line">    at D:\codes\node\test\a.ts:9:30</span><br><span class="line">    at Object.&lt;anonymous&gt; (D:\codes\node\test\a.ts:16:3)</span><br><span class="line">    at Module._compile (internal/modules/cjs/loader.js:1085:14)</span><br><span class="line">    at Module.m._compile (D:\codes\node\test\node_modules\ts-node\src\index.ts:1371:23)</span><br><span class="line">    at Module._extensions..js (internal/modules/cjs/loader.js:1114:10)</span><br><span class="line">    at Object.require.extensions.&lt;computed&gt; [as .ts] (D:\codes\node\test\node_modules\ts-node\src\index.ts:1374:12)</span><br><span class="line">    at Module.load (internal/modules/cjs/loader.js:950:32)</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
-<p>将<code>throw new Error(&#39;123&#39;);</code>写成<code>reject(new Error(&#39;123&#39;));</code>效果一致。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Error: 123</span><br><span class="line">    at D:\codes\node\test\a.ts:3:15</span><br><span class="line">    at new Promise (&lt;anonymous&gt;)</span><br><span class="line">    at func (D:\codes\node\test\a.ts:2:12)</span><br><span class="line">    at D:\codes\node\test\a.ts:9:30</span><br><span class="line">    at Object.&lt;anonymous&gt; (D:\codes\node\test\a.ts:16:3)</span><br><span class="line">    at Module._compile (internal/modules/cjs/loader.js:1085:14)</span><br><span class="line">    at Module.m._compile (D:\codes\node\test\node_modules\ts-node\src\index.ts:1371:23)</span><br><span class="line">    at Module._extensions..js (internal/modules/cjs/loader.js:1114:10)</span><br><span class="line">    at Object.require.extensions.&lt;computed&gt; [as .ts] (D:\codes\node\test\node_modules\ts-node\src\index.ts:1374:12)</span><br><span class="line">    at Module.load (internal/modules/cjs/loader.js:950:32)</span><br><span class="line">hello</span><br></pre></td></tr></tbody></table></figure>
+<p>将<code>throw new Error('123');</code>写成<code>reject(new Error('123'));</code>效果一致。</p>
 <h2 id="在回调中抛出"><a href="#在回调中抛出" class="headerlink" title="在回调中抛出"></a>在回调中抛出</h2><p>如果在Promise中存在一个回调函数，直接使用<code>throw</code>就会出现问题：</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> func = (): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span>&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;123&#x27;</span>);</span><br><span class="line">        &#125;, <span class="number">3000</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title function_">func</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(e <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? e.<span class="property">stack</span> : e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;hello&#x27;</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">D:\codes\node\test\a.ts:4</span><br><span class="line">            throw new Error(&#x27;123&#x27;);</span><br><span class="line">                  ^</span><br><span class="line">Error: 123</span><br><span class="line">    at Timeout._onTimeout (D:\codes\node\test\a.ts:4:19)</span><br><span class="line">    at listOnTimeout (internal/timers.js:557:17)</span><br><span class="line">    at processTimers (internal/timers.js:500:7)</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> func = (): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span>&gt; =&gt; {</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">'123'</span>);</span><br><span class="line">        }, <span class="number">3000</span>);</span><br><span class="line">    })</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; {</span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">        <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title function_">func</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">    } <span class="keyword">catch</span> (e) {</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(e <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? e.<span class="property">stack</span> : e);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">'hello'</span>);</span><br><span class="line">})();</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">D:\codes\node\test\a.ts:4</span><br><span class="line">            throw new Error('123');</span><br><span class="line">                  ^</span><br><span class="line">Error: 123</span><br><span class="line">    at Timeout._onTimeout (D:\codes\node\test\a.ts:4:19)</span><br><span class="line">    at listOnTimeout (internal/timers.js:557:17)</span><br><span class="line">    at processTimers (internal/timers.js:500:7)</span><br></pre></td></tr></tbody></table></figure>
 <p>这时候<code>reject</code>函数的作用就体现出来了，因为<code>throw</code>抛出异常只能由所在的函数所捕捉，无法向上传递，因此在回调函数里面抛出的异常通常由提供回调函数的接口来处理，而要实现向上的传播，就要使用<code>reject</code>：</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> func = (): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span>&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;123&#x27;</span>));</span><br><span class="line">        &#125;, <span class="number">3000</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title function_">func</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(e <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? e.<span class="property">stack</span> : e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;hello&#x27;</span>);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">三秒后...</span></span><br><span class="line">Error: 123</span><br><span class="line">    at Timeout._onTimeout (D:\codes\node\test\a.ts:4:20)</span><br><span class="line">    at listOnTimeout (internal/timers.js:557:17)</span><br><span class="line">    at processTimers (internal/timers.js:500:7)</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight ts"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> func = (): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span>&gt; =&gt; {</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> {</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> {</span><br><span class="line">            <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">'123'</span>));</span><br><span class="line">        }, <span class="number">3000</span>);</span><br><span class="line">    })</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; {</span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">        <span class="keyword">const</span> result = <span class="keyword">await</span> <span class="title function_">func</span>();</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">    } <span class="keyword">catch</span> (e) {</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(e <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? e.<span class="property">stack</span> : e);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">'hello'</span>);</span><br><span class="line">})();</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">三秒后...</span></span><br><span class="line">Error: 123</span><br><span class="line">    at Timeout._onTimeout (D:\codes\node\test\a.ts:4:20)</span><br><span class="line">    at listOnTimeout (internal/timers.js:557:17)</span><br><span class="line">    at processTimers (internal/timers.js:500:7)</span><br><span class="line">hello</span><br></pre></td></tr></tbody></table></figure>
+</body></html>
     </div>
 
     
@@ -322,6 +322,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -384,14 +385,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">80</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -426,7 +427,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -436,13 +437,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">727k</span>
+    <span title="站点总字数">731k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11:01</span>
+    <span title="站点阅读时长">11:05</span>
 </div>
 
         
@@ -501,6 +502,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '8f4a7a38a9fc201827bb85cca9338b17',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
