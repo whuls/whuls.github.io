@@ -11718,4 +11718,114 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
         <tag>WebGL</tag>
       </tags>
   </entry>
+  <entry>
+    <title>玩玩Pencil</title>
+    <url>/2026/03/02/%E7%8E%A9%E7%8E%A9Pencil/</url>
+    <content><![CDATA[<html><head></head><body><p><img src="/images/image-20260303223253502.png" alt="image-20260303223253502"></p>
+<blockquote>
+<p>官网：<a href="https://www.pencil.dev/">Pencil – Design on canvas. Land in code.</a></p>
+<p>B站视频介绍：<a href="https://www.bilibili.com/video/BV1uKzvBCEzR">🚀神器来袭！Pencil让UI设计彻底变天：AI同时生成多个专业级UI，Claude Code一键转代码，Pencil高级使用技巧保姆级教程！</a></p>
+</blockquote>
+<p>Pencil目前正处于免费阶段（2026年3月2日），其特性如下：</p>
+<ul>
+<li>AI同时生成十几个解决方案</li>
+<li>自然语言描述生成UI，可视化编辑</li>
+<li>解决传统设计痛点：设计交付问题。设计 → 手动 → 代码，导致还原度下降、效率损失</li>
+</ul>
+<p><img src="/images/image-20260302085408697.png" alt="image-20260302085408697"></p>
+<p>但目前而言，这仍然无法成为一个生产力工具，还有许多需要大改的地方。</p>
+<p>测试环境：</p>
+<blockquote>
+<p>系统：Windows11</p>
+<p>Agent：Claude Code</p>
+<p>VS Code Pencil插件版本：0.62.8</p>
+<p>Pencil Desktop版本：1.1.29.0</p>
+</blockquote>
+<h1 id="安装Pencil-VS-Code插件"><a href="#安装Pencil-VS-Code插件" class="headerlink" title="安装Pencil VS Code插件"></a>安装Pencil VS Code插件</h1><blockquote>
+<p><a href="https://docs.pencil.dev/getting-started/installation">Installation</a></p>
+</blockquote>
+<p>Pencil有两种安装方式，一种是作为cursor或vscode的插件使用，另一种是官网下载Windows软件安装包作为独立桌面程序（目测也是Electron写的），在Pencil安装之前，需要确保Claude Code正确安装。</p>
+<h2 id="安装Claude-Code"><a href="#安装Claude-Code" class="headerlink" title="安装Claude Code"></a>安装Claude Code</h2><blockquote>
+<p>如果已安装可跳过</p>
+<p><a href="https://code.claude.com/docs/zh-CN/quickstart">快速开始 - Claude Code Docs</a></p>
+</blockquote>
+<h3 id="使用Windows-PowerShell安装"><a href="#使用Windows-PowerShell安装" class="headerlink" title="使用Windows PowerShell安装"></a>使用Windows PowerShell安装</h3><figure class="highlight powershell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">irm</span> https://claude.ai/install.ps1 | <span class="built_in">iex</span></span><br></pre></td></tr></tbody></table></figure>
+<p>脚本执行时会自动下载，记得做好科学上网。安装后位于<code>~/.local/bin/claude.exe</code>，应用程序大概220M左右。</p>
+<h3 id="自定义配置（如果使用官方接口则不需要这一步）"><a href="#自定义配置（如果使用官方接口则不需要这一步）" class="headerlink" title="自定义配置（如果使用官方接口则不需要这一步）"></a>自定义配置（如果使用官方接口则不需要这一步）</h3><p>方式一：修改配置文件，位于：<code>~/.claude/settings.json</code></p>
+<figure class="highlight json"><table><tbody><tr><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"env"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"ANTHROPIC_AUTH_TOKEN"</span><span class="punctuation">:</span> <span class="string">"替换为您的API Key"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"ANTHROPIC_BASE_URL"</span><span class="punctuation">:</span> <span class="string">"替换为第三方API"</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"</span><span class="punctuation">:</span> <span class="number">1</span></span><br><span class="line">  <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"permissions"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"allow"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">"deny"</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">}</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+<p>方式二：设置环境变量（User或System都可以）</p>
+<ul>
+<li><code>ANTHROPIC_AUTH_TOKEN</code>: <code>替换为您的API Key</code></li>
+<li><code>ANTHROPIC_BASE_URL</code>: <code>替换为第三方API</code></li>
+</ul>
+<h2 id="安装Claude-Code-VS-Code插件【可选】"><a href="#安装Claude-Code-VS-Code插件【可选】" class="headerlink" title="安装Claude Code VS Code插件【可选】"></a>安装Claude Code VS Code插件【可选】</h2><p>搜索：Claude Code for VS Code，作者是：Anthropic</p>
+<p>装好之后左侧栏会出现Claude标签，打开后是一个会话UI，可以用来对话和执行任务，但每次执行命令都要问一句，没有CLI不再询问的选项，相对较笨，且不能执行/mcp这类命令，还得开终端</p>
+<p>还有一处出现在右上角，打开一个标签后出现（设置界面、任意文件、欢迎界面都会有），然后锁定在右侧栏，这里可以通过设置<code>claudeCode.useTerminal</code>来决定这个位置显示的是终端还是对话框，但左侧栏永远是对话框，无论怎么设置（建议隐藏掉）（貌似VS Code和Claude Code插件更新后左侧栏不会出现这个图标了）</p>
+<h2 id="安装Pencil-VS-Code插件-1"><a href="#安装Pencil-VS-Code插件-1" class="headerlink" title="安装Pencil VS Code插件"></a>安装Pencil VS Code插件</h2><p>搜索：Pencil，作者是：High Agency</p>
+<p>如果左侧栏没有出现Pencil图标，说明安装失败，此时新建一个hello.pen，打开后大概率会出现错误<code>Error: Built assets not found. Please build the editor first.</code>，可能是VS Code版本太老（1.96.2无法与0.62.8的Pencil插件兼容，最后升级VS Code到1.109.5解决）</p>
+<p>安装完成后，新建xxx.pen或者在左侧栏用已有模板创建一个初始化的.pen文件，打开它，再打开Claude Code，就得到我们的工作区：</p>
+<p><img src="/images/image-20260303032626546.png" alt="image-20260303032626546"></p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>直观，保持一个软件</li>
+<li>可以在CC中管理上下文（通过/resume，不过上下文在这边是否有必要保留，打个问号，因为.pen文件从某种意义上来说也是一种skills）</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>慢，修改一个面板元素，几乎都要2min以上</li>
+<li>无法导入figma文件（在桌面端左上角可以手动导入）</li>
+<li>MCP是否开启不直观，得在CC中用/mcp查看</li>
+<li>Sticky Note处只能复制命令，而不能选择模型+直接执行</li>
+</ol>
+<h2 id="桌面应用程序"><a href="#桌面应用程序" class="headerlink" title="桌面应用程序"></a>桌面应用程序</h2><p>这是Pencil桌面应用程序</p>
+<p><img src="/images/image-20260303003230864.png" alt="image-20260303003230864"></p>
+<h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>快，同样操作VS Code插件要2m30s，这里30s以内可以完成（虽然也可能是接口调用量或者网络问题，但不止一处体现出更快的优势）</li>
+<li>可以直接执行Sticky note（就是图中那些蓝色的框框，但感觉没啥用，选中后在左下角chat更符合直觉）</li>
+<li>可以导入.fig文件。这可以说是核心优势了，在vsc的插件找不到如何导入.fig</li>
+<li>可以配置MCP是否启用（但好像也就只是看看，因为在vsc中打开CC，Pencil会自动激活MCP，而且这里关掉MCP开关，CC里面的pencil mcp也依旧存在）</li>
+</ol>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li><p>无法打开终端（似乎是一切问题的根源）</p>
+</li>
+<li><p>Agents配置稍微有点怪，对于配置了自定义claude接口的Claude Code，应该用Custom Model（一开始有点反直觉，没有终端导致的），点击后就连上了Claude Code（也没提示，反馈不足）</p>
+<p><img src="/images/image-20260303004524096.png" alt="image-20260303004524096"></p>
+</li>
+<li><p>无法直接使用MCP，导致还得在文件夹下开一个终端或者用VS Code打开Claude Code</p>
+<p><img src="/images/image-20260303004556241.png" alt="image-20260303004556241"></p>
+</li>
+<li><p>会话没有历史记录。关闭软件再打开，即便是同一个工作目录，左下角会话也会丢失。用Claude Code终端看到会话都还是存在的</p>
+<p><img src="/images/image-20260303004827040.png" alt="image-20260303004827040"></p>
+</li>
+<li><p>·Pencil会在安装目录启动Claude Code（疑似是安装包内自带<code>@anthropic-ai/claude-agent-sdk</code>），然后创建一大堆的“What is 2+2?”（”what is 2+2?” 是一个极其常见的 <strong>连通性测试/健康检查探针</strong>——开发者用这个最简单的问题来验证 AI API 是否正常工作，而不消耗太多 token。）。可以打开<code>~/.claude/projects</code>查看，或者用<code>claude --resume</code>命令。但数量这么多的session，怕不是应用程序内有什么逻辑错误或bug。</p>
+<p><img src="/images/image-20260303005446605.png" alt="image-20260303005446605"></p>
+</li>
+</ol>
+<h1 id="不是一个合格的设计工具"><a href="#不是一个合格的设计工具" class="headerlink" title="不是一个合格的设计工具"></a>不是一个合格的设计工具</h1><p>不知道是不是Pencil过分注重AI能力了，关于它的编辑功能还存在非常多的槽点，即便AI已经很强了，能替我们节省大量的时间，但当我们需要编辑时，仍然希望它会是个不错的设计工具，但很显然，Pencil的编辑能力可以说很差。</p>
+<ol>
+<li>无法实现redo。复现：随便添加一个元素，然后删除，按下Ctrl + Z，元素恢复，但再按Ctrl + Y或Ctrl + Shift + Z，都无法再完成删除的操作。更严重的，让AI做了大量的改动，然后一不小心按到了Ctrl + Z，改动全都消失了，想要redo，无法实现（这使得这篇博客第二部分的内容的配图无法截取，索性不想写了）</li>
+<li>分组逻辑有点看不懂。需求：想把两个组件拼成一个组。实际：右键元素无菜单弹出，用Create Component创建组件似乎是个解决方案，但把元素拖入到组件中后，元素消失（是的，直接消失）。</li>
+</ol>
+</body></html>]]></content>
+      <categories>
+        <category>Pencil</category>
+      </categories>
+      <tags>
+        <tag>Pencil</tag>
+        <tag>AI</tag>
+        <tag>Designer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>玩玩Figma MCP</title>
+    <url>/2026/03/03/%E7%8E%A9%E7%8E%A9Figma-MCP/</url>
+    <content><![CDATA[<html><head></head><body></body></html>]]></content>
+      <categories>
+        <category>Figma</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>Figma</tag>
+        <tag>MCP</tag>
+        <tag>Design</tag>
+      </tags>
+  </entry>
 </search>
