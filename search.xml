@@ -11806,7 +11806,8 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
 </ol>
 </body></html>]]></content>
       <categories>
-        <category>Pencil</category>
+        <category>AI</category>
+        <category>Design</category>
       </categories>
       <tags>
         <tag>Pencil</tag>
@@ -11817,9 +11818,76 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
   <entry>
     <title>玩玩Figma MCP</title>
     <url>/2026/03/03/%E7%8E%A9%E7%8E%A9Figma-MCP/</url>
-    <content><![CDATA[<html><head></head><body></body></html>]]></content>
+    <content><![CDATA[<html><head></head><body><blockquote>
+<p>Figma桌面应用下载地址：<a href="https://www.figma.com/downloads/">https://www.figma.com/downloads/</a></p>
+<p>Figma MCP目录：<a href="https://www.figma.com/mcp-catalog/">https://www.figma.com/mcp-catalog/</a></p>
+</blockquote>
+<p>Figma MCP允许我们读取Figma的设计稿内容，从而调用Agent实现网页，<strong>但非订阅版本无法直接修改页面中的元素</strong>，如果要让Agent修改鼠标选中的内容、对某个组件进行微调，则需要开通dev seats或更高席位。</p>
+<h1 id="在Claude-Code中安装Figma-MCP"><a href="#在Claude-Code中安装Figma-MCP" class="headerlink" title="在Claude Code中安装Figma MCP"></a>在Claude Code中安装Figma MCP</h1><p>打开一个文件夹，打开终端，通过以下命令将官方MCP添加到目录下</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">claude mcp add --transport http figma https://mcp.figma.com/mcp</span><br></pre></td></tr></tbody></table></figure>
+<p>或者在文件夹根目录添加文件<code>.mcp.json</code></p>
+<figure class="highlight json"><table><tbody><tr><td class="code"><pre><span class="line"><span class="punctuation">{</span></span><br><span class="line">    <span class="attr">"mcpServers"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"figma"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">            <span class="attr">"type"</span><span class="punctuation">:</span> <span class="string">"http"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">"url"</span><span class="punctuation">:</span> <span class="string">"https://mcp.figma.com/mcp"</span></span><br><span class="line">        <span class="punctuation">}</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>前者也是将这部分配置写到JSON文件，不过该文件位于<code>~/.claude.json</code>，MCP配置对应字段<code>projects.&lt;文件夹&gt;.mcpServers</code></p>
+</blockquote>
+<p>这样在该目录下每次启动Claude Code都会自动连接上Figma MCP，如果不想用，则进入Claude Code之后输入<code>/mcp</code>把<code>enable</code>去掉。</p>
+<blockquote>
+<p>初次使用时，运行<code>claude</code>命令，输入<code>/mcp</code>，Figma MCP应该会提示“未认证”，此时选择执行认证，会自动弹出浏览器页面，登录Figma账号之后进行认证，即可完成认证。此操作只会进行一次。</p>
+</blockquote>
+<h1 id="Figma-MCP（免费版）能做什么？"><a href="#Figma-MCP（免费版）能做什么？" class="headerlink" title="Figma MCP（免费版）能做什么？"></a>Figma MCP（免费版）能做什么？</h1><blockquote>
+<p><a href="https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/">https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/</a></p>
+<p>重点关注前两个就行了</p>
+</blockquote>
+<ul>
+<li><strong>从实时网站界面生成设计稿</strong>。原理是通过在web注入<code>https://mcp.figma.com/mcp/html-to-design/capture.js</code>脚本来自动截取页面内容并发送到Figma设计稿中（详见后面章节）。一般用于本地开发的页面，因为自己写的页面注入脚本是正常合理的。也可以用于任意网络页面，但需要用非正常手段，也就是js注入，可以用<code>@playwright/mcp</code>完成模拟和注入的功能，但实测下来效果并不太好，还原度不高；也可以换一种思路，用<a href="https://app.superdesign.dev/">Superdesign</a>提取页面设计元素，然后让Claude Code生成网页，再做成设计稿</li>
+<li><strong>从设计稿选定页面（Frame）生成web代码</strong>。通过复制Frame的URL（带NodeID）给Claude Code调用Figma MCP提取设计上下文，然后根据上下文生成web代码（详见后面章节）。</li>
+<li>提取、总结、归纳设计上下文。（算是一个特性）</li>
+<li>获取Make资源。（Make是Figma Make，在Figma中提设计需求生成代码，可以看成是Figma + Claude Code）</li>
+<li>保持设计组件系统于代码链接的一致性。（算是一个特性）</li>
+</ul>
+<h1 id="Figma-MCP（付费版）提升在哪里？"><a href="#Figma-MCP（付费版）提升在哪里？" class="headerlink" title="Figma MCP（付费版）提升在哪里？"></a>Figma MCP（付费版）提升在哪里？</h1><blockquote>
+<p><a href="https://developers.figma.com/docs/figma-mcp-server/local-server-installation/">https://developers.figma.com/docs/figma-mcp-server/local-server-installation/</a></p>
+<p>其实不是为了Figma MCP付费，而是为了Figma Desktop的<a href="https://help.figma.com/hc/en-us/articles/15023124644247-Guide-to-Dev-Mode">Dev Mode</a>付费，MCP能力只是Dev Mode下的一个提升点，人家这个模式的付费重点也不在于MCP能力的提升，更多是软件交互和新的设计范式方面的。</p>
+<p>购买Full席位（20刀/月，192刀/年）或Dev席位（15刀/月，144刀/年）都可以开启Dev Mode - <a href="https://www.figma.com/pricing/">Plans &amp; Pricing | Figma</a>。</p>
+</blockquote>
+<ul>
+<li>可以使用<a href="https://developers.figma.com/docs/figma-mcp-server/local-server-installation/#selection-based">基于UI选择</a>的MCP服务调用，更直观，更细致</li>
+<li>没了（确信）</li>
+</ul>
+<h1 id="获取Figma-MCP的最佳输出：一些有用的设计规则"><a href="#获取Figma-MCP的最佳输出：一些有用的设计规则" class="headerlink" title="获取Figma MCP的最佳输出：一些有用的设计规则"></a>获取Figma MCP的最佳输出：一些有用的设计规则</h1><p>Figma提供了一些经验规则来确保输出结果，可以用来参考构建自己的SKILLS：</p>
+<p><a href="https://developers.figma.com/docs/figma-mcp-server/add-custom-rules/">https://developers.figma.com/docs/figma-mcp-server/add-custom-rules/</a></p>
+<h1 id="选择Frame，转为html页面"><a href="#选择Frame，转为html页面" class="headerlink" title="选择Frame，转为html页面"></a>选择Frame，转为html页面</h1><blockquote>
+<p>建议使用tailwindcss，能让代码行数大幅减少</p>
+</blockquote>
+<p>打开Figma设计稿，右键Frame，选择“Copy link to selection”</p>
+<p><img src="/images/image-20260304185022574.png" alt="image-20260304185022574"></p>
+<p>得到如下链接：<code>https://www.figma.com/design/&lt;设计稿ID&gt;/&lt;设计稿名称&gt;?node-id=&lt;frame ID&gt;&amp;t=&lt;时间戳&gt;</code></p>
+<p>然后把这个链接发给CC，告诉它：“请帮我把这个frame提取为网页，使用tailwindcss，避免使用CSS”，就可以在本地生成tailwindcss风格的html页面了（一般是单页面）</p>
+<blockquote>
+<p>更进一步地，可以让CC自动提取设计元素创建组件库、创建应用程序、自动发布设计到Figma……</p>
+</blockquote>
+<h1 id="Figma-MCP自动推送创建页面流程"><a href="#Figma-MCP自动推送创建页面流程" class="headerlink" title="Figma MCP自动推送创建页面流程"></a>Figma MCP自动推送创建页面流程</h1><blockquote>
+<p>这部分流程由Claude Code自动完成，只需要告诉他：“请帮我把html文件创建为figma设计稿”。</p>
+<p>过程中似乎会自动安装并开启某种http静态文件服务器，有时候是python、有时候是nodejs，而且是在后台永久开启，退出claude也不会退出，可以告诉Claude Code：“不要自动启动 Python/Node.js HTTP 服务器。使用 VS Code Live Server，端口固定为 <strong>5500</strong>。Figma 捕获时直接使用 <code>http://localhost:5500/&lt;文件名&gt;</code>”。</p>
+</blockquote>
+<h2 id="第一次推送（自动创建新-Figma-文件）"><a href="#第一次推送（自动创建新-Figma-文件）" class="headerlink" title="第一次推送（自动创建新 Figma 文件）"></a>第一次推送（自动创建新 Figma 文件）</h2><p>Step 1 — 在 HTML 里注入 capture 脚本：<br></p><figure class="highlight html"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://mcp.figma.com/mcp/html-to-design/capture.js"</span> <span class="attr">async</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure><p></p>
+<p>Step 2 — 调用<code>generate_figma_design</code>工具，<code>outputMode: 'newFile'</code>：</p>
+<ul>
+<li>返回一个<code>captureId</code>（如 92c9f2be-…）</li>
+</ul>
+<p>Step 3 — 用浏览器打开本地页面，URL 后拼上 hash 参数：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">http://localhost:3737/demo.html</span><br><span class="line">    #figmacapture=&lt;captureId&gt;</span><br><span class="line">    &amp;figmaendpoint=https://mcp.figma.com/mcp/capture/&lt;captureId&gt;/submit</span><br><span class="line">    &amp;figmadelay=1000</span><br></pre></td></tr></tbody></table></figure>
+<p>页面加载后，<code>capture.js</code>检测到 hash 参数，自动截取页面结构并上传。</p>
+<p>Step 4 — 轮询 generate_figma_design（传入 captureId），等状态变 completed：</p>
+<ul>
+<li>返回新创建的<code>fileKey</code>（如 AYY7hIJacruRP5aIqlBHc4）</li>
+</ul>
+<h2 id="后续推送（添加到已有文件）"><a href="#后续推送（添加到已有文件）" class="headerlink" title="后续推送（添加到已有文件）"></a>后续推送（添加到已有文件）</h2><p>同样的流程，只是 Step 2 时改用<code>outputMode: 'existingFile'</code> + <code>fileKey</code>，这样新内容会作为新 frame 加进同一个文件，而不是创建新文件。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Figma提供了一组很棒的MCP工具，且免费席位也几乎不影响Figma MCP的使用，配合上Claude Code超强的代码能力，能够快速做出规范又美观的系统原型，能够实现对设计稿99.9%的还原，进一步提升了原型开发效率。</p>
+</body></html>]]></content>
       <categories>
-        <category>Figma</category>
+        <category>AI</category>
+        <category>Design</category>
       </categories>
       <tags>
         <tag>AI</tag>
