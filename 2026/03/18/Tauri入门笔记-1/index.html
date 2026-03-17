@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/blog/03_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/blog/03_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/blog/03_16x16.png">
+  <link rel="mask-icon" href="/images/blog/03_16x16.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"whuls.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="听说Tauri可以构建轻量的跨平台桌面应用，比重得要死的electron看起来更清爽，听说还需要入门rust，一起试试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tauri入门笔记（1）安装和构建">
+<meta property="og:url" content="https://whuls.cn/2026/03/18/Tauri%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0-1/index.html">
+<meta property="og:site_name" content="03的开发日志">
+<meta property="og:description" content="听说Tauri可以构建轻量的跨平台桌面应用，比重得要死的electron看起来更清爽，听说还需要入门rust，一起试试">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318005206676.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318005224666.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318005456659.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318005926689.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318010139569.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318010526832.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318011953784.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318013137872.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318014208884.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318014258609.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318014401885.png">
+<meta property="og:image" content="https://whuls.cn/images/image-20260318014434336.png">
+<meta property="article:published_time" content="2026-03-17T18:16:11.000Z">
+<meta property="article:modified_time" content="2026-03-17T18:16:11.038Z">
+<meta property="article:author" content="林杉">
+<meta property="article:tag" content="Tauri">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuls.cn/images/image-20260318005206676.png">
+
+<link rel="canonical" href="https://whuls.cn/2026/03/18/Tauri%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Tauri入门笔记（1）安装和构建 | 03的开发日志</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?5ef394f44970187e7ab7e57f9ffe9a4e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a target="_blank" rel="noopener" href="https://github.com/whuls" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">03的开发日志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">144</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">86</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">191</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://whuls.cn/2026/03/18/Tauri%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blog/avatar_136x136.png">
+      <meta itemprop="name" content="林杉">
+      <meta itemprop="description" content="开发记录 & 思考笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="03的开发日志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Tauri入门笔记（1）安装和构建
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2026-03-18 02:16:11" itemprop="dateCreated datePublished" datetime="2026-03-18T02:16:11+08:00">2026-03-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tauri/" itemprop="url" rel="index"><span itemprop="name">Tauri</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tauri/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol class="post-body-toc"><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFTauri"><span class="post-body-toc-text">什么是Tauri</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%88%91%E6%83%B3%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="post-body-toc-text">我想做什么？</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#Windows%E4%B8%8B%E5%AE%89%E8%A3%85"><span class="post-body-toc-text">Windows下安装</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#Microsoft-C-%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7"><span class="post-body-toc-text">Microsoft C++生成工具</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#WebView2"><span class="post-body-toc-text">WebView2</span></a></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#Rust"><span class="post-body-toc-text">Rust</span></a><ol class="post-body-toc-child"><li class="post-body-toc-item post-body-toc-level-3"><a class="post-body-toc-link" href="#Rust%E5%92%8CCargo%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E6%94%BE%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F"><span class="post-body-toc-text">Rust和Cargo可执行程序放在哪里？</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-2"><a class="post-body-toc-link" href="#Node-js"><span class="post-body-toc-text">Node.js</span></a></li></ol></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="post-body-toc-text">创建项目</span></a></li><li class="post-body-toc-item post-body-toc-level-1"><a class="post-body-toc-link" href="#%E6%9E%84%E5%BB%BA"><span class="post-body-toc-text">构建</span></a></li></ol>
+      
+      
+        <html><head></head><body><h1 id="什么是Tauri"><a href="#什么是Tauri" class="headerlink" title="什么是Tauri"></a>什么是Tauri</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://v2.tauri.app/zh-cn/start/">Tauri 是什么？ | Tauri</a></p>
+</blockquote>
+<ol>
+<li>是一个二进制程序框架</li>
+<li>能够进行主流桌面+移动平台开发</li>
+<li>前端：HTML/JavaScript/CSS（能编译为这三类的）</li>
+<li>后端：Rust、Swift、Kotlin等</li>
+</ol>
+<p>特点：</p>
+<ol>
+<li>打包体积小（使用系统自带webview而不是内置chromium）</li>
+<li>支持任意前端框架</li>
+<li>安全（基于Rust构建）</li>
+</ol>
+<h1 id="我想做什么？"><a href="#我想做什么？" class="headerlink" title="我想做什么？"></a>我想做什么？</h1><p>我想用Tauri做一个桌面端应用程序，用来探索electron的替代方案，并学习rust。</p>
+<h1 id="Windows下安装"><a href="#Windows下安装" class="headerlink" title="Windows下安装"></a>Windows下安装</h1><h2 id="Microsoft-C-生成工具"><a href="#Microsoft-C-生成工具" class="headerlink" title="Microsoft C++生成工具"></a>Microsoft C++生成工具</h2><p>因为之前装过vs2022，搜索“Visual Studio Installer”，发现已经装好了</p>
+<p><img src="/images/image-20260318005206676.png" alt="image-20260318005206676"></p>
+<p><img src="/images/image-20260318005224666.png" alt="image-20260318005224666"></p>
+<p>如果没装过vs，可以不安装vs，直接下载<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/">Microsoft C++ 生成工具</a>来安装“使用C++的桌面开发”工具包。</p>
+<h2 id="WebView2"><a href="#WebView2" class="headerlink" title="WebView2"></a>WebView2</h2><p>Windows 10 1803开始自带WebView2，如果没有，可以在这里下载：<a target="_blank" rel="noopener" href="https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download">下载 WebView2 运行时</a>，下载并安装“常青独立安装程序（Evergreen Bootstrapper）”。</p>
+<p><img src="/images/image-20260318005456659.png" alt="image-20260318005456659"></p>
+<h2 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h2><p>先检查一下rust是否已安装：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rustup -V</span><br></pre></td></tr></tbody></table></figure>
+<p>如果看到以下内容，则表示安装成功，可跳过这一节内容。</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rustup 1.28.2 (e4f3ad6f8 2025-04-28)</span><br><span class="line">info: This is the version for the rustup toolchain manager, not the rustc compiler.</span><br><span class="line">info: The currently active `rustc` version is `rustc 1.93.1 (01f6ddf75 2026-02-11)`</span><br></pre></td></tr></tbody></table></figure>
+<p>否则，前往：<a target="_blank" rel="noopener" href="https://rust-lang.org/zh-CN/tools/install/">安装 Rust - Rust 程序设计语言</a>，下载rustup安装包</p>
+<p><img src="/images/image-20260318005926689.png" alt="image-20260318005926689"></p>
+<p>运行后是一个终端窗口，一般用默认选项就行。</p>
+<p><img src="/images/image-20260318010139569.png" alt="image-20260318010139569"></p>
+<p>安装rust会顺便把Cargo也装了，安装后的二进制程序位于<code>~/.cargo/bin</code>，安装程序最后会提示自动把这个目录添加到PATH环境变量中，确认即可</p>
+<p><img src="/images/image-20260318010526832.png" alt="image-20260318010526832"></p>
+<p>终端执行命令，检查是否安装成功、环境变量配置成功。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo -V</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo 1.94.0 (85eff7c80 2026-01-15)</span><br></pre></td></tr></tbody></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rustc -V</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rustc 1.94.0 (4a4ef493e 2026-03-02)</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="Rust和Cargo可执行程序放在哪里？"><a href="#Rust和Cargo可执行程序放在哪里？" class="headerlink" title="Rust和Cargo可执行程序放在哪里？"></a>Rust和Cargo可执行程序放在哪里？</h3><p>注意到<code>~/.cargo/bin</code>下面除了一个<code>rustup.exe</code>，其余全都是符号链接，右键这些符号链接-打开文件所在目录，结果全都指向<code>rustup.exe</code></p>
+<p>你是不是以为<code>rustup.exe</code>里面包含了<code>cargo.exe</code>、<code>rustc.exe</code>等程序？</p>
+<p>其实不然，这些程序真实位置位于<code>~/.rustup/toolchains/stable-x86_64-pc-windows-msvc/bin</code>，<code>rustup.exe</code>更像是一个代理，通过符号链接文件的名称，对应应用程序名称，前往<code>.rustup</code>目录下面寻找对应工具链</p>
+<p>做个实验，把<code>.rustup</code>目录下<code>cargo.exe</code>重命名为<code>cargo-.exe</code>，再去执行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo -V</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: the 'cargo.exe' binary, normally provided by the 'cargo' component, is not applicable to the 'stable-x86_64-pc-windows-msvc' toolchain</span><br></pre></td></tr></tbody></table></figure>
+<p>对吧~</p>
+<p>（别忘了改回来）</p>
+<h2 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h2><p>输入：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v22.14.0</span><br></pre></td></tr></tbody></table></figure>
+<p>否则，<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn/download">前往nodejs官网下载</a>msi安装包：</p>
+<p><img src="/images/image-20260318011953784.png" alt="image-20260318011953784"></p>
+<h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><p>pnpm（推荐）</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm create tauri-app</span><br></pre></td></tr></tbody></table></figure>
+<p>npm（也行）</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm create tauri-app@latest</span><br></pre></td></tr></tbody></table></figure>
+<p>这是我的配置，仅供参考（pnpm/react/ts）：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">.../19cfcd35b8a-ce38                     |   +2 +</span><br><span class="line">.../19cfcd35b8a-ce38                     | Progress: resolved 12, reused 2, downloaded 0, added 2, done</span><br><span class="line">✔ Project name · frp-client</span><br><span class="line">✔ Identifier · cn.whuls.frp-client</span><br><span class="line">✔ Choose which language to use for your frontend · TypeScript / JavaScript - (pnpm, yarn, npm, deno, bun)</span><br><span class="line">✔ Choose your package manager · pnpm</span><br><span class="line">✔ Choose your UI template · React - (https://react.dev/)</span><br><span class="line">✔ Choose your UI flavor · TypeScript</span><br><span class="line"></span><br><span class="line">Template created! To get started run:</span><br><span class="line">  cd frp-client</span><br><span class="line">  pnpm install</span><br><span class="line">  pnpm tauri android init</span><br><span class="line"></span><br><span class="line">For Desktop development, run:</span><br><span class="line">  pnpm tauri dev</span><br><span class="line"></span><br><span class="line">For Android development, run:</span><br><span class="line">  pnpm tauri android dev</span><br></pre></td></tr></tbody></table></figure>
+<p>进入目录并安装后，执行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm tauri dev</span><br></pre></td></tr></tbody></table></figure>
+<p>除了<code>pnpm i</code>，在<code>tauri dev</code>时，还会从网络下载各种资源（所以需要等一会儿），自动下载后自动开启dev模式，弹出窗口：</p>
+<p><img src="/images/image-20260318013137872.png" alt="image-20260318013137872"></p>
+<p>dev时生成的exe文件位于<code>${pwd}/src-tauri/target/debug</code></p>
+<h1 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h1><p>运行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm tauri build</span><br></pre></td></tr></tbody></table></figure>
+<p>会自动构建exe和msi安装包，这个应该是可以配置的，后续有需要请查阅官网。</p>
+<p>构建后文件位于：<code>${pwd}/src-tauri/target/release</code>，安装包则位于该目录的<code>bundle/nsis</code>或<code>bundle/msi</code>文件夹中。</p>
+<p>安装包很小：</p>
+<p><img src="/images/image-20260318014208884.png" alt="image-20260318014208884"></p>
+<p>默认安装界面是英文的：</p>
+<p><img src="/images/image-20260318014258609.png" alt="image-20260318014258609"></p>
+<p>运行时只有一个进程：</p>
+<p><img src="/images/image-20260318014401885.png" alt="image-20260318014401885"></p>
+<p>整个应用程序安装目录只有8.59MB：</p>
+<p><img src="/images/image-20260318014434336.png" alt="image-20260318014434336"></p>
+</body></html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Tauri/" rel="tag"><i class="fa fa-tag"></i> Tauri</a>
+              <a href="/tags/Rust/" rel="tag"><i class="fa fa-tag"></i> Rust</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/03/03/%E7%8E%A9%E7%8E%A9Figma-MCP/" rel="prev" title="玩玩Figma MCP">
+      <i class="fa fa-chevron-left"></i> 玩玩Figma MCP
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFTauri"><span class="nav-text">什么是Tauri</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E6%83%B3%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">我想做什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows%E4%B8%8B%E5%AE%89%E8%A3%85"><span class="nav-text">Windows下安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Microsoft-C-%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7"><span class="nav-text">Microsoft C++生成工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebView2"><span class="nav-text">WebView2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rust"><span class="nav-text">Rust</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rust%E5%92%8CCargo%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E6%94%BE%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F"><span class="nav-text">Rust和Cargo可执行程序放在哪里？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js"><span class="nav-text">Node.js</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA"><span class="nav-text">构建</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="林杉"
+      src="/images/blog/avatar_136x136.png">
+  <p class="site-author-name" itemprop="name">林杉</p>
+  <div class="site-description" itemprop="description">开发记录 & 思考笔记</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">191</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">86</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">144</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">闽ICP备2022002498号-1 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">林杉</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">740k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">11:13</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '77edc458d1e975c91584',
+      clientSecret: 'd066ea784ad9a8840650ce87154372d890562ecc',
+      repo        : 'whuls.github.io',
+      owner       : 'whuls',
+      admin       : ['whuls'],
+      id          : '827bc003078fd1b6e5009d03008a4846',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

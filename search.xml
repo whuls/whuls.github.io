@@ -11896,4 +11896,95 @@ m^e\%N=c</script><p>其中，<script type="math/tex">m</script>是信息，<scri
         <tag>Design</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Tauri入门笔记（1）安装和构建</title>
+    <url>/2026/03/18/Tauri%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0-1/</url>
+    <content><![CDATA[<html><head></head><body><h1 id="什么是Tauri"><a href="#什么是Tauri" class="headerlink" title="什么是Tauri"></a>什么是Tauri</h1><blockquote>
+<p><a href="https://v2.tauri.app/zh-cn/start/">Tauri 是什么？ | Tauri</a></p>
+</blockquote>
+<ol>
+<li>是一个二进制程序框架</li>
+<li>能够进行主流桌面+移动平台开发</li>
+<li>前端：HTML/JavaScript/CSS（能编译为这三类的）</li>
+<li>后端：Rust、Swift、Kotlin等</li>
+</ol>
+<p>特点：</p>
+<ol>
+<li>打包体积小（使用系统自带webview而不是内置chromium）</li>
+<li>支持任意前端框架</li>
+<li>安全（基于Rust构建）</li>
+</ol>
+<h1 id="我想做什么？"><a href="#我想做什么？" class="headerlink" title="我想做什么？"></a>我想做什么？</h1><p>我想用Tauri做一个桌面端应用程序，用来探索electron的替代方案，并学习rust。</p>
+<h1 id="Windows下安装"><a href="#Windows下安装" class="headerlink" title="Windows下安装"></a>Windows下安装</h1><h2 id="Microsoft-C-生成工具"><a href="#Microsoft-C-生成工具" class="headerlink" title="Microsoft C++生成工具"></a>Microsoft C++生成工具</h2><p>因为之前装过vs2022，搜索“Visual Studio Installer”，发现已经装好了</p>
+<p><img src="/images/image-20260318005206676.png" alt="image-20260318005206676"></p>
+<p><img src="/images/image-20260318005224666.png" alt="image-20260318005224666"></p>
+<p>如果没装过vs，可以不安装vs，直接下载<a href="https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/">Microsoft C++ 生成工具</a>来安装“使用C++的桌面开发”工具包。</p>
+<h2 id="WebView2"><a href="#WebView2" class="headerlink" title="WebView2"></a>WebView2</h2><p>Windows 10 1803开始自带WebView2，如果没有，可以在这里下载：<a href="https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download">下载 WebView2 运行时</a>，下载并安装“常青独立安装程序（Evergreen Bootstrapper）”。</p>
+<p><img src="/images/image-20260318005456659.png" alt="image-20260318005456659"></p>
+<h2 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h2><p>先检查一下rust是否已安装：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">rustup -V</span><br></pre></td></tr></tbody></table></figure>
+<p>如果看到以下内容，则表示安装成功，可跳过这一节内容。</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">rustup 1.28.2 (e4f3ad6f8 2025-04-28)</span><br><span class="line">info: This is the version for the rustup toolchain manager, not the rustc compiler.</span><br><span class="line">info: The currently active `rustc` version is `rustc 1.93.1 (01f6ddf75 2026-02-11)`</span><br></pre></td></tr></tbody></table></figure>
+<p>否则，前往：<a href="https://rust-lang.org/zh-CN/tools/install/">安装 Rust - Rust 程序设计语言</a>，下载rustup安装包</p>
+<p><img src="/images/image-20260318005926689.png" alt="image-20260318005926689"></p>
+<p>运行后是一个终端窗口，一般用默认选项就行。</p>
+<p><img src="/images/image-20260318010139569.png" alt="image-20260318010139569"></p>
+<p>安装rust会顺便把Cargo也装了，安装后的二进制程序位于<code>~/.cargo/bin</code>，安装程序最后会提示自动把这个目录添加到PATH环境变量中，确认即可</p>
+<p><img src="/images/image-20260318010526832.png" alt="image-20260318010526832"></p>
+<p>终端执行命令，检查是否安装成功、环境变量配置成功。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">cargo -V</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">cargo 1.94.0 (85eff7c80 2026-01-15)</span><br></pre></td></tr></tbody></table></figure>
+<p>执行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">rustc -V</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">rustc 1.94.0 (4a4ef493e 2026-03-02)</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="Rust和Cargo可执行程序放在哪里？"><a href="#Rust和Cargo可执行程序放在哪里？" class="headerlink" title="Rust和Cargo可执行程序放在哪里？"></a>Rust和Cargo可执行程序放在哪里？</h3><p>注意到<code>~/.cargo/bin</code>下面除了一个<code>rustup.exe</code>，其余全都是符号链接，右键这些符号链接-打开文件所在目录，结果全都指向<code>rustup.exe</code></p>
+<p>你是不是以为<code>rustup.exe</code>里面包含了<code>cargo.exe</code>、<code>rustc.exe</code>等程序？</p>
+<p>其实不然，这些程序真实位置位于<code>~/.rustup/toolchains/stable-x86_64-pc-windows-msvc/bin</code>，<code>rustup.exe</code>更像是一个代理，通过符号链接文件的名称，对应应用程序名称，前往<code>.rustup</code>目录下面寻找对应工具链</p>
+<p>做个实验，把<code>.rustup</code>目录下<code>cargo.exe</code>重命名为<code>cargo-.exe</code>，再去执行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">cargo -V</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">error: the 'cargo.exe' binary, normally provided by the 'cargo' component, is not applicable to the 'stable-x86_64-pc-windows-msvc' toolchain</span><br></pre></td></tr></tbody></table></figure>
+<p>对吧~</p>
+<p>（别忘了改回来）</p>
+<h2 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h2><p>输入：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">v22.14.0</span><br></pre></td></tr></tbody></table></figure>
+<p>否则，<a href="https://nodejs.org/zh-cn/download">前往nodejs官网下载</a>msi安装包：</p>
+<p><img src="/images/image-20260318011953784.png" alt="image-20260318011953784"></p>
+<h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><p>pnpm（推荐）</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">pnpm create tauri-app</span><br></pre></td></tr></tbody></table></figure>
+<p>npm（也行）</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">npm create tauri-app@latest</span><br></pre></td></tr></tbody></table></figure>
+<p>这是我的配置，仅供参考（pnpm/react/ts）：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="code"><pre><span class="line">.../19cfcd35b8a-ce38                     |   +2 +</span><br><span class="line">.../19cfcd35b8a-ce38                     | Progress: resolved 12, reused 2, downloaded 0, added 2, done</span><br><span class="line">✔ Project name · frp-client</span><br><span class="line">✔ Identifier · cn.whuls.frp-client</span><br><span class="line">✔ Choose which language to use for your frontend · TypeScript / JavaScript - (pnpm, yarn, npm, deno, bun)</span><br><span class="line">✔ Choose your package manager · pnpm</span><br><span class="line">✔ Choose your UI template · React - (https://react.dev/)</span><br><span class="line">✔ Choose your UI flavor · TypeScript</span><br><span class="line"></span><br><span class="line">Template created! To get started run:</span><br><span class="line">  cd frp-client</span><br><span class="line">  pnpm install</span><br><span class="line">  pnpm tauri android init</span><br><span class="line"></span><br><span class="line">For Desktop development, run:</span><br><span class="line">  pnpm tauri dev</span><br><span class="line"></span><br><span class="line">For Android development, run:</span><br><span class="line">  pnpm tauri android dev</span><br></pre></td></tr></tbody></table></figure>
+<p>进入目录并安装后，执行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">pnpm tauri dev</span><br></pre></td></tr></tbody></table></figure>
+<p>除了<code>pnpm i</code>，在<code>tauri dev</code>时，还会从网络下载各种资源（所以需要等一会儿），自动下载后自动开启dev模式，弹出窗口：</p>
+<p><img src="/images/image-20260318013137872.png" alt="image-20260318013137872"></p>
+<p>dev时生成的exe文件位于<code>${pwd}/src-tauri/target/debug</code></p>
+<h1 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h1><p>运行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">pnpm tauri build</span><br></pre></td></tr></tbody></table></figure>
+<p>会自动构建exe和msi安装包，这个应该是可以配置的，后续有需要请查阅官网。</p>
+<p>构建后文件位于：<code>${pwd}/src-tauri/target/release</code>，安装包则位于该目录的<code>bundle/nsis</code>或<code>bundle/msi</code>文件夹中。</p>
+<p>安装包很小：</p>
+<p><img src="/images/image-20260318014208884.png" alt="image-20260318014208884"></p>
+<p>默认安装界面是英文的：</p>
+<p><img src="/images/image-20260318014258609.png" alt="image-20260318014258609"></p>
+<p>运行时只有一个进程：</p>
+<p><img src="/images/image-20260318014401885.png" alt="image-20260318014401885"></p>
+<p>整个应用程序安装目录只有8.59MB：</p>
+<p><img src="/images/image-20260318014434336.png" alt="image-20260318014434336"></p>
+</body></html>]]></content>
+      <categories>
+        <category>Tauri</category>
+        <category>Rust</category>
+      </categories>
+      <tags>
+        <tag>Tauri</tag>
+        <tag>Rust</tag>
+      </tags>
+  </entry>
 </search>
